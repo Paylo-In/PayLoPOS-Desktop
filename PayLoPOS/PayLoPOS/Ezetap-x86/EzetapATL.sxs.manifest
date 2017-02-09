@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<assembly xmlns="urn:schemas-microsoft-com:asm.v1" manifestVersion="1.0">
+
+<assemblyIdentity
+    type="win32"
+    name="EzetapATL.sxs"
+	processorArchitecture="x86" 
+    version="1.0.0.0" />
+
+<file name="EzetapATL.dll">
+
+    <comClass
+        description="CBInterface Class"
+        clsid="{EE1F41FD-239F-4D44-B0E1-B205A0FA340B}"
+        threadingModel="Apartment"
+        progid="PrnlATLProject.CBInterface"
+        tlbid="{BEFBB61D-6944-4BF6-A004-70D8A3968459}" />
+
+    <comClass
+        description="PrnlEpicLogin Class"
+        clsid="{56ED354B-FF85-4E71-802F-D6173B8E0DEA}"
+        threadingModel="Apartment"
+        progid="PrnlATLProject.PrnlEpicLogin"
+        tlbid="{BEFBB61D-6944-4BF6-A004-70D8A3968459}" />
+
+</file>
+
+</assembly>
