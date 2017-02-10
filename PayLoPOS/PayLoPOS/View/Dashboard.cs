@@ -4,9 +4,11 @@ using PayLoPOS.Model;
 using PayLoPOS.Controller;
 using System.Diagnostics;
 using System.Web.Script.Serialization;
+using EzetapApi.models;
 
 namespace PayLoPOS.View
 {
+
     enum DateRange
     {
         Today = 1,
@@ -39,7 +41,7 @@ namespace PayLoPOS.View
             txtPaymentMode.SelectedIndex = 0;
             isSelectPending = true;
             lblToday_Click(sender, e);
-        }
+        }        
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -65,7 +67,46 @@ namespace PayLoPOS.View
                 {
                     payBySendLink();
                 }
+                else if (txtPaymentMode.Text == "MPOS")
+                {
+                    payByMPOS();
+                }
             }            
+        }
+
+        private void payByMPOS()
+        {
+            if(txtEmail.Text == "")
+            {
+                MessageBox.Show("Please enter a valid email address");
+            }
+            else
+            {
+                Transaction transaction = new Transaction();
+                transaction.amount = Double.Parse(txtAmount.Text);
+                transaction.orderId = Guid.NewGuid().ToString("N").Substring(20);
+                transaction.emailAddress = txtEmail.Text;
+                transaction.customerMobile = txtMobile.Text;
+
+                //-- Initialize
+                EzetapPaymentSync ezetap = new EzetapPaymentSync(this, transaction);
+                if(ezetap.init() == true)
+                {
+                    ezetap.ShowDialog();
+                }
+
+
+
+                /*
+                EzetapPayment ezetap = new EzetapPayment(transaction);
+                if(ezetap.init() == true)
+                {
+                    if(ezetap.startApi() == true)
+                    {
+                        ezetap.ShowDialog();
+                    }
+                }*/
+            }
         }
 
         private void payByCash()
@@ -301,6 +342,11 @@ namespace PayLoPOS.View
         public void showCurrentActivity(string message)
         {
             toolStripCurrentActivity.Text = "Current Activity: " + message;
+        }
+
+        private void groupBox2_Enter(object sender, EventArgs e)
+        {
+
         }
     }
 }

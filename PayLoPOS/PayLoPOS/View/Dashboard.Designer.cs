@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Dashboard));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label8 = new System.Windows.Forms.Label();
             this.lblOneMonth = new System.Windows.Forms.Label();
             this.lblOneWeek = new System.Windows.Forms.Label();
             this.lblToday = new System.Windows.Forms.Label();
@@ -45,6 +46,8 @@
             this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.btnCreateBill = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.lblTodaySale = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.label7 = new System.Windows.Forms.Label();
             this.txtEmail = new System.Windows.Forms.TextBox();
@@ -58,19 +61,16 @@
             this.txtRef = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.txtPaymentMode = new System.Windows.Forms.ComboBox();
-            this.lblTodaySale = new System.Windows.Forms.Label();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.lblUserName = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripCurrentActivity = new System.Windows.Forms.ToolStripStatusLabel();
-            this.label8 = new System.Windows.Forms.Label();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.groupBox1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.statusStrip1.SuspendLayout();
-            this.groupBox4.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -86,6 +86,20 @@
             this.groupBox1.Size = new System.Drawing.Size(538, 41);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
+            // 
+            // label8
+            // 
+            this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label8.AutoSize = true;
+            this.label8.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.label8.Location = new System.Drawing.Point(443, 13);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(82, 20);
+            this.label8.TabIndex = 15;
+            this.label8.Text = "LOGOUT";
+            this.label8.Click += new System.EventHandler(this.label8_Click);
             // 
             // lblOneMonth
             // 
@@ -274,6 +288,31 @@
             this.groupBox2.Size = new System.Drawing.Size(264, 574);
             this.groupBox2.TabIndex = 8;
             this.groupBox2.TabStop = false;
+            this.groupBox2.Enter += new System.EventHandler(this.groupBox2_Enter);
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.lblTodaySale);
+            this.groupBox4.ForeColor = System.Drawing.Color.White;
+            this.groupBox4.Location = new System.Drawing.Point(13, 15);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(230, 78);
+            this.groupBox4.TabIndex = 3;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = " TODAY\'S SALE ";
+            // 
+            // lblTodaySale
+            // 
+            this.lblTodaySale.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblTodaySale.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTodaySale.ForeColor = System.Drawing.Color.White;
+            this.lblTodaySale.Location = new System.Drawing.Point(9, 24);
+            this.lblTodaySale.Name = "lblTodaySale";
+            this.lblTodaySale.Size = new System.Drawing.Size(211, 40);
+            this.lblTodaySale.TabIndex = 12;
+            this.lblTodaySale.Text = "₹ 0.00";
+            this.lblTodaySale.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // groupBox3
             // 
@@ -319,6 +358,7 @@
             this.txtEmail.Name = "txtEmail";
             this.txtEmail.Size = new System.Drawing.Size(210, 29);
             this.txtEmail.TabIndex = 9;
+            this.txtEmail.Text = "monu.rathor@ruplee.com";
             // 
             // label6
             // 
@@ -340,6 +380,7 @@
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(210, 29);
             this.txtName.TabIndex = 7;
+            this.txtName.Text = "Monu";
             // 
             // label5
             // 
@@ -361,6 +402,7 @@
             this.txtAmount.Name = "txtAmount";
             this.txtAmount.Size = new System.Drawing.Size(210, 29);
             this.txtAmount.TabIndex = 5;
+            this.txtAmount.Text = "1.00";
             // 
             // label4
             // 
@@ -382,6 +424,7 @@
             this.txtMobile.Name = "txtMobile";
             this.txtMobile.Size = new System.Drawing.Size(210, 29);
             this.txtMobile.TabIndex = 3;
+            this.txtMobile.Text = "9109322140";
             // 
             // label3
             // 
@@ -403,6 +446,7 @@
             this.txtRef.Name = "txtRef";
             this.txtRef.Size = new System.Drawing.Size(210, 29);
             this.txtRef.TabIndex = 1;
+            this.txtRef.Text = "TestMPOS2";
             // 
             // label1
             // 
@@ -432,19 +476,6 @@
             this.txtPaymentMode.Name = "txtPaymentMode";
             this.txtPaymentMode.Size = new System.Drawing.Size(210, 29);
             this.txtPaymentMode.TabIndex = 12;
-            // 
-            // lblTodaySale
-            // 
-            this.lblTodaySale.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblTodaySale.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTodaySale.ForeColor = System.Drawing.Color.White;
-            this.lblTodaySale.Location = new System.Drawing.Point(9, 24);
-            this.lblTodaySale.Name = "lblTodaySale";
-            this.lblTodaySale.Size = new System.Drawing.Size(211, 40);
-            this.lblTodaySale.TabIndex = 12;
-            this.lblTodaySale.Text = "₹ 0.00";
-            this.lblTodaySale.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // statusStrip1
             // 
@@ -480,31 +511,6 @@
             this.toolStripCurrentActivity.Size = new System.Drawing.Size(96, 17);
             this.toolStripCurrentActivity.Text = "Current Activity: ";
             // 
-            // label8
-            // 
-            this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label8.AutoSize = true;
-            this.label8.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.label8.Location = new System.Drawing.Point(443, 13);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(82, 20);
-            this.label8.TabIndex = 15;
-            this.label8.Text = "LOGOUT";
-            this.label8.Click += new System.EventHandler(this.label8_Click);
-            // 
-            // groupBox4
-            // 
-            this.groupBox4.Controls.Add(this.lblTodaySale);
-            this.groupBox4.ForeColor = System.Drawing.Color.White;
-            this.groupBox4.Location = new System.Drawing.Point(13, 15);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(230, 78);
-            this.groupBox4.TabIndex = 3;
-            this.groupBox4.TabStop = false;
-            this.groupBox4.Text = " TODAY\'S SALE ";
-            // 
             // Dashboard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -526,11 +532,11 @@
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.groupBox2.ResumeLayout(false);
+            this.groupBox4.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
-            this.groupBox4.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 

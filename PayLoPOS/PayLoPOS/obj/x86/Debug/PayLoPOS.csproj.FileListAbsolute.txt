@@ -3,8 +3,6 @@ E:\Projects\PayLo\PayLoPOS\PayLoPOS\bin\x86\Debug\PayLoPOS.exe
 E:\Projects\PayLo\PayLoPOS\PayLoPOS\bin\x86\Debug\PayLoPOS.pdb
 E:\Projects\PayLo\PayLoPOS\PayLoPOS\bin\x86\Debug\EzetapWindowsSDK.dll
 E:\Projects\PayLo\PayLoPOS\PayLoPOS\bin\x86\Debug\EzetapATL.interop.dll
-E:\Projects\PayLo\PayLoPOS\PayLoPOS\bin\x86\Debug\Newtonsoft.Json.dll
-E:\Projects\PayLo\PayLoPOS\PayLoPOS\bin\x86\Debug\Newtonsoft.Json.xml
 E:\Projects\PayLo\PayLoPOS\PayLoPOS\obj\x86\Debug\PayLoPOS.Properties.Resources.resources
 E:\Projects\PayLo\PayLoPOS\PayLoPOS\obj\x86\Debug\PayLoPOS.View.CreateBill.resources
 E:\Projects\PayLo\PayLoPOS\PayLoPOS\obj\x86\Debug\PayLoPOS.View.Dashboard.resources
@@ -17,3 +15,5 @@ E:\Projects\PayLo\PayLoPOS\PayLoPOS\obj\x86\Debug\PayLoPOS.csprojResolveAssembly
 E:\Projects\PayLo\PayLoPOS\PayLoPOS\obj\x86\Debug\PayLoPOS.View.ConfirmCash.resources
 E:\Projects\PayLo\PayLoPOS\PayLoPOS\obj\x86\Debug\PayLoPOS.View.ChooseWallet.resources
 E:\Projects\PayLo\PayLoPOS\PayLoPOS\obj\x86\Debug\PayLoPOS.View.ConfirmWallet.resources
+E:\Projects\PayLo\PayLoPOS\PayLoPOS\obj\x86\Debug\PayLoPOS.View.EzetapPayment.resources
+E:\Projects\PayLo\PayLoPOS\PayLoPOS\obj\x86\Debug\PayLoPOS.View.EzetapPaymentSync.resources

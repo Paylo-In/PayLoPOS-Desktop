@@ -71,8 +71,9 @@
     <ApplicationIcon>icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EzetapWindowsSDK">
-      <HintPath>Ezetap-x86\EzetapWindowsSDK.dll</HintPath>
+    <Reference Include="EzetapWindowsSDK, Version=2.7.1.1, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Sample\EzeTapServiceRelease\EzeTapServiceRelease2.7\Binaries-x84\install-Release-v2.0-x86\EzetapWindowsSDK.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -92,6 +93,7 @@
     <Compile Include="Controller\RestClient.cs" />
     <Compile Include="Model\DataModel.cs" />
     <Compile Include="Model\DictionaryModel.cs" />
+    <Compile Include="Model\EzetapResponse.cs" />
     <Compile Include="Model\Global.cs" />
     <Compile Include="Model\Merchant.cs" />
     <Compile Include="Model\Outlet.cs" />
@@ -137,6 +139,19 @@
     <Compile Include="View\Dashboard.Designer.cs">
       <DependentUpon>Dashboard.cs</DependentUpon>
     </Compile>
+    <Compile Include="View\EzetapCustomAsync.cs" />
+    <Compile Include="View\EzetapPayment.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\EzetapPayment.Designer.cs">
+      <DependentUpon>EzetapPayment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\EzetapPaymentSync.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\EzetapPaymentSync.Designer.cs">
+      <DependentUpon>EzetapPaymentSync.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\ForgotPassword.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -169,6 +184,12 @@
     <EmbeddedResource Include="View\Dashboard.resx">
       <DependentUpon>Dashboard.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="View\EzetapPayment.resx">
+      <DependentUpon>EzetapPayment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\EzetapPaymentSync.resx">
+      <DependentUpon>EzetapPaymentSync.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="View\ForgotPassword.resx">
       <DependentUpon>ForgotPassword.cs</DependentUpon>
     </EmbeddedResource>
@@ -199,6 +220,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="icon.ico" />
+    <None Include="Resources\ezetap-device.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">

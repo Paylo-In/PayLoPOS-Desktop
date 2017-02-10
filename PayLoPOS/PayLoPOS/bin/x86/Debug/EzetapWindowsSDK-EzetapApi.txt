@@ -1,0 +1,41 @@
+loginWithAppKeyAsync API Invoked
+AppendText: IN_PROGRESS EPIC_LOGIN_RESULT: code 0 (Operation completed successfully)
+
+AppendText: IN_PROGRESS SERVER_RESULT: Login message: {"success":true,"sessionKey":"4c1611b6-be0a-4bbd-915e-268268f5315e","username":"anand","setting":{"tipEnabled":false,"paperReceiptEnabled":false,"maxCashBackAmount":"2000","maxTxnAmount":"9999999999","deviceTimeout":"1","offlineAPIEnabled":true,"orderNumberLabel":"","settingVer":1486721842000,"cnpCardPayEnabled":false,"cashBackOption":"-1","orderNumberInputEnabled":true,"tipAdjustmentEnabled":false,"remotePaymentEnabled":false,"smsReceiptEnabledForCnp":false,"saleOption":"1","emiEnabled":false,"allowAmountOverride":false,"cashPaymentEnabled":true,"chequePaymentEnabled":true,"sessionTimeOutForReversal":"28800","refundEnabled":false,"tipPercentage":"15","cashBackEnabled":false,"autoSyncOfflineInterval":"180","collectMobileEmailUpfront":false,"preAuthOption":"-1","minCashBackAmount":"100","preFillUsernameOnSessionTimeOut":true,"catalogEnabled":false,"cardLastFourDigitsRequired":false,"supportPhoneNumber":"18002000313","smsReceiptEnabledForCheque":true,"maxBTAttempts":"1","minCheckStatusAttempts":"2","btReceiptEnabled":false,"omsSettings":{"omsEnabled":false,"catalogEnabled":null,"catalogType":null,"maxOrderItems":20,"dataWindow":45,"orderListMaxRecords":null,"fieldsToIndex":null},"smsReceiptEnabledForCash":true,"eSignatureForWalletEnabled":true,"chequePaymentBankNames":[{"code":"ABN_AMRO","codeDescription":"ABN AMRO Bank"},{"code":"ALLAHABAD_BANK","codeDescription":"Allahabad Bank"},{"code":"ANDHRA_BANK","codeDescription":"Andhra Bank"},{"code":"AXIS_BANK","codeDescription":"Axis Bank"},{"code":"BANK_OF_BAHRAIN_AND_KUWAIT","codeDescription":"Bank of Bahrain and Kuwait"},{"code":"BANK_OF_BARODA","codeDescription":"Bank of Baroda"},{"code":"BANK_OF_INDIA","codeDescription":"Bank of India"},{"code":"BANK_OF_KARNATAKA","codeDescription":"Bank of Karnataka"},{"code":"BANK_OF_MAHARASHTRA","codeDescription":"Bank of Maharashtra"},{"code":"CANARA_BANK","codeDescription":"Canara Bank"},{"code":"CENTRAL_BANK_OF_INDIA","codeDescription":"Central Bank of India"},{"code":"CITIBANK","codeDescription":"Citibank"},{"code":"CITY_UNION_BANK_LTD","codeDescription":"City Union Bank Ltd"},{"code":"CORPORATION_BANK","codeDescription":"Corporation Bank"},{"code":"DCB_DEVELOPMENT_CREDIT_BANK","codeDescription":"DCB Development Credit Bank"},{"code":"DENA_BANK","codeDescription":"Dena Bank"},{"code":"HDFC_BANK","codeDescription":"HDFC Bank"},{"code":"HSBC_BANK","codeDescription":"HSBC Bank"},{"code":"ICICI_BANK","codeDescription":"ICICI Bank"},{"code":"IDBI_BANK","codeDescription":"IDBI Bank"},{"code":"INDIAN_BANK","codeDescription":"Indian Bank"},{"code":"INDIAN_OVERSEAS_BANK","codeDescription":"Indian Overseas Bank"},{"code":"INDUSIND_BANK","codeDescription":"IndusInd Bank"},{"code":"ING_VYSYA_BANK_LTD","codeDescription":"ING Vysya Bank Ltd"},{"code":"KARNATAKA_BANK","codeDescription":"Karnataka Bank"},{"code":"KOTAK_MAHINDRA_BANK","codeDescription":"Kotak Mahindra Bank"},{"code":"LAKSHMI_VILAS_BANK","codeDescription":"Lakshmi Vilas Bank"},{"code":"MERCANTILE_BANK","codeDescription":"Mercantile Bank"},{"code":"ORIENTAL_BANK_OF_COMMERCE","codeDescription":"Oriental Bank of Commerce"},{"code":"PUNJAB_NATIONAL_BANK","codeDescription":"Punjab National Bank"},{"code":"RATNAKAR_BANK_LTD","codeDescription":"Ratnakar Bank Ltd"},{"code":"SOUTH_INDIAN_BANK","codeDescription":"South Indian Bank"},{"code":"STANDARD_CHARTERED_BANK","codeDescription":"Standard Chartered Bank"},{"code":"STATE_BANK_OF_BIKANER_JAIPUR","codeDescription":"State Bank of Bikaner and Jaipur"},{"code":"STATE_BANK_OF_HYDERABAD","codeDescription":"State Bank of Hyderabad"},{"code":"STATE_BANK_OF_INDIA","codeDescription":"State Bank of India"},{"code":"STATE_BANK_OF_MYSORE","codeDescription":"State Bank of Mysore"},{"code":"STATE_BANK_OF_PATIALA","codeDescription":"State Bank of Patiala"},{"code":"STATE_BANK_OF_SAURASHTRA","codeDescription":"State Bank of Saurashtra"},{"code":"STATE_BANK_OF_TAMIL_NADU","codeDescription":"State Bank of Tamil Nadu"},{"code":"SYNDICATE_BANK","codeDescription":"Syndicate Bank"},{"code":"THE_ANDHRA_PRADESH_STATE_CO_OP_BANK_LTD","codeDescription":"The Andhra Pradesh State Co Operative Bank Ltd"},{"code":"THE_KARUR_VYSYA_BANK_PVT_LTD","codeDescription":"The Karur Vysya Bank Pvt Ltd"},{"code":"UCO_BANK","codeDescription":"UCO Bank"},{"code":"UNION_BANK_OF_INDIA","codeDescription":"Union Bank of India"},{"code":"UNITED_BANK_OF_INDIA","codeDescription":"United Bank of India"},{"code":"UNIT_TRUST_OF_INDIA","codeDescription":"Unit Trust of India"},{"code":"VIJAYA_BANK","codeDescription":"Vijaya Bank"},{"code":"YES_BANK","codeDescription":"Yes Bank"},{"code":"OTHER","codeDescription":"Other"}],"smsReceiptEnabledForWallet":true,"cardPaymentEnabled":true,"emailReceiptEnabled":true,"eSignatureForNonCardEnabled":false,"biEventEmail":"jagadeesh.p@ezetap.com","zeroValueTransactionAllowed":false,"eSignatureEnabled":false,"signatureForCard":"ACQUIRER_BASED","smsReceiptEnabled":true,"nbEnabled":false,"autoSyncOfflineEnabled":true,"customerNameEntryEnabled":false,"barcodeScanningEnabled":false,"cnpEnabled":false,"minTxnAmount":"1"},"apps":[],"sessionTimeOut":86400,"currencyCode":"INR","merchantName":"ANAND B Test Merchant","forceChangePasswd":false,"orgCode":"ANAND_B_TEST_MERCHANT","locale":"en","walletPaymentEnabled":false,"selfMerchantActive":false,"selfSignedUser":false,"kycApproved":false,"barcodeScanningEnabled":false,"tipEnabled":false,"voidAllowed":false}
+
+prepareDeviceAsync API Invoked
+AppendText: IN_PROGRESS NOTIFICATION: code 1 (Identifying device)
+
+AppendText: IN_PROGRESS NOTIFICATION: code 2 (Validating device session with server)
+
+AppendText: IN_PROGRESS EPIC_PREPARE_RESULT: code 0 (Operation completed successfully)
+
+cardTransactionAsync API Invoked
+AppendText: IN_PROGRESS NOTIFICATION: code 1 (Identifying device)
+
+AppendText: IN_PROGRESS API Result: 1 (Operation result pending)
+
+AppendText: IN_PROGRESS NOTIFICATION: code 4 (Preparing device for transaction)
+
+AppendText: IN_PROGRESS NOTIFICATION: code 5 (Please Swipe or Insert Card)
+
+AppendText: IN_PROGRESS NOTIFICATION: code 23 (Bad swipe detected. Please Swipe card again)
+
+AppendText: IN_PROGRESS NOTIFICATION: code 23 (Bad swipe detected. Please Swipe card again)
+
+AppendText: IN_PROGRESS NOTIFICATION: code 8 (Please enter PIN on device pinpad within 30 seconds)
+
+AppendText: IN_PROGRESS NOTIFICATION: code 9 (PIN is entered)
+
+AppendText: IN_PROGRESS NOTIFICATION: code 6 (Reading data from device)
+
+AppendText: IN_PROGRESS NOTIFICATION: code 10 (Authorization by server is in progress)
+
+AppendText: IN_PROGRESS EPIC_TRANSACTION_RESULT: code 0 (Operation completed successfully)
+
+AppendText: IN_PROGRESS SERVER_RESULT: Txn ID: 170210113742064E020075098
+Amount: 1.000000
+AuthCode: D62273
+RRN: RR049999
+CustomerMobile: 9109322140
+Response: {"success":true,"sessionKey":"7284372e-6fac-4203-bcd8-bcf846c95f50","username":"anand","setting":{"settingVer":1486721842000,"cnpEnabled":false},"apps":[],"amount":1.00,"amountAdditional":0.00,"amountOriginal":1.00,"amountCashBack":0.00,"authCode":"D62273","batchNumber":"14","cardLastFourDigit":"3025","currencyCode":"INR","customerName":"ARATEE OOO","customerMobile":"9109322140","customerEmail":"monu.rathor@ruplee.com","customerReceiptUrl":"http://d.eze.cc/r/o/bDVCJlTI","deviceSerial":"210016260346","externalRefNumber":"0575ce7506be","externalRefNumber2":"","externalRefNumber3":"","formattedPan":"6072-64XX-XXXX-3025","txnId":"170210113742064E020075098","merchantName":"ANAND B Test Merchant","mid":"123451234522334","nonceStatus":"OPEN","orgCode":"ANAND_B_TEST_MERCHANT","merchantCode":"ANAND_B_TEST_MERCHANT","payerName":"ARATEE OOO","paymentCardBin":"607264","paymentCardBrand":"RUPAY","paymentCardType":"DEBIT","paymentMode":"CARD","pgInvoiceNumber":"146","postingDate":1486726664306,"processCode":"_DEF_PROC","rrNumber":"RR049999","settlementStatus":"PENDING","status":"AUTHORIZED","states":["AUTHORIZED"],"tid":"23451234","txnType":"CHARGE","userAgreement":"I agree to pay as per the card issuer agreement and receive charge
