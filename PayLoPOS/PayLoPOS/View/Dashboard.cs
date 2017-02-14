@@ -38,9 +38,11 @@ namespace PayLoPOS.View
 
         private void Dashboard_Load(object sender, EventArgs e)
         {
+            clearTextBox();
             txtPaymentMode.SelectedIndex = 0;
             isSelectPending = true;
             lblToday_Click(sender, e);
+            disableResentOption();
         }        
 
         private void button1_Click(object sender, EventArgs e)
@@ -71,6 +73,14 @@ namespace PayLoPOS.View
                 {
                     payByMPOS();
                 }
+                else if(txtPaymentMode.Text == "WALLET")
+                {
+                    payByWallet();
+                }
+                else if(txtPaymentMode.Text == "UPI")
+                {
+                    payByUPI();
+                }
             }            
         }
 
@@ -82,30 +92,27 @@ namespace PayLoPOS.View
             }
             else
             {
+                //-- Create bill
+                DictionaryModel param = new DictionaryModel();
+                param.add("mobile", txtMobile.Text);
+                param.add("merchant_id", Global.currentUser.merchant_id.ToString());
+                param.add("grand_total", String.Format("{0:0.00}", Convert.ToDouble(txtAmount.Text)));
+                param.add("bill_no", txtRef.Text);
+                param.add("name", txtName.Text);
+                param.add("email", txtEmail.Text);
+
                 Transaction transaction = new Transaction();
                 transaction.amount = Double.Parse(txtAmount.Text);
-                transaction.orderId = Guid.NewGuid().ToString("N").Substring(20);
                 transaction.emailAddress = txtEmail.Text;
                 transaction.customerMobile = txtMobile.Text;
+                transaction.externalReference2 = "";
 
                 //-- Initialize
-                EzetapPaymentSync ezetap = new EzetapPaymentSync(this, transaction);
-                if(ezetap.init() == true)
+                EzetapPaymentSync ezetap = new EzetapPaymentSync(this, transaction, param.getJSON());
+                if (ezetap.init() == true)
                 {
                     ezetap.ShowDialog();
                 }
-
-
-
-                /*
-                EzetapPayment ezetap = new EzetapPayment(transaction);
-                if(ezetap.init() == true)
-                {
-                    if(ezetap.startApi() == true)
-                    {
-                        ezetap.ShowDialog();
-                    }
-                }*/
             }
         }
 
@@ -120,7 +127,7 @@ namespace PayLoPOS.View
             param.add("name", txtName.Text);
             param.add("email", txtEmail.Text);
 
-            ConfirmCash cash = new ConfirmCash(param.getJSON(), txtMobile.Text, Convert.ToDouble(txtAmount.Text));
+            ConfirmCash cash = new ConfirmCash(param.getJSON(), txtMobile.Text, Convert.ToDouble(txtAmount.Text), 0);
             cash.dashboard = this;
             cash.ShowDialog();
         }
@@ -162,6 +169,100 @@ namespace PayLoPOS.View
             }
         }
 
+        private async void payByUPI()
+        {
+            if (txtEmail.Text == "")
+            {
+                MessageBox.Show("Please enter a valid email address");
+            }
+            else
+            {
+                try
+                {
+                    var response = await new RestClient().UPIPayment("0", txtMobile.Text, Double.Parse(txtAmount.Text), txtRef.Text, txtName.Text, txtEmail.Text, "");
+                    if(response.status == 1)
+                    {
+                        MessageBox.Show(response.data.msg);
+                    }
+                    else
+                    {
+                        if(response.data.errorCode == "VPA_REQUIRED")
+                        {
+                            //-- Open enter VPA
+                            EnterVPA vpa = new EnterVPA(this);
+                            vpa.ShowDialog();
+                        }
+                        else
+                        {
+                            MessageBox.Show(response.data.msg);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+        }
+
+        public async void submitVPA(string vpa, EnterVPA vpaDialog)
+        {
+            var response = await new RestClient().UPIPayment("0", txtMobile.Text, Double.Parse(txtAmount.Text), txtRef.Text, txtName.Text, txtEmail.Text, vpa);
+            if (response.status == 1)
+            {
+                MessageBox.Show(response.data.msg);
+                showCurrentActivity(response.data.msg);
+                vpaDialog.Close();
+                clearTextBox();
+                lblPaidBills_Click(null, null);
+            }
+            else
+            {
+                MessageBox.Show(response.data.msg);
+                showCurrentActivity(response.data.msg);
+            }
+        }
+
+        private async void payByWallet()
+        {
+            if (txtEmail.Text == "")
+            {
+                MessageBox.Show("Please enter a valid email address");
+            }
+            else
+            {
+                //-- Create bill
+                DictionaryModel param = new DictionaryModel();
+                param.add("mobile", txtMobile.Text);
+                param.add("merchant_id", Global.currentUser.merchant_id.ToString());
+                param.add("grand_total", String.Format("{0:0.00}", Convert.ToDouble(txtAmount.Text)));
+                param.add("bill_no", txtRef.Text);
+                param.add("name", txtName.Text);
+                param.add("email", txtEmail.Text);
+            
+                try
+                {
+                    var response = await new RestClient().MakePostRequest("v2/customer/create-bill?token=" + Properties.Settings.Default.accessToken, param.getJSON());
+                    ResponseModel model = new JavaScriptSerializer().Deserialize<ResponseModel>(response);
+                    if (model.status == 1)
+                    {
+                        //-- Show wallet list with order  id.
+                        WalletList list = new WalletList(this, model.data.order_id, txtMobile.Text, txtEmail.Text);
+                        list.ShowDialog();
+                    }
+                    else
+                    {
+                        MessageBox.Show(model.data.msg);
+                    }
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                
+            }
+        }
+
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
             base.OnFormClosing(e);
@@ -198,16 +299,33 @@ namespace PayLoPOS.View
                 this.pendingBills = await new RestClient().GetPendingBills(param);
                 lblTodaySale.Text = "₹ " + pendingBills.today_sale.ToString("0.00");
 
-                string[] arr = new string[6];
+                listView1.Columns.Clear();
+                listView1.Columns.Add("Amount", 60);
+                listView1.Columns.Add("Ref #", 100);
+                listView1.Columns.Add("Status", 80);
+                listView1.Columns.Add("Staff", 120);
+                listView1.Columns.Add("Mobile", 100);
+                listView1.Columns.Add("Name", 120);
+                listView1.Columns.Add("Email", 200);
+                listView1.Columns.Add("Date & Time", 200);
+
+                string[] arr = new string[8];
                 double totalAmount = 0.0;
+                var index = 0;
                 foreach (Bill bill in pendingBills.data.bills)
                 {
                     arr[0] = bill.grand_total.ToString("0.00");
                     arr[1] = bill.bill_no;
-                    arr[2] = bill.mobile;
-                    arr[3] = bill.name;
-                    arr[4] = Utility.getDate(bill.sent_at, "dd-MM-yyyy HH:mm:ss", Utility.displayDateFormat); ;
-                    listView1.Items.Add(new ListViewItem(arr));
+                    arr[2] = "Pending";
+                    arr[3] = bill.created_by;
+                    arr[4] = bill.mobile;
+                    arr[5] = bill.name;
+                    arr[6] = bill.email;
+                    arr[7] = Utility.getDate(bill.sent_at, "dd-MM-yyyy HH:mm:ss", Utility.displayDateFormat); ;
+                    ListViewItem item = new ListViewItem(arr);
+                    item.Tag = index;
+                    index++;
+                    listView1.Items.Add(item);
                     totalAmount += bill.grand_total;
                 }
                 lblTotalAmount.Text = "₹ " + totalAmount.ToString("0.00");
@@ -243,16 +361,39 @@ namespace PayLoPOS.View
                 this.paidBills = await new RestClient().GetPaidBills(param);
                 lblTodaySale.Text = "₹ " + paidBills.data.today_sale.ToString("0.00");
 
-                string[] arr = new string[6];
+                string[] arr = new string[10];
                 double totalAmount = 0.0;
+                var index = 0;
+
+                listView1.Columns.Clear();
+                listView1.Columns.Add("Amount", 60);
+                listView1.Columns.Add("Status", 80);
+                listView1.Columns.Add("Mode", 160);
+                listView1.Columns.Add("Staff", 100);
+                listView1.Columns.Add("Mobile", 90);
+                listView1.Columns.Add("Name", 90);
+                listView1.Columns.Add("Transaction ID", 160);
+                listView1.Columns.Add("Ref #", 100);
+                listView1.Columns.Add("Order ID", 100);
+                listView1.Columns.Add("Date & Time", 160);
+
                 foreach (PaidBill bill in paidBills.data.txns)
                 {
                     arr[0] = bill.amount.ToString("0.00");
-                    arr[1] = bill.bill_no;
-                    arr[2] = bill.mobile;
-                    arr[3] = bill.name;
-                    arr[4] = Utility.getDate(bill.created_at, "dd-MM-yyyy HH:mm:ss", Utility.displayDateFormat);
-                    listView1.Items.Add(new ListViewItem(arr));
+                    arr[1] = bill.txn_status;
+                    arr[2] = bill.pay_method;
+                    arr[3] = bill.created_by;
+                    arr[4] = bill.mobile;
+                    arr[5] = bill.name;
+                    arr[6] = bill.txnid;
+                    arr[7] = bill.bill_no;
+                    arr[8] = bill.orderid.ToString();
+                    arr[9] = Utility.getDate(bill.created_at, "dd-MM-yyyy HH:mm:ss", Utility.displayDateFormat);
+
+                    ListViewItem item = new ListViewItem(arr);
+                    item.Tag = index;
+                    index++;
+                    listView1.Items.Add(item);
                     totalAmount += bill.amount;
                 }
                 lblTotalAmount.Text = "₹ " + totalAmount.ToString("0.00");
@@ -263,10 +404,11 @@ namespace PayLoPOS.View
             }
         }
 
-        private void lblPendingBills_Click(object sender, EventArgs e)
+        public void lblPendingBills_Click(object sender, EventArgs e)
         {
             lblPendingBills.ForeColor = System.Drawing.Color.SeaGreen;
             lblPaidBills.ForeColor = System.Drawing.Color.Silver;
+            disableResentOption();
             getPendingBills();
         }
 
@@ -274,6 +416,7 @@ namespace PayLoPOS.View
         {
             lblPendingBills.ForeColor = System.Drawing.Color.Silver;
             lblPaidBills.ForeColor = System.Drawing.Color.SeaGreen;
+            disableResentOption();
             getPaidBills();
         }
 
@@ -331,6 +474,7 @@ namespace PayLoPOS.View
             DialogResult dr = MessageBox.Show("Do you want to logout from \""+Global.currentUser.outlet[0].outlet_name+"\"", "PayLo POS", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (dr == DialogResult.Yes)
             {
+                new RestClient().Logout();
                 Properties.Settings.Default.accessToken = "";
                 Properties.Settings.Default.Save();
                 login.Show();
@@ -341,12 +485,125 @@ namespace PayLoPOS.View
 
         public void showCurrentActivity(string message)
         {
-            toolStripCurrentActivity.Text = "Current Activity: " + message;
+            toolStripCurrentActivity.Text = "Last Activity: " + message;
         }
 
         private void groupBox2_Enter(object sender, EventArgs e)
         {
 
+        }
+
+        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ListView.SelectedListViewItemCollection items = listView1.SelectedItems;
+            if(items.Count > 0)
+            {
+                enableReSentOption();
+            }
+            else
+            {
+                disableResentOption();
+            }
+        }
+
+        private void lblPayment_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        public async void ReSendPayment(string mode, long orderId)
+        {
+            Bill bill = null;
+            foreach(Bill b in pendingBills.data.bills)
+            {
+                if(orderId == b.id)
+                {
+                    bill = b;
+                }
+            }
+
+            if (bill != null)
+            {
+                if (mode == "CASH")
+                {
+                    ConfirmCash cash = new ConfirmCash("", bill.mobile, bill.grand_total, orderId);
+                    cash.dashboard = this;
+                    cash.ShowDialog();
+                }
+                else if(mode == "MPOS")
+                {
+                    Transaction transaction = new Transaction();
+                    transaction.amount = bill.grand_total;
+                    transaction.emailAddress = bill.email;
+                    transaction.customerMobile = bill.mobile;
+                    transaction.orderId = bill.order_code;
+                    transaction.externalReference2 = bill.order_id.ToString();
+
+                    //-- Initialize
+                    EzetapPaymentSync ezetap = new EzetapPaymentSync(this, transaction, "");
+                    if (ezetap.init() == true)
+                    {
+                        ezetap.ShowDialog();
+                    }
+                }
+                else if(mode == "SEND LINK")
+                {
+                    try
+                    {
+                        var response = await new RestClient().ResendLinkPayment(bill.order_id);
+                        showCurrentActivity(response.data.msg);
+                    }
+                    catch(Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+                }
+                else if (mode == "UPI")
+                {
+
+                }
+                else if (mode == "WALLET")
+                {
+
+                }
+            }            
+        }
+
+        private void btnPayNow_Click(object sender, EventArgs e)
+        {
+            ListView.SelectedListViewItemCollection items = listView1.SelectedItems;
+            foreach (ListViewItem item in items)
+            {
+                Bill bill = pendingBills.data.bills[Int16.Parse(item.Tag.ToString())];
+                ChoosePaymentOption option = new ChoosePaymentOption(this, bill.id);
+                option.ShowDialog();
+            }
+        }
+
+        private void enableReSentOption()
+        {
+            if(isSelectPending == true)
+            {
+                btnPayNow.Enabled = true;
+                btnViewTransaction.Enabled = true;
+                btnPayNow.BackColor = System.Drawing.Color.SteelBlue;
+                btnViewTransaction.BackColor = System.Drawing.Color.SteelBlue;
+            }
+            else
+            {
+                btnPayNow.Enabled = false;
+                btnViewTransaction.Enabled = true;
+                btnPayNow.BackColor = System.Drawing.Color.Silver;
+                btnViewTransaction.BackColor = System.Drawing.Color.SteelBlue;
+            }
+        }
+
+        private void disableResentOption()
+        {
+            btnPayNow.Enabled = false;
+            btnViewTransaction.Enabled = false;
+            btnPayNow.BackColor = System.Drawing.Color.Silver;
+            btnViewTransaction.BackColor = System.Drawing.Color.Silver;
         }
     }
 }

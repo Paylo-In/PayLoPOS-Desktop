@@ -21,6 +21,12 @@ namespace PayLoPOS.Model
             return false;
         }
 
+        public static string getCurrentDate(string format)
+        {
+            DateTime time = DateTime.Now;
+            return time.ToString(format);
+        }
+
         public static string getDate(string dateString, string fromFormat, string toFormat)
         {
             DateTime dt = DateTime.ParseExact(dateString, fromFormat, CultureInfo.InvariantCulture);

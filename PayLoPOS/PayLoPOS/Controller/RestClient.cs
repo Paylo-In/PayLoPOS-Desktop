@@ -36,6 +36,7 @@ namespace PayLoPOS.Controller
         public async Task<User> GetProfile()
         {
             var response = await MakeGetRequest("v2/profile/init?token=" + Properties.Settings.Default.accessToken);
+            Debug.WriteLine("User Profile:" + response);
             User user = new JavaScriptSerializer().Deserialize<User>(response);
             return user;
         }
@@ -65,6 +66,61 @@ namespace PayLoPOS.Controller
             var response = await MakeGetRequest("v2/txn/transaction-history?" + param.getStringUri());
             var bills = new JavaScriptSerializer().Deserialize<Dictionary<string, object>>(response);
             return new PaidBillResponse(bills);
+        }
+
+        public async Task<ResponseModel> UpdateEzetapPayment(string json)
+        {
+            var response = await MakePostRequest("v2/payment/ezytap-payment-info?token=" + Properties.Settings.Default.accessToken, json);
+            ResponseModel model = new JavaScriptSerializer().Deserialize<ResponseModel>(response);
+            return model;
+        }
+
+        public async Task<ResponseModel> GenerateWalletOTP(string json)
+        {
+            var response = await MakePostRequest("v2/payment/wallet-otp?token=" + Properties.Settings.Default.accessToken, json);
+            ResponseModel model = new JavaScriptSerializer().Deserialize<ResponseModel>(response);
+            return model;
+        }
+
+        public async Task<ResponseModel> WalletPayment(long orderId, string walletName, string otp, string mobile, string email)
+        {
+            var json = new JavaScriptSerializer().Serialize(new { order_id = orderId, wallet = walletName, otp = otp, mobile = mobile, email = email });
+            var response = await MakePostRequest("v2/payment/wallet-pay?token=" + Properties.Settings.Default.accessToken, json);
+            ResponseModel model = new JavaScriptSerializer().Deserialize<ResponseModel>(response);
+            return model;
+        }
+
+        public async Task<ResponseModel> UPIPayment(string billId, string mobile, double amount, string billNo, string name, string email, string vpa)
+        {
+            var json = new JavaScriptSerializer().Serialize(new { bill_id = billId, mobile = mobile, merchant_id = Global.currentUser.merchant_id, grand_total = amount.ToString("0.00"), bill_no = billNo, name = name, email = email, upi = 1, vpa = vpa });
+            var response = await MakePostRequest("v2/customer/create-bill?token=" + Properties.Settings.Default.accessToken, json);
+            Debug.WriteLine("Create UPI Bill:" + response);
+            ResponseModel model = new JavaScriptSerializer().Deserialize<ResponseModel>(response);
+            return model;
+        }
+
+        public async Task<ResponseModel> PayByCashSync(long orderId)
+        {
+            var json = new JavaScriptSerializer().Serialize(new { bill_id = orderId, timestamp = Utility.getCurrentDate("yyyy-MM-dd HH:mm:ss"), merchant_id = Global.currentUser.merchant_id });
+            var response = await MakePostRequest("v2/payment/pay-by-cash-sync?token=" + Properties.Settings.Default.accessToken, json);
+            Debug.WriteLine("PayByCashSync:" + response);
+            ResponseModel model = new JavaScriptSerializer().Deserialize<ResponseModel>(response);
+            return model;
+        }
+
+        public async Task<ResponseModel> ResendLinkPayment(long orderId)
+        {
+            var json = new JavaScriptSerializer().Serialize(new { order_id = orderId, link = 1});
+            var response = await MakePostRequest("v2/customer/resend-bill?token=" + Properties.Settings.Default.accessToken, json);
+            Debug.WriteLine("ResendLinkPayment:" + response);
+            ResponseModel model = new JavaScriptSerializer().Deserialize<ResponseModel>(response);
+            return model;
+        }
+
+        public async void Logout()
+        {
+            var response = await MakeGetRequest("v2/auth/logout?token=" + Properties.Settings.Default.accessToken);
+            Debug.WriteLine("Logout:" + response);
         }
 
         /*||***********************************************************
@@ -100,5 +156,6 @@ namespace PayLoPOS.Controller
             httpClient = null;
             return await response.Content.ReadAsStringAsync();
         }
+
     }
 }

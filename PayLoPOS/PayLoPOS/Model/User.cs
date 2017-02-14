@@ -6,6 +6,15 @@ using System.Threading.Tasks;
 
 namespace PayLoPOS.Model
 {
+    class Wallet
+    {
+        public string name { get; set; }
+        public string display_name { get; set; }
+        public string icon { get; set; }
+        public string info { get; set; }
+        public double cashback { get; set; }
+    }
+
     class UserData
     {
         public string msg { get; set; }
@@ -16,6 +25,7 @@ namespace PayLoPOS.Model
         public string key { get; set; }
         public long merchant_id { get; set; }
         public List<Outlet> outlet { get; set; }
+        public List<Wallet> wallets { get; set; }
     }
 
     class User

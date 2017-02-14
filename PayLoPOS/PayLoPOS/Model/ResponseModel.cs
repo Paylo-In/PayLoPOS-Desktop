@@ -10,6 +10,10 @@ namespace PayLoPOS.Model
     {
         public string msg { get; set; }
         public long bill_id { get; set; }
+        public long bill { get; set; }
+        public string errorCode { get; set; }
+        public long order_id { get; set; }
+        public string order_code { get; set; }
     }
 
     class ResponseModel
@@ -17,4 +21,6 @@ namespace PayLoPOS.Model
         public int status { get; set; }
         public ResponseModelData data { get; set; }
     }
+
+    //{"data":{"bill":1,"errorCode":"","order_id":3126,"order_code":"60X01-15a3621aed3-2c446"},"status":1}
 }

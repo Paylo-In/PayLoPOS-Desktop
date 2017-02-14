@@ -65,12 +65,16 @@
             this.lblUserName = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripCurrentActivity = new System.Windows.Forms.ToolStripStatusLabel();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.btnPayNow = new System.Windows.Forms.Button();
+            this.btnViewTransaction = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.statusStrip1.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -228,13 +232,14 @@
             this.listView1.ForeColor = System.Drawing.SystemColors.WindowText;
             this.listView1.FullRowSelect = true;
             this.listView1.GridLines = true;
-            this.listView1.Location = new System.Drawing.Point(261, 69);
+            this.listView1.Location = new System.Drawing.Point(261, 109);
             this.listView1.MultiSelect = false;
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(535, 499);
+            this.listView1.Size = new System.Drawing.Size(535, 458);
             this.listView1.TabIndex = 7;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
+            this.listView1.SelectedIndexChanged += new System.EventHandler(this.listView1_SelectedIndexChanged);
             // 
             // columnHeader1
             // 
@@ -511,6 +516,42 @@
             this.toolStripCurrentActivity.Size = new System.Drawing.Size(96, 17);
             this.toolStripCurrentActivity.Text = "Current Activity: ";
             // 
+            // panel1
+            // 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.BackColor = System.Drawing.Color.White;
+            this.panel1.Controls.Add(this.btnViewTransaction);
+            this.panel1.Controls.Add(this.btnPayNow);
+            this.panel1.Location = new System.Drawing.Point(261, 74);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(535, 35);
+            this.panel1.TabIndex = 14;
+            // 
+            // btnPayNow
+            // 
+            this.btnPayNow.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnPayNow.ForeColor = System.Drawing.Color.White;
+            this.btnPayNow.Location = new System.Drawing.Point(15, 3);
+            this.btnPayNow.Name = "btnPayNow";
+            this.btnPayNow.Size = new System.Drawing.Size(95, 30);
+            this.btnPayNow.TabIndex = 3;
+            this.btnPayNow.Text = "Pay Now";
+            this.btnPayNow.UseVisualStyleBackColor = true;
+            this.btnPayNow.Click += new System.EventHandler(this.btnPayNow_Click);
+            // 
+            // btnViewTransaction
+            // 
+            this.btnViewTransaction.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnViewTransaction.ForeColor = System.Drawing.Color.White;
+            this.btnViewTransaction.Location = new System.Drawing.Point(116, 3);
+            this.btnViewTransaction.Name = "btnViewTransaction";
+            this.btnViewTransaction.Size = new System.Drawing.Size(158, 30);
+            this.btnViewTransaction.TabIndex = 4;
+            this.btnViewTransaction.Text = "View Transactions";
+            this.btnViewTransaction.UseVisualStyleBackColor = true;
+            // 
             // Dashboard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -522,6 +563,7 @@
             this.Controls.Add(this.listView1);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.panel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(700, 500);
             this.Name = "Dashboard";
@@ -537,6 +579,7 @@
             this.groupBox3.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -579,5 +622,8 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripCurrentActivity;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button btnPayNow;
+        private System.Windows.Forms.Button btnViewTransaction;
     }
 }

@@ -89,6 +89,7 @@
             this.txtCollectedAmount.Name = "txtCollectedAmount";
             this.txtCollectedAmount.Size = new System.Drawing.Size(179, 22);
             this.txtCollectedAmount.TabIndex = 21;
+            this.txtCollectedAmount.TextChanged += new System.EventHandler(this.txtCollectedAmount_TextChanged);
             // 
             // label3
             // 

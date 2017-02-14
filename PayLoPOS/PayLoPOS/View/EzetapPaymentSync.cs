@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using EzetapApi.models;
 using EzetapApi;
 using PayLoPOS.Model;
+using PayLoPOS.Controller;
 
 namespace PayLoPOS.View
 {
@@ -36,16 +37,19 @@ namespace PayLoPOS.View
 
         private Transaction transaction;
 
-        Form parent;
+        Dashboard parent;
 
         string usesDetails;
 
+        string jsonParams;
+
         APIName apiName;
 
-        public EzetapPaymentSync(Form p, Transaction txn)
+        public EzetapPaymentSync(Dashboard p, Transaction txn, string param)
         {
             parent = p;
             this.transaction = txn;
+            this.jsonParams = param;
             InitializeComponent();
         }
 
@@ -101,7 +105,7 @@ namespace PayLoPOS.View
                 }
                 else if(str.Contains("API Result: -2147418109 ("))
                 {
-                    showError("Device failed to connect.Please reconnect the device and try again.");
+                    showError("Device failed to connect. Please reconnect the device and try again.");
                 }
             }
             else if(apiName == APIName.PREPARE)
@@ -117,9 +121,7 @@ namespace PayLoPOS.View
                 else if (str.Contains("EPIC_PREPARE_RESULT: code 0 ("))
                 {
                     showSuccess("Device connected ... ");
-                    apiName = APIName.TRANSACTION;
-                    usesDetails = appLib.usage("transaction <orderId> <amount> [amountOther] [Reference2] [Reference3] [customerMobile] [customerEmail]");
-                    appLib.cardTransaction(this, transaction);
+                    createBill();                    
                 }
             }
             else if (apiName == APIName.TRANSACTION)
@@ -165,20 +167,97 @@ namespace PayLoPOS.View
                 {
                     showSuccess("Please Swipe or Insert card again");
                 }
+                else if(str.Contains("SERVER_RESULT: code EZETAP_0000089 ("))
+                {
+                    showError("Processing Failed. We were unable to get information from card. Please try again. If the problem persists, try a different card or call Ezetap Support.");
+                    parent.lblPendingBills_Click(null, null);
+                    parent.showCurrentActivity("Processing Failed. We were unable to get information from card. Please try again. If the problem persists, try a different card or call Ezetap Support.");
+                }
                 else if (str.Contains("SERVER_RESULT: Txn ID:"))
                 {
-                    showSuccess(str);
-                    EzetapResponse response = new JavaScriptSerializer().Deserialize<EzetapResponse>(getJSONString(str));
-                    if(response.success == true)
+                    string json = getJSONString(str);
+                    updatePayment(json);
+                }
+            }
+            else if(str.Contains("EPIC_TRANSACTION_RESULT: code -2147418043 ("))
+            {
+                showError("Device is disconnected");
+            }
+        }
+
+        private async void createBill()
+        {
+            if(transaction.externalReference2 == "")
+            {
+                try
+                {
+                    var response = await new RestClient().MakePostRequest("v2/customer/create-bill?token=" + Properties.Settings.Default.accessToken, jsonParams);
+                    Debug.WriteLine(response);
+                    ResponseModel model = new JavaScriptSerializer().Deserialize<ResponseModel>(response);
+                    if (model.status == 1)
                     {
-                        showSuccess("Payment Success");
+                        if (model.data.order_code != null)
+                        {
+                            transaction.orderId = model.data.order_code;
+                            transaction.externalReference2 = model.data.order_id.ToString();
+                            apiName = APIName.TRANSACTION;
+                            usesDetails = appLib.usage("transaction <orderId> <amount> [amountOther] [Reference2] [Reference3] [customerMobile] [customerEmail]");
+                            appLib.cardTransaction(this, transaction);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Order code not found");
+                        }
                     }
                     else
                     {
-                        showError("Payment Failed");
+                        MessageBox.Show(model.data.msg);
                     }
                 }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                    this.Close();
+                }
             }
+            else
+            {
+                apiName = APIName.TRANSACTION;
+                usesDetails = appLib.usage("transaction <orderId> <amount> [amountOther] [Reference2] [Reference3] [customerMobile] [customerEmail]");
+                appLib.cardTransaction(this, transaction);
+            }
+        }
+
+        private async void updatePayment(string json)
+        {
+            try
+            {
+                showSuccess("Validating payment ...");
+                EzetapResponse response = new JavaScriptSerializer().Deserialize<EzetapResponse>(json);
+                Debug.WriteLine("Convert Payment Format JSON: " + response.getPayLoJSON());
+                ResponseModel model = await new RestClient().UpdateEzetapPayment(response.getPayLoJSON());
+                if (response.success == true && model.status == 1)
+                {
+                    showSuccess("Payment Success");
+                    parent.lblPaidBills_Click(null, null);
+                    parent.showCurrentActivity("MPOS payment success");
+                }
+                else
+                {
+                    showError("Payment Failed");
+                    parent.lblPendingBills_Click(null, null);
+                    parent.showCurrentActivity("MPOS payment failed");
+                    MessageBox.Show("MPOS payment failed");
+                }
+                this.Close();
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                parent.showCurrentActivity(ex.Message);
+                this.Close();
+            }
+            
         }
 
         private string getJSONString(string str)
@@ -230,9 +309,5 @@ namespace PayLoPOS.View
             lblMessage.Text = msg;
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-           
-        }
     }
 }
