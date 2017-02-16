@@ -12,6 +12,7 @@ namespace PayLoPOS.View
         public Login()
         {
             InitializeComponent();
+            imgLoading.Visible = false;
             if(Properties.Settings.Default.accessToken != "")
             {
                 loginPanel.Visible = false;
@@ -39,6 +40,7 @@ namespace PayLoPOS.View
                 SignIn.Enabled = false;
                 try
                 {
+                    imgLoading.Visible = true;
                     User user = await new RestClient().Login(txtEmail.Text, txtPassword.Text);
                     if (user.status == 1)
                     {
@@ -57,6 +59,10 @@ namespace PayLoPOS.View
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message);
+                }
+                finally
+                {
+                    imgLoading.Visible = false;
                 }
                 SignIn.Enabled = true;
             }

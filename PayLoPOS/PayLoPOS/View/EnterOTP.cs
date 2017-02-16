@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using PayLoPOS.Controller;
 using System.Web.Script.Serialization;
@@ -18,6 +11,7 @@ namespace PayLoPOS.View
         private string walletName;
         private string mobile;
         private string email;
+        double amount;
         Dashboard parent;
 
         public EnterOTP()
@@ -25,7 +19,7 @@ namespace PayLoPOS.View
             InitializeComponent();
         }
 
-        public EnterOTP(Dashboard p, string mobile, long orderId, string displayName , string walletName, string email)
+        public EnterOTP(Dashboard p, double amount, string mobile, long orderId, string displayName , string walletName, string email)
         {
             InitializeComponent();
             this.orderId = orderId;
@@ -33,6 +27,7 @@ namespace PayLoPOS.View
             this.walletName = walletName;
             this.mobile = mobile;
             this.email = email;
+            this.amount = amount;
             this.parent = p;
             if(this.mobile.Length > 3)
             {
@@ -50,25 +45,35 @@ namespace PayLoPOS.View
             {
                 try
                 {
+                    lblVerify.Enabled = false;
+                    imgLoading.Visible = true;
                     var response = await new RestClient().WalletPayment(orderId, walletName, txtOTP.Text, mobile, email);
-                    if(response.status == 1)
+                    lblVerify.Enabled = true;
+                    imgLoading.Visible = false;
+                    if (response.status == 1)
                     {
-                        MessageBox.Show(response.data.msg);
-                        this.parent.lblPaidBills_Click(null, null);
-                        this.parent.showCurrentActivity(response.data.msg);
-                        this.parent.clearTextBox();
-                        this.Close();
+                        parent.lblPaidBills_Click(null, null);
+                        parent.showCurrentActivity(response.data.msg);
+                        parent.clearTextBox();
+                        Close();
+                        PaymentStatus ps = new PaymentStatus(1, response.data.msg, amount, this.Text, orderId.ToString(), mobile);
+                        ps.ShowDialog();
                     }
                     else
                     {
                         MessageBox.Show(response.data.msg);
-                        this.parent.showCurrentActivity(response.data.msg);
+                        parent.showCurrentActivity(response.data.msg);
                     }
                 }
                 catch(Exception ex)
                 {
                     MessageBox.Show(ex.Message);
                     this.parent.showCurrentActivity(ex.Message);
+                }
+                finally
+                {
+                    lblVerify.Enabled = true;
+                    imgLoading.Visible = false;
                 }
             }
         }

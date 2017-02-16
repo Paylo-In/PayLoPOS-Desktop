@@ -31,6 +31,8 @@
             this.lblSubmit = new System.Windows.Forms.Label();
             this.txtVPA = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.imgLoading = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.imgLoading)).BeginInit();
             this.SuspendLayout();
             // 
             // lblSubmit
@@ -67,12 +69,24 @@
             this.label2.Size = new System.Drawing.Size(285, 33);
             this.label2.TabIndex = 5;
             // 
+            // imgLoading
+            // 
+            this.imgLoading.Image = global::PayLoPOS.Properties.Resources.loading1;
+            this.imgLoading.Location = new System.Drawing.Point(68, 59);
+            this.imgLoading.Name = "imgLoading";
+            this.imgLoading.Size = new System.Drawing.Size(137, 19);
+            this.imgLoading.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.imgLoading.TabIndex = 28;
+            this.imgLoading.TabStop = false;
+            this.imgLoading.Visible = false;
+            // 
             // EnterVPA
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.SteelBlue;
             this.ClientSize = new System.Drawing.Size(284, 119);
+            this.Controls.Add(this.imgLoading);
             this.Controls.Add(this.lblSubmit);
             this.Controls.Add(this.txtVPA);
             this.Controls.Add(this.label2);
@@ -82,6 +96,7 @@
             this.Name = "EnterVPA";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Enter VPA";
+            ((System.ComponentModel.ISupportInitialize)(this.imgLoading)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -92,5 +107,6 @@
         private System.Windows.Forms.Label lblSubmit;
         private System.Windows.Forms.TextBox txtVPA;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.PictureBox imgLoading;
     }
 }

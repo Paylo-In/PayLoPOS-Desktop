@@ -36,6 +36,8 @@
             this.txtChange = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.ConfirmButton = new System.Windows.Forms.Button();
+            this.imgLoading = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.imgLoading)).BeginInit();
             this.SuspendLayout();
             // 
             // lblTotalAmount
@@ -139,7 +141,7 @@
             this.ConfirmButton.BackColor = System.Drawing.Color.SeaGreen;
             this.ConfirmButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ConfirmButton.ForeColor = System.Drawing.Color.White;
-            this.ConfirmButton.Location = new System.Drawing.Point(12, 195);
+            this.ConfirmButton.Location = new System.Drawing.Point(12, 202);
             this.ConfirmButton.Name = "ConfirmButton";
             this.ConfirmButton.Size = new System.Drawing.Size(299, 44);
             this.ConfirmButton.TabIndex = 24;
@@ -147,12 +149,24 @@
             this.ConfirmButton.UseVisualStyleBackColor = false;
             this.ConfirmButton.Click += new System.EventHandler(this.ConfirmButton_Click);
             // 
+            // imgLoading
+            // 
+            this.imgLoading.Image = global::PayLoPOS.Properties.Resources.loading1;
+            this.imgLoading.Location = new System.Drawing.Point(97, 179);
+            this.imgLoading.Name = "imgLoading";
+            this.imgLoading.Size = new System.Drawing.Size(137, 19);
+            this.imgLoading.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.imgLoading.TabIndex = 25;
+            this.imgLoading.TabStop = false;
+            this.imgLoading.Visible = false;
+            // 
             // ConfirmCash
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.SteelBlue;
             this.ClientSize = new System.Drawing.Size(323, 275);
+            this.Controls.Add(this.imgLoading);
             this.Controls.Add(this.ConfirmButton);
             this.Controls.Add(this.txtChange);
             this.Controls.Add(this.label4);
@@ -169,6 +183,7 @@
             this.Name = "ConfirmCash";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Cash";
+            ((System.ComponentModel.ISupportInitialize)(this.imgLoading)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -184,5 +199,6 @@
         private System.Windows.Forms.TextBox txtChange;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button ConfirmButton;
+        private System.Windows.Forms.PictureBox imgLoading;
     }
 }

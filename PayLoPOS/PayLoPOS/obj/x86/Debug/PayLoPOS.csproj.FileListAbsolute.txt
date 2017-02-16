@@ -18,3 +18,6 @@ E:\Projects\PayLo\PayLoPOS\PayLoPOS\obj\x86\Debug\PayLoPOS.View.WalletList.resou
 E:\Projects\PayLo\PayLoPOS\PayLoPOS\obj\x86\Debug\PayLoPOS.View.EnterOTP.resources
 E:\Projects\PayLo\PayLoPOS\PayLoPOS\obj\x86\Debug\PayLoPOS.View.EnterVPA.resources
 E:\Projects\PayLo\PayLoPOS\PayLoPOS\obj\x86\Debug\PayLoPOS.View.ChoosePaymentOption.resources
+E:\Projects\PayLo\PayLoPOS\PayLoPOS\obj\x86\Debug\PayLoPOS.View.CreatePassword.resources
+E:\Projects\PayLo\PayLoPOS\PayLoPOS\obj\x86\Debug\PayLoPOS.View.TransactionDetails.resources
+E:\Projects\PayLo\PayLoPOS\PayLoPOS\obj\x86\Debug\PayLoPOS.View.PaymentStatus.resources

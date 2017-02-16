@@ -51,6 +51,7 @@ namespace PayLoPOS.View
                 try
                 {
                     ConfirmButton.Enabled = false;
+                    imgLoading.Visible = true;
                     if(orderId > 0)
                     {
                         var model = await new RestClient().PayByCashSync(orderId);
@@ -60,6 +61,8 @@ namespace PayLoPOS.View
                             dashboard.lblPaidBills_Click(sender, e);
                             dashboard.showCurrentActivity(model.data.msg);
                             this.Close();
+                            PaymentStatus ps = new PaymentStatus(1, model.data.msg, amount, "Cash", model.data.bill_id.ToString(), mobile);
+                            ps.ShowDialog();
                         }
                         else
                         {
@@ -69,6 +72,7 @@ namespace PayLoPOS.View
                     else
                     {
                         var response = await new RestClient().MakePostRequest("v2/payment/bill-with-cash?token=" + Properties.Settings.Default.accessToken, this.jsonParam);
+                        Debug.WriteLine("Pay By Cash:" + response);
                         ResponseModel model = new JavaScriptSerializer().Deserialize<ResponseModel>(response);
                         if (model.status == 1)
                         {
@@ -76,6 +80,8 @@ namespace PayLoPOS.View
                             dashboard.lblPaidBills_Click(sender, e);
                             dashboard.showCurrentActivity(model.data.msg);
                             this.Close();
+                            PaymentStatus ps = new PaymentStatus(1, model.data.msg, amount, "Cash", model.data.bill_id.ToString(), mobile);
+                            ps.ShowDialog();
                         }
                         else
                         {
@@ -86,6 +92,11 @@ namespace PayLoPOS.View
                 catch(Exception ex)
                 {
                     MessageBox.Show(ex.Message);
+                }
+                finally
+                {
+                    ConfirmButton.Enabled = true;
+                    imgLoading.Visible = false;
                 }
             }
         }

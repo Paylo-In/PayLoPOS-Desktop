@@ -14,9 +14,14 @@ namespace PayLoPOS.View
     {
         Dashboard parent;
 
-        public EnterVPA(Dashboard parent)
+        long billId;
+        string email;
+
+        public EnterVPA(Dashboard parent, long billId, string email)
         {
             this.parent = parent;
+            this.billId = billId;
+            this.email = email;
             InitializeComponent();
         }
 
@@ -28,8 +33,14 @@ namespace PayLoPOS.View
             }
             else
             {
-                this.parent.submitVPA(txtVPA.Text, this);
+                this.parent.submitVPA(txtVPA.Text, this, billId, email);
             }
+        }
+
+        public void showLoading(bool isShow)
+        {
+            lblSubmit.Enabled = !isShow;
+            imgLoading.Visible = isShow;
         }
     }
 }

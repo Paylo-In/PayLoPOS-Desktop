@@ -29,6 +29,30 @@ namespace PayLoPOS.Controller
             return user;
         }
 
+        public async Task<ResponseModel> GenerateOTP(string mobile)
+        {
+            var json = new JavaScriptSerializer().Serialize(new { mobile = mobile });
+            var response = await MakePostRequest("v2/auth/generate-otp", json);
+            ResponseModel model = new JavaScriptSerializer().Deserialize<ResponseModel>(response);
+            return model;
+        }
+
+        public async Task<ResponseModel> ResendOTP(string mobile)
+        {
+            var json = new JavaScriptSerializer().Serialize(new { mobile = mobile });
+            var response = await MakePostRequest("sign-up/resend-otp", json);
+            ResponseModel model = new JavaScriptSerializer().Deserialize<ResponseModel>(response);
+            return model;
+        }
+
+        public async Task<ResponseModel> CreatePassword(string mobile, string password, string otp)
+        {
+            var json = new JavaScriptSerializer().Serialize(new { mobile = mobile, passcode = password, otp = otp });
+            var response = await MakePostRequest("v2/auth/verify-otp", json);
+            ResponseModel model = new JavaScriptSerializer().Deserialize<ResponseModel>(response);
+            return model;
+        }
+
         /*||***********************************************************
          *||  Get user logged in profile
          *||***********************************************************
@@ -64,8 +88,17 @@ namespace PayLoPOS.Controller
         public async Task<PaidBillResponse> GetPaidBills(DictionaryModel param)
         {
             var response = await MakeGetRequest("v2/txn/transaction-history?" + param.getStringUri());
+            Debug.WriteLine("Paid Bills: " + response);
             var bills = new JavaScriptSerializer().Deserialize<Dictionary<string, object>>(response);
             return new PaidBillResponse(bills);
+        }
+
+        public async Task<TransactionHistory> GetTransactionDetails(long orderId)
+        {
+            var response = await MakeGetRequest("v2/txn/transaction-history?orderid="+orderId.ToString()+"&token=" + Properties.Settings.Default.accessToken);
+            Debug.WriteLine("Transaction Details:" + response);
+            TransactionHistory bills = new JavaScriptSerializer().Deserialize<TransactionHistory>(response);
+            return bills;
         }
 
         public async Task<ResponseModel> UpdateEzetapPayment(string json)
@@ -85,6 +118,7 @@ namespace PayLoPOS.Controller
         public async Task<ResponseModel> WalletPayment(long orderId, string walletName, string otp, string mobile, string email)
         {
             var json = new JavaScriptSerializer().Serialize(new { order_id = orderId, wallet = walletName, otp = otp, mobile = mobile, email = email });
+            Debug.WriteLine("WalletPayment Params:" + json);
             var response = await MakePostRequest("v2/payment/wallet-pay?token=" + Properties.Settings.Default.accessToken, json);
             ResponseModel model = new JavaScriptSerializer().Deserialize<ResponseModel>(response);
             return model;

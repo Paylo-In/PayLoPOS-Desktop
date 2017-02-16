@@ -33,6 +33,8 @@
             this.txtOTP = new System.Windows.Forms.TextBox();
             this.ResendOTP = new System.Windows.Forms.Label();
             this.lblVerify = new System.Windows.Forms.Label();
+            this.imgLoading = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.imgLoading)).BeginInit();
             this.SuspendLayout();
             // 
             // lblMessage
@@ -96,12 +98,24 @@
             this.lblVerify.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lblVerify.Click += new System.EventHandler(this.label4_Click);
             // 
+            // imgLoading
+            // 
+            this.imgLoading.Image = global::PayLoPOS.Properties.Resources.loading1;
+            this.imgLoading.Location = new System.Drawing.Point(72, 139);
+            this.imgLoading.Name = "imgLoading";
+            this.imgLoading.Size = new System.Drawing.Size(137, 19);
+            this.imgLoading.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.imgLoading.TabIndex = 30;
+            this.imgLoading.TabStop = false;
+            this.imgLoading.Visible = false;
+            // 
             // EnterOTP
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.SteelBlue;
             this.ClientSize = new System.Drawing.Size(284, 201);
+            this.Controls.Add(this.imgLoading);
             this.Controls.Add(this.lblVerify);
             this.Controls.Add(this.ResendOTP);
             this.Controls.Add(this.txtOTP);
@@ -113,6 +127,7 @@
             this.Name = "EnterOTP";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Citrus";
+            ((System.ComponentModel.ISupportInitialize)(this.imgLoading)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -125,5 +140,6 @@
         private System.Windows.Forms.TextBox txtOTP;
         private System.Windows.Forms.Label ResendOTP;
         private System.Windows.Forms.Label lblVerify;
+        private System.Windows.Forms.PictureBox imgLoading;
     }
 }

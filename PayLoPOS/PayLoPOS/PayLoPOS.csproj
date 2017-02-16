@@ -70,6 +70,9 @@
   <PropertyGroup>
     <ApplicationIcon>icon.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>PayLoPOS.Program</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="EzetapWindowsSDK, Version=2.7.1.1, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
@@ -100,6 +103,7 @@
     <Compile Include="Model\PaidBills.cs" />
     <Compile Include="Model\PendingBills.cs" />
     <Compile Include="Model\ResponseModel.cs" />
+    <Compile Include="Model\TransactionHistory.cs" />
     <Compile Include="Model\User.cs" />
     <Compile Include="Model\Utility.cs" />
     <Compile Include="Program.cs" />
@@ -120,6 +124,12 @@
     </Compile>
     <Compile Include="View\ConfirmCash.Designer.cs">
       <DependentUpon>ConfirmCash.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\CreatePassword.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\CreatePassword.Designer.cs">
+      <DependentUpon>CreatePassword.cs</DependentUpon>
     </Compile>
     <Compile Include="View\Dashboard.cs">
       <SubType>Form</SubType>
@@ -163,6 +173,18 @@
     <Compile Include="View\Login.Designer.cs">
       <DependentUpon>Login.cs</DependentUpon>
     </Compile>
+    <Compile Include="View\PaymentStatus.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\PaymentStatus.Designer.cs">
+      <DependentUpon>PaymentStatus.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\TransactionDetails.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\TransactionDetails.Designer.cs">
+      <DependentUpon>TransactionDetails.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\WalletList.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -179,6 +201,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="View\ConfirmCash.resx">
       <DependentUpon>ConfirmCash.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\CreatePassword.resx">
+      <DependentUpon>CreatePassword.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\Dashboard.resx">
       <DependentUpon>Dashboard.cs</DependentUpon>
@@ -200,6 +225,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="View\Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\PaymentStatus.resx">
+      <DependentUpon>PaymentStatus.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\TransactionDetails.resx">
+      <DependentUpon>TransactionDetails.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\WalletList.resx">
       <DependentUpon>WalletList.cs</DependentUpon>
@@ -228,6 +259,14 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="icon.ico" />
+    <None Include="Resources\loading1.gif" />
+    <None Include="Resources\spinner.gif" />
+    <None Include="Resources\freecharge.jpg" />
+    <None Include="Resources\mobikwik.png" />
+    <None Include="Resources\payumoney.png" />
+    <None Include="Resources\Citrus.png" />
+    <None Include="Resources\failed.png" />
+    <None Include="Resources\success.png" />
     <None Include="Resources\ezetap-device.png" />
   </ItemGroup>
   <ItemGroup>

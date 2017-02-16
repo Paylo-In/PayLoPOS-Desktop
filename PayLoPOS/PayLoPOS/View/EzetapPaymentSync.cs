@@ -167,6 +167,10 @@ namespace PayLoPOS.View
                 {
                     showSuccess("Please Swipe or Insert card again");
                 }
+                else if (str.Contains("SERVER_RESULT: code EZETAP_0000084 ("))
+                {
+                    showError("You have attempted a similar payment for the same amount INR 1.00 using the same card within 1 minute");
+                }
                 else if(str.Contains("SERVER_RESULT: code EZETAP_0000089 ("))
                 {
                     showError("Processing Failed. We were unable to get information from card. Please try again. If the problem persists, try a different card or call Ezetap Support.");
@@ -241,6 +245,8 @@ namespace PayLoPOS.View
                     showSuccess("Payment Success");
                     parent.lblPaidBills_Click(null, null);
                     parent.showCurrentActivity("MPOS payment success");
+                    PaymentStatus ps = new PaymentStatus(1, model.data.msg, transaction.amount, "MPOS", transaction.orderId, transaction.customerMobile);
+                    ps.ShowDialog();
                 }
                 else
                 {
@@ -248,6 +254,8 @@ namespace PayLoPOS.View
                     parent.lblPendingBills_Click(null, null);
                     parent.showCurrentActivity("MPOS payment failed");
                     MessageBox.Show("MPOS payment failed");
+                    PaymentStatus ps = new PaymentStatus(0, model.data.msg, transaction.amount, "MPOS", transaction.orderId, transaction.customerMobile);
+                    ps.ShowDialog();
                 }
                 this.Close();
             }

@@ -14,6 +14,7 @@ namespace PayLoPOS.Model
         public string errorCode { get; set; }
         public long order_id { get; set; }
         public string order_code { get; set; }
+        public string bill_no { get; set; }
     }
 
     class ResponseModel

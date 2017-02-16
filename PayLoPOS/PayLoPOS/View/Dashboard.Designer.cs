@@ -61,20 +61,25 @@
             this.txtRef = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.txtPaymentMode = new System.Windows.Forms.ComboBox();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.lblUserName = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripCurrentActivity = new System.Windows.Forms.ToolStripStatusLabel();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.btnPayNow = new System.Windows.Forms.Button();
             this.btnViewTransaction = new System.Windows.Forms.Button();
+            this.btnPayNow = new System.Windows.Forms.Button();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.statusUserName = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.statusCurrentActivity = new System.Windows.Forms.ToolStripStatusLabel();
+            this.imgLoading = new System.Windows.Forms.PictureBox();
             this.groupBox1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
-            this.statusStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.imgLoading)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -232,6 +237,7 @@
             this.listView1.ForeColor = System.Drawing.SystemColors.WindowText;
             this.listView1.FullRowSelect = true;
             this.listView1.GridLines = true;
+            this.listView1.HideSelection = false;
             this.listView1.Location = new System.Drawing.Point(261, 109);
             this.listView1.MultiSelect = false;
             this.listView1.Name = "listView1";
@@ -273,7 +279,7 @@
             this.btnCreateBill.BackColor = System.Drawing.Color.SteelBlue;
             this.btnCreateBill.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCreateBill.ForeColor = System.Drawing.Color.White;
-            this.btnCreateBill.Location = new System.Drawing.Point(10, 346);
+            this.btnCreateBill.Location = new System.Drawing.Point(10, 349);
             this.btnCreateBill.Name = "btnCreateBill";
             this.btnCreateBill.Size = new System.Drawing.Size(210, 40);
             this.btnCreateBill.TabIndex = 0;
@@ -286,6 +292,7 @@
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.groupBox2.BackColor = System.Drawing.Color.SteelBlue;
+            this.groupBox2.Controls.Add(this.imgLoading);
             this.groupBox2.Controls.Add(this.groupBox4);
             this.groupBox2.Controls.Add(this.groupBox3);
             this.groupBox2.Location = new System.Drawing.Point(-1, -7);
@@ -338,7 +345,7 @@
             this.groupBox3.ForeColor = System.Drawing.Color.White;
             this.groupBox3.Location = new System.Drawing.Point(13, 113);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(230, 399);
+            this.groupBox3.Size = new System.Drawing.Size(230, 406);
             this.groupBox3.TabIndex = 2;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = " NEW BILL ";
@@ -482,18 +489,6 @@
             this.txtPaymentMode.Size = new System.Drawing.Size(210, 29);
             this.txtPaymentMode.TabIndex = 12;
             // 
-            // statusStrip1
-            // 
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.lblUserName,
-            this.toolStripStatusLabel1,
-            this.toolStripCurrentActivity});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 567);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(795, 22);
-            this.statusStrip1.TabIndex = 13;
-            this.statusStrip1.Text = "statusStrip1";
-            // 
             // lblUserName
             // 
             this.lblUserName.BackColor = System.Drawing.Color.Transparent;
@@ -511,7 +506,7 @@
             // toolStripCurrentActivity
             // 
             this.toolStripCurrentActivity.BackColor = System.Drawing.Color.SeaGreen;
-            this.toolStripCurrentActivity.ForeColor = System.Drawing.Color.White;
+            this.toolStripCurrentActivity.ForeColor = System.Drawing.Color.Black;
             this.toolStripCurrentActivity.Name = "toolStripCurrentActivity";
             this.toolStripCurrentActivity.Size = new System.Drawing.Size(96, 17);
             this.toolStripCurrentActivity.Text = "Current Activity: ";
@@ -529,6 +524,18 @@
             this.panel1.Size = new System.Drawing.Size(535, 35);
             this.panel1.TabIndex = 14;
             // 
+            // btnViewTransaction
+            // 
+            this.btnViewTransaction.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnViewTransaction.ForeColor = System.Drawing.Color.White;
+            this.btnViewTransaction.Location = new System.Drawing.Point(116, 3);
+            this.btnViewTransaction.Name = "btnViewTransaction";
+            this.btnViewTransaction.Size = new System.Drawing.Size(197, 30);
+            this.btnViewTransaction.TabIndex = 4;
+            this.btnViewTransaction.Text = "View Transaction Details";
+            this.btnViewTransaction.UseVisualStyleBackColor = true;
+            this.btnViewTransaction.Click += new System.EventHandler(this.btnViewTransaction_Click);
+            // 
             // btnPayNow
             // 
             this.btnPayNow.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -537,20 +544,54 @@
             this.btnPayNow.Name = "btnPayNow";
             this.btnPayNow.Size = new System.Drawing.Size(95, 30);
             this.btnPayNow.TabIndex = 3;
-            this.btnPayNow.Text = "Pay Now";
+            this.btnPayNow.Text = "Pay Bill";
             this.btnPayNow.UseVisualStyleBackColor = true;
             this.btnPayNow.Click += new System.EventHandler(this.btnPayNow_Click);
             // 
-            // btnViewTransaction
+            // statusStrip1
             // 
-            this.btnViewTransaction.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnViewTransaction.ForeColor = System.Drawing.Color.White;
-            this.btnViewTransaction.Location = new System.Drawing.Point(116, 3);
-            this.btnViewTransaction.Name = "btnViewTransaction";
-            this.btnViewTransaction.Size = new System.Drawing.Size(158, 30);
-            this.btnViewTransaction.TabIndex = 4;
-            this.btnViewTransaction.Text = "View Transactions";
-            this.btnViewTransaction.UseVisualStyleBackColor = true;
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.statusUserName,
+            this.toolStripStatusLabel2,
+            this.statusCurrentActivity});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 567);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(795, 22);
+            this.statusStrip1.TabIndex = 15;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // statusUserName
+            // 
+            this.statusUserName.BackColor = System.Drawing.Color.White;
+            this.statusUserName.Name = "statusUserName";
+            this.statusUserName.Size = new System.Drawing.Size(63, 17);
+            this.statusUserName.Text = "Welcome: ";
+            // 
+            // toolStripStatusLabel2
+            // 
+            this.toolStripStatusLabel2.BackColor = System.Drawing.Color.White;
+            this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
+            this.toolStripStatusLabel2.Size = new System.Drawing.Size(25, 17);
+            this.toolStripStatusLabel2.Text = "      ";
+            // 
+            // statusCurrentActivity
+            // 
+            this.statusCurrentActivity.BackColor = System.Drawing.Color.SeaGreen;
+            this.statusCurrentActivity.ForeColor = System.Drawing.Color.White;
+            this.statusCurrentActivity.Name = "statusCurrentActivity";
+            this.statusCurrentActivity.Size = new System.Drawing.Size(96, 17);
+            this.statusCurrentActivity.Text = "Current Activity: ";
+            // 
+            // imgLoading
+            // 
+            this.imgLoading.Image = global::PayLoPOS.Properties.Resources.loading1;
+            this.imgLoading.Location = new System.Drawing.Point(50, 533);
+            this.imgLoading.Name = "imgLoading";
+            this.imgLoading.Size = new System.Drawing.Size(137, 19);
+            this.imgLoading.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.imgLoading.TabIndex = 26;
+            this.imgLoading.TabStop = false;
+            this.imgLoading.Visible = false;
             // 
             // Dashboard
             // 
@@ -558,8 +599,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.SteelBlue;
             this.ClientSize = new System.Drawing.Size(795, 589);
-            this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.statusStrip1);
+            this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.listView1);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.groupBox1);
@@ -577,9 +618,10 @@
             this.groupBox4.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            this.panel1.ResumeLayout(false);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
-            this.panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.imgLoading)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -598,7 +640,6 @@
         private System.Windows.Forms.Button btnCreateBill;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label lblTodaySale;
-        private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel lblUserName;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Label label7;
@@ -625,5 +666,10 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button btnPayNow;
         private System.Windows.Forms.Button btnViewTransaction;
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.ToolStripStatusLabel statusUserName;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
+        private System.Windows.Forms.ToolStripStatusLabel statusCurrentActivity;
+        private System.Windows.Forms.PictureBox imgLoading;
     }
 }

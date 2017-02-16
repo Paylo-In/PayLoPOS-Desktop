@@ -38,19 +38,22 @@
             this.txtEmail = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.loadingPanel = new System.Windows.Forms.Panel();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.imgLoading = new System.Windows.Forms.PictureBox();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.loginPanel.SuspendLayout();
             this.loadingPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgLoading)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // loginPanel
             // 
             this.loginPanel.BackColor = System.Drawing.Color.White;
+            this.loginPanel.Controls.Add(this.imgLoading);
             this.loginPanel.Controls.Add(this.ForgotPassword);
             this.loginPanel.Controls.Add(this.SignIn);
             this.loginPanel.Controls.Add(this.label3);
@@ -60,7 +63,7 @@
             this.loginPanel.Controls.Add(this.label1);
             this.loginPanel.Location = new System.Drawing.Point(100, 143);
             this.loginPanel.Name = "loginPanel";
-            this.loginPanel.Size = new System.Drawing.Size(300, 242);
+            this.loginPanel.Size = new System.Drawing.Size(300, 250);
             this.loginPanel.TabIndex = 1;
             // 
             // ForgotPassword
@@ -69,7 +72,7 @@
             this.ForgotPassword.Cursor = System.Windows.Forms.Cursors.Hand;
             this.ForgotPassword.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ForgotPassword.ForeColor = System.Drawing.Color.SteelBlue;
-            this.ForgotPassword.Location = new System.Drawing.Point(20, 194);
+            this.ForgotPassword.Location = new System.Drawing.Point(20, 201);
             this.ForgotPassword.Name = "ForgotPassword";
             this.ForgotPassword.Size = new System.Drawing.Size(133, 16);
             this.ForgotPassword.TabIndex = 6;
@@ -81,7 +84,7 @@
             this.SignIn.BackColor = System.Drawing.Color.SeaGreen;
             this.SignIn.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.SignIn.ForeColor = System.Drawing.Color.White;
-            this.SignIn.Location = new System.Drawing.Point(175, 181);
+            this.SignIn.Location = new System.Drawing.Point(175, 188);
             this.SignIn.Name = "SignIn";
             this.SignIn.Size = new System.Drawing.Size(105, 42);
             this.SignIn.TabIndex = 5;
@@ -152,6 +155,27 @@
             this.loadingPanel.Size = new System.Drawing.Size(296, 237);
             this.loadingPanel.TabIndex = 2;
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox1.Image = global::PayLoPOS.Properties.Resources.paylo_logo;
+            this.pictureBox1.Location = new System.Drawing.Point(188, 51);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(125, 52);
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
+            // 
+            // imgLoading
+            // 
+            this.imgLoading.Image = global::PayLoPOS.Properties.Resources.loading1;
+            this.imgLoading.Location = new System.Drawing.Point(143, 167);
+            this.imgLoading.Name = "imgLoading";
+            this.imgLoading.Size = new System.Drawing.Size(146, 19);
+            this.imgLoading.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.imgLoading.TabIndex = 3;
+            this.imgLoading.TabStop = false;
+            // 
             // pictureBox3
             // 
             this.pictureBox3.BackColor = System.Drawing.Color.Transparent;
@@ -173,17 +197,6 @@
             this.pictureBox2.TabIndex = 0;
             this.pictureBox2.TabStop = false;
             // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox1.Image = global::PayLoPOS.Properties.Resources.paylo_logo;
-            this.pictureBox1.Location = new System.Drawing.Point(188, 51);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(125, 52);
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
-            // 
             // Login
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -191,8 +204,8 @@
             this.BackColor = System.Drawing.Color.SteelBlue;
             this.ClientSize = new System.Drawing.Size(484, 462);
             this.Controls.Add(this.pictureBox1);
-            this.Controls.Add(this.loadingPanel);
             this.Controls.Add(this.loginPanel);
+            this.Controls.Add(this.loadingPanel);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(500, 500);
@@ -205,9 +218,10 @@
             this.loginPanel.ResumeLayout(false);
             this.loginPanel.PerformLayout();
             this.loadingPanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgLoading)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -226,5 +240,6 @@
         private System.Windows.Forms.Panel loadingPanel;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.PictureBox pictureBox3;
+        private System.Windows.Forms.PictureBox imgLoading;
     }
 }

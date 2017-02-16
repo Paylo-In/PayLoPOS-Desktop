@@ -2,7 +2,6 @@
 using System.Windows.Forms;
 using PayLoPOS.Model;
 using PayLoPOS.Controller;
-using System.Diagnostics;
 using System.Web.Script.Serialization;
 using EzetapApi.models;
 
@@ -32,7 +31,7 @@ namespace PayLoPOS.View
         public Dashboard()
         {
             InitializeComponent();
-            lblUserName.Text = "Welcome: "+Global.currentUser.name;
+            statusUserName.Text = "Welcome: "+Global.currentUser.name;
             this.Text = Global.currentUser.outlet[0].outlet_name;
         }
 
@@ -146,18 +145,19 @@ namespace PayLoPOS.View
             try
             {
                 btnCreateBill.Enabled = false;
+                imgLoading.Visible = true;
                 var response = await new RestClient().MakePostRequest("v2/customer/create-bill?token=" + Properties.Settings.Default.accessToken, param.getJSON());
                 ResponseModel model = new JavaScriptSerializer().Deserialize<ResponseModel>(response);
                 if (model.status == 1)
                 {
                     clearTextBox();
                     lblPendingBills_Click(null, null);
-                    showCurrentActivity(model.data.msg);
                 }
                 else
                 {
                     MessageBox.Show(model.data.msg);
                 }
+                showCurrentActivity(model.data.msg);
             }
             catch(Exception ex)
             {
@@ -166,6 +166,7 @@ namespace PayLoPOS.View
             finally
             {
                 btnCreateBill.Enabled = true;
+                imgLoading.Visible = false;
             }
         }
 
@@ -189,7 +190,7 @@ namespace PayLoPOS.View
                         if(response.data.errorCode == "VPA_REQUIRED")
                         {
                             //-- Open enter VPA
-                            EnterVPA vpa = new EnterVPA(this);
+                            EnterVPA vpa = new EnterVPA(this, 0, txtEmail.Text);
                             vpa.ShowDialog();
                         }
                         else
@@ -205,22 +206,82 @@ namespace PayLoPOS.View
             }
         }
 
-        public async void submitVPA(string vpa, EnterVPA vpaDialog)
+        public async void submitVPA(string vpa, EnterVPA vpaDialog, long billId, string email)
         {
-            var response = await new RestClient().UPIPayment("0", txtMobile.Text, Double.Parse(txtAmount.Text), txtRef.Text, txtName.Text, txtEmail.Text, vpa);
-            if (response.status == 1)
+            if(billId == 0)
             {
-                MessageBox.Show(response.data.msg);
-                showCurrentActivity(response.data.msg);
-                vpaDialog.Close();
-                clearTextBox();
-                lblPaidBills_Click(null, null);
+                try
+                {
+                    vpaDialog.showLoading(true);
+                    var response = await new RestClient().UPIPayment("0", txtMobile.Text, Double.Parse(txtAmount.Text), txtRef.Text, txtName.Text, txtEmail.Text, vpa);
+                    if (response.status == 1)
+                    {
+                        MessageBox.Show(response.data.msg);
+                        showCurrentActivity(response.data.msg);
+                        vpaDialog.Close();
+                        clearTextBox();
+                        lblPaidBills_Click(null, null);
+                        PaymentStatus ps = new PaymentStatus(1, response.data.msg, Double.Parse(txtAmount.Text), "UPI", response.data.bill_id.ToString(), txtMobile.Text);
+                        ps.ShowDialog();
+                    }
+                    else
+                    {
+                        MessageBox.Show(response.data.msg);
+                        showCurrentActivity(response.data.msg);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally
+                {
+                    vpaDialog.showLoading(false);
+                }
             }
             else
             {
-                MessageBox.Show(response.data.msg);
-                showCurrentActivity(response.data.msg);
-            }
+                Bill bill = null;
+                foreach (Bill b in pendingBills.data.bills)
+                {
+                    if (billId == b.id)
+                    {
+                        bill = b;
+                    }
+                }
+
+                if (bill != null)
+                {
+                    try
+                    {
+                        vpaDialog.showLoading(true);
+                        var response = await new RestClient().UPIPayment(bill.id.ToString(), bill.mobile, bill.grand_total, bill.bill_no, bill.name, email, vpa);
+                        if (response.status == 1)
+                        {
+                            MessageBox.Show(response.data.msg);
+                            showCurrentActivity(response.data.msg);
+                            vpaDialog.Close();
+                            clearTextBox();
+                            lblPaidBills_Click(null, null);
+                            PaymentStatus ps = new PaymentStatus(1, response.data.msg, bill.grand_total, "UPI", response.data.bill_id.ToString(), bill.mobile);
+                            ps.ShowDialog();
+                        }
+                        else
+                        {
+                            MessageBox.Show(response.data.msg);
+                            showCurrentActivity(response.data.msg);
+                        }
+                    }
+                    catch(Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+                    finally
+                    {
+                        vpaDialog.showLoading(false);
+                    }
+                }
+            }                        
         }
 
         private async void payByWallet()
@@ -242,12 +303,16 @@ namespace PayLoPOS.View
             
                 try
                 {
+                    btnCreateBill.Enabled = false;
+                    imgLoading.Visible = true;
                     var response = await new RestClient().MakePostRequest("v2/customer/create-bill?token=" + Properties.Settings.Default.accessToken, param.getJSON());
                     ResponseModel model = new JavaScriptSerializer().Deserialize<ResponseModel>(response);
+                    btnCreateBill.Enabled = true;
+                    imgLoading.Visible = false;
                     if (model.status == 1)
                     {
                         //-- Show wallet list with order  id.
-                        WalletList list = new WalletList(this, model.data.order_id, txtMobile.Text, txtEmail.Text);
+                        WalletList list = new WalletList(this, Double.Parse(txtAmount.Text), model.data.order_id, txtMobile.Text, txtEmail.Text);
                         list.ShowDialog();
                     }
                     else
@@ -259,7 +324,12 @@ namespace PayLoPOS.View
                 {
                     MessageBox.Show(ex.Message);
                 }
-                
+                finally
+                {
+                    btnCreateBill.Enabled = true;
+                    imgLoading.Visible = false;
+
+                }
             }
         }
 
@@ -380,7 +450,15 @@ namespace PayLoPOS.View
                 foreach (PaidBill bill in paidBills.data.txns)
                 {
                     arr[0] = bill.amount.ToString("0.00");
-                    arr[1] = bill.txn_status;
+                    if(bill.refund_status == "NA" || bill.refund_status == "N/A")
+                    {
+                        arr[1] = bill.txn_status;
+                    }
+                    else
+                    {
+                        arr[1] = bill.refund_status;
+                    }
+                    
                     arr[2] = bill.pay_method;
                     arr[3] = bill.created_by;
                     arr[4] = bill.mobile;
@@ -485,7 +563,7 @@ namespace PayLoPOS.View
 
         public void showCurrentActivity(string message)
         {
-            toolStripCurrentActivity.Text = "Last Activity: " + message;
+            statusCurrentActivity.Text = "Last Activity: " + message;
         }
 
         private void groupBox2_Enter(object sender, EventArgs e)
@@ -511,7 +589,7 @@ namespace PayLoPOS.View
             
         }
 
-        public async void ReSendPayment(string mode, long orderId)
+        public async void ReSendPayment(ChoosePaymentOption child,  string mode, long orderId, string email)
         {
             Bill bill = null;
             foreach(Bill b in pendingBills.data.bills)
@@ -534,7 +612,7 @@ namespace PayLoPOS.View
                 {
                     Transaction transaction = new Transaction();
                     transaction.amount = bill.grand_total;
-                    transaction.emailAddress = bill.email;
+                    transaction.emailAddress = email;
                     transaction.customerMobile = bill.mobile;
                     transaction.orderId = bill.order_code;
                     transaction.externalReference2 = bill.order_id.ToString();
@@ -546,26 +624,47 @@ namespace PayLoPOS.View
                         ezetap.ShowDialog();
                     }
                 }
-                else if(mode == "SEND LINK")
+                else if (mode == "UPI")
                 {
                     try
                     {
-                        var response = await new RestClient().ResendLinkPayment(bill.order_id);
-                        showCurrentActivity(response.data.msg);
+                        child.showLoading(true);
+                        var response = await new RestClient().UPIPayment( bill.id.ToString(), bill.mobile, bill.grand_total, bill.bill_no, bill.name, email, "");
+                        if (response.status == 1)
+                        {
+                            MessageBox.Show(response.data.msg);
+                        }
+                        else
+                        {
+                            if (response.data.errorCode == "VPA_REQUIRED")
+                            {
+                                child.showLoading(false);
+                                //-- Open enter VPA
+                                EnterVPA vpa = new EnterVPA(this, bill.id, bill.email);
+                                vpa.ShowDialog();
+                            }
+                            else
+                            {
+                                MessageBox.Show(response.data.msg);
+                            }
+                        }
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         MessageBox.Show(ex.Message);
                     }
-                }
-                else if (mode == "UPI")
-                {
-
+                    finally
+                    {
+                        child.showLoading(false);
+                    }
                 }
                 else if (mode == "WALLET")
                 {
-
+                    //-- Show wallet list with order  id.
+                    WalletList list = new WalletList(this, bill.grand_total, bill.order_id, bill.mobile, email);
+                    list.ShowDialog();
                 }
+                child.Close();
             }            
         }
 
@@ -575,8 +674,12 @@ namespace PayLoPOS.View
             foreach (ListViewItem item in items)
             {
                 Bill bill = pendingBills.data.bills[Int16.Parse(item.Tag.ToString())];
-                ChoosePaymentOption option = new ChoosePaymentOption(this, bill.id);
-                option.ShowDialog();
+                if (bill != null)
+                {
+                    ChoosePaymentOption option = new ChoosePaymentOption(this, bill.id, bill.mobile, bill.email, bill.order_id);
+                    option.ShowDialog();
+                }
+                break;
             }
         }
 
@@ -604,6 +707,50 @@ namespace PayLoPOS.View
             btnViewTransaction.Enabled = false;
             btnPayNow.BackColor = System.Drawing.Color.Silver;
             btnViewTransaction.BackColor = System.Drawing.Color.Silver;
+        }
+
+        private void btnViewTransaction_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                ListView.SelectedListViewItemCollection items = listView1.SelectedItems;
+                foreach (ListViewItem item in items)
+                {
+                    if(isSelectPending == true)
+                    {
+                        Bill bill = pendingBills.data.bills[Int16.Parse(item.Tag.ToString())];
+                        if (bill != null)
+                        {
+                            TransactionDetails td = new TransactionDetails(bill.order_id, bill.grand_total, bill.name, bill.mobile, bill.email, bill.bill_no, "", "PENDING");
+                            td.ShowDialog();
+                        }
+                    }
+                    else
+                    {
+                        PaidBill bill = paidBills.data.txns[Int16.Parse(item.Tag.ToString())];
+                        if (bill != null)
+                        {
+                            string status = "";
+                            if(bill.refund_status == "NA" || bill.refund_status == "N/A")
+                            {
+                                status = bill.txn_status;
+                            }
+                            else
+                            {
+                                status = bill.refund_status;
+                            }
+                            TransactionDetails td = new TransactionDetails(bill.orderid, bill.amount, bill.name, bill.mobile, "", bill.bill_no, bill.txnid, status);
+                            td.ShowDialog();
+                        }
+                    }                    
+                    break;
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }
