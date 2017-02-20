@@ -64,15 +64,18 @@ namespace PayLoPOS.View
 
         private void listView1_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            ListView.SelectedListViewItemCollection items = listView1.SelectedItems;
-            foreach (ListViewItem item in items)
+            if(imgLoading.Visible == false)
             {
-                foreach(Wallet wallet in Global.currentUser.wallets)
+                ListView.SelectedListViewItemCollection items = listView1.SelectedItems;
+                foreach (ListViewItem item in items)
                 {
-                    if(wallet.display_name == item.Text)
+                    foreach (Wallet wallet in Global.currentUser.wallets)
                     {
-                        makeWalletPayment(wallet);
-                        break;
+                        if (wallet.display_name == item.Text)
+                        {
+                            makeWalletPayment(wallet);
+                            break;
+                        }
                     }
                 }
             }

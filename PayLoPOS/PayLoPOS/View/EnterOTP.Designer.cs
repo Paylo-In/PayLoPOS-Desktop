@@ -64,9 +64,11 @@
             // 
             this.txtOTP.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtOTP.Location = new System.Drawing.Point(7, 101);
+            this.txtOTP.MaxLength = 6;
             this.txtOTP.Name = "txtOTP";
             this.txtOTP.Size = new System.Drawing.Size(166, 22);
             this.txtOTP.TabIndex = 2;
+            this.txtOTP.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textboxMobile_KeyPress);
             // 
             // ResendOTP
             // 

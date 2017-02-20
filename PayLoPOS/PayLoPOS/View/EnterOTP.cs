@@ -19,6 +19,13 @@ namespace PayLoPOS.View
             InitializeComponent();
         }
 
+        private void textboxMobile_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar)
+               && !char.IsDigit(e.KeyChar))
+                e.Handled = true;
+        }
+
         public EnterOTP(Dashboard p, double amount, string mobile, long orderId, string displayName , string walletName, string email)
         {
             InitializeComponent();
@@ -56,17 +63,19 @@ namespace PayLoPOS.View
                         parent.showCurrentActivity(response.data.msg);
                         parent.clearTextBox();
                         Close();
-                        PaymentStatus ps = new PaymentStatus(1, response.data.msg, amount, this.Text, orderId.ToString(), mobile);
+                        PaymentStatus ps = new PaymentStatus(1, response.data.msg, Text);
                         ps.ShowDialog();
                     }
                     else
                     {
+                        txtOTP.Text = "";
                         MessageBox.Show(response.data.msg);
                         parent.showCurrentActivity(response.data.msg);
                     }
                 }
                 catch(Exception ex)
                 {
+                    txtOTP.Text = "";
                     MessageBox.Show(ex.Message);
                     this.parent.showCurrentActivity(ex.Message);
                 }
@@ -82,12 +91,18 @@ namespace PayLoPOS.View
         {
             try
             {
+                ResendOTP.Enabled = false;
+                imgLoading.Visible = true;
                 string json = new JavaScriptSerializer().Serialize(new { order_id = orderId, wallet = walletName }); ;
                 var response = await new RestClient().GenerateWalletOTP(json);
+                ResendOTP.Enabled = true;
+                imgLoading.Visible = false;
                 MessageBox.Show(response.data.msg);
             }
             catch(Exception ex)
             {
+                ResendOTP.Enabled = true;
+                imgLoading.Visible = false;
                 MessageBox.Show(ex.Message);
             }
         }

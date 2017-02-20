@@ -36,12 +36,14 @@
             this.lblAmount = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.lblMobile = new System.Windows.Forms.Label();
+            this.lblName = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.lblBillNo = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.lblMessage = new System.Windows.Forms.Label();
             this.pictureBoxStatus = new System.Windows.Forms.PictureBox();
+            this.lblMobile = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.groupBox3.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxStatus)).BeginInit();
@@ -59,7 +61,7 @@
             this.groupBox3.Controls.Add(this.label17);
             this.groupBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox3.ForeColor = System.Drawing.Color.White;
-            this.groupBox3.Location = new System.Drawing.Point(14, 209);
+            this.groupBox3.Location = new System.Drawing.Point(14, 302);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(307, 120);
             this.groupBox3.TabIndex = 6;
@@ -72,9 +74,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblMode.BackColor = System.Drawing.Color.White;
             this.lblMode.ForeColor = System.Drawing.Color.Black;
-            this.lblMode.Location = new System.Drawing.Point(73, 89);
+            this.lblMode.Location = new System.Drawing.Point(89, 89);
             this.lblMode.Name = "lblMode";
-            this.lblMode.Size = new System.Drawing.Size(230, 30);
+            this.lblMode.Size = new System.Drawing.Size(214, 30);
             this.lblMode.TabIndex = 5;
             this.lblMode.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -97,9 +99,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblStatus.BackColor = System.Drawing.Color.White;
             this.lblStatus.ForeColor = System.Drawing.Color.Black;
-            this.lblStatus.Location = new System.Drawing.Point(73, 58);
+            this.lblStatus.Location = new System.Drawing.Point(89, 58);
             this.lblStatus.Name = "lblStatus";
-            this.lblStatus.Size = new System.Drawing.Size(230, 30);
+            this.lblStatus.Size = new System.Drawing.Size(214, 30);
             this.lblStatus.TabIndex = 3;
             this.lblStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -122,9 +124,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblAmount.BackColor = System.Drawing.Color.White;
             this.lblAmount.ForeColor = System.Drawing.Color.Black;
-            this.lblAmount.Location = new System.Drawing.Point(74, 27);
+            this.lblAmount.Location = new System.Drawing.Point(90, 27);
             this.lblAmount.Name = "lblAmount";
-            this.lblAmount.Size = new System.Drawing.Size(230, 30);
+            this.lblAmount.Size = new System.Drawing.Size(214, 30);
             this.lblAmount.TabIndex = 1;
             this.lblAmount.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -146,29 +148,31 @@
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.lblMobile);
+            this.groupBox1.Controls.Add(this.label3);
+            this.groupBox1.Controls.Add(this.lblName);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.lblBillNo);
             this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.ForeColor = System.Drawing.Color.White;
-            this.groupBox1.Location = new System.Drawing.Point(14, 341);
+            this.groupBox1.Location = new System.Drawing.Point(14, 167);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(307, 89);
+            this.groupBox1.Size = new System.Drawing.Size(307, 120);
             this.groupBox1.TabIndex = 8;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = " Reference ";
             // 
-            // lblMobile
+            // lblName
             // 
-            this.lblMobile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.lblName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblMobile.BackColor = System.Drawing.Color.White;
-            this.lblMobile.ForeColor = System.Drawing.Color.Black;
-            this.lblMobile.Location = new System.Drawing.Point(77, 58);
-            this.lblMobile.Name = "lblMobile";
-            this.lblMobile.Size = new System.Drawing.Size(226, 30);
-            this.lblMobile.TabIndex = 5;
-            this.lblMobile.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblName.BackColor = System.Drawing.Color.White;
+            this.lblName.ForeColor = System.Drawing.Color.Black;
+            this.lblName.Location = new System.Drawing.Point(87, 58);
+            this.lblName.Name = "lblName";
+            this.lblName.Size = new System.Drawing.Size(216, 30);
+            this.lblName.TabIndex = 5;
+            this.lblName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label2
             // 
@@ -180,7 +184,7 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(306, 30);
             this.label2.TabIndex = 4;
-            this.label2.Text = " Mobile";
+            this.label2.Text = " Customer";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // lblBillNo
@@ -189,9 +193,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblBillNo.BackColor = System.Drawing.Color.White;
             this.lblBillNo.ForeColor = System.Drawing.Color.Black;
-            this.lblBillNo.Location = new System.Drawing.Point(78, 27);
+            this.lblBillNo.Location = new System.Drawing.Point(88, 27);
             this.lblBillNo.Name = "lblBillNo";
-            this.lblBillNo.Size = new System.Drawing.Size(226, 30);
+            this.lblBillNo.Size = new System.Drawing.Size(216, 30);
             this.lblBillNo.TabIndex = 1;
             this.lblBillNo.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -205,7 +209,7 @@
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(306, 30);
             this.label6.TabIndex = 0;
-            this.label6.Text = " Bill No";
+            this.label6.Text = " Ref #";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // lblMessage
@@ -215,7 +219,7 @@
             this.lblMessage.BackColor = System.Drawing.Color.SteelBlue;
             this.lblMessage.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblMessage.ForeColor = System.Drawing.Color.White;
-            this.lblMessage.Location = new System.Drawing.Point(14, 140);
+            this.lblMessage.Location = new System.Drawing.Point(15, 100);
             this.lblMessage.Name = "lblMessage";
             this.lblMessage.Size = new System.Drawing.Size(307, 57);
             this.lblMessage.TabIndex = 9;
@@ -224,18 +228,44 @@
             // pictureBoxStatus
             // 
             this.pictureBoxStatus.Image = global::PayLoPOS.Properties.Resources.success;
-            this.pictureBoxStatus.Location = new System.Drawing.Point(108, 24);
+            this.pictureBoxStatus.Location = new System.Drawing.Point(133, 22);
             this.pictureBoxStatus.Name = "pictureBoxStatus";
-            this.pictureBoxStatus.Size = new System.Drawing.Size(100, 100);
+            this.pictureBoxStatus.Size = new System.Drawing.Size(60, 60);
+            this.pictureBoxStatus.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBoxStatus.TabIndex = 7;
             this.pictureBoxStatus.TabStop = false;
+            // 
+            // lblMobile
+            // 
+            this.lblMobile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblMobile.BackColor = System.Drawing.Color.White;
+            this.lblMobile.ForeColor = System.Drawing.Color.Black;
+            this.lblMobile.Location = new System.Drawing.Point(87, 89);
+            this.lblMobile.Name = "lblMobile";
+            this.lblMobile.Size = new System.Drawing.Size(216, 30);
+            this.lblMobile.TabIndex = 7;
+            this.lblMobile.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label3
+            // 
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label3.BackColor = System.Drawing.Color.White;
+            this.label3.ForeColor = System.Drawing.Color.DimGray;
+            this.label3.Location = new System.Drawing.Point(0, 89);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(306, 30);
+            this.label3.TabIndex = 6;
+            this.label3.Text = " Mobile";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // PaymentStatus
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.SteelBlue;
-            this.ClientSize = new System.Drawing.Size(337, 455);
+            this.ClientSize = new System.Drawing.Size(337, 443);
             this.Controls.Add(this.lblMessage);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.pictureBoxStatus);
@@ -263,10 +293,12 @@
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.PictureBox pictureBoxStatus;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Label lblMobile;
+        private System.Windows.Forms.Label lblName;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label lblBillNo;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label lblMessage;
+        private System.Windows.Forms.Label lblMobile;
+        private System.Windows.Forms.Label label3;
     }
 }

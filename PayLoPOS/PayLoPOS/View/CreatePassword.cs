@@ -24,15 +24,28 @@ namespace PayLoPOS.View
             lblMessage.Text = "One Time Password sent to mobile number +91-XXXXXXX" + mobile.Substring(mobile.Length - 3);
         }
 
+        private void textboxMobile_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar)
+               && !char.IsDigit(e.KeyChar))
+                e.Handled = true;
+        }
+
         private async void ResendOTP_Click(object sender, EventArgs e)
         {
             try
             {
+                ResendOTP.Enabled = false;
+                imgLoading.Visible = true;
                 var response = await new RestClient().ResendOTP(mobile);
+                ResendOTP.Enabled = true;
+                imgLoading.Visible = false;
                 MessageBox.Show(response.data.msg);
             }
             catch(Exception ex)
             {
+                ResendOTP.Enabled = true;
+                imgLoading.Visible = false;
                 MessageBox.Show(ex.Message);
             }
         }
@@ -75,6 +88,7 @@ namespace PayLoPOS.View
                 }
                 finally
                 {
+                    txtOTP.Text = "";
                     Submit.Enabled = true;
                     imgLoading.Visible = false;
                 }

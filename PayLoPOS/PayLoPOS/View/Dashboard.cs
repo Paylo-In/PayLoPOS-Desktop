@@ -33,6 +33,16 @@ namespace PayLoPOS.View
             InitializeComponent();
             statusUserName.Text = "Welcome: "+Global.currentUser.name;
             this.Text = Global.currentUser.outlet[0].outlet_name;
+
+            //-- Adding list view columns
+            listView1.Columns.Add("S/No", 50);
+            listView1.Columns.Add("Ref #", 100);
+            listView1.Columns.Add("Customer", 120);
+            listView1.Columns.Add("Mobile", 100);
+            listView1.Columns.Add("Amount", 100);
+            listView1.Columns.Add("Sent At", 200);
+            listView1.Columns.Add("Bill Status", 100);
+            listView1.Columns.Add("Created By", 120);
         }
 
         private void Dashboard_Load(object sender, EventArgs e)
@@ -42,7 +52,27 @@ namespace PayLoPOS.View
             isSelectPending = true;
             lblToday_Click(sender, e);
             disableResentOption();
-        }        
+        }
+
+        private void textboxMobile_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar)
+               && !char.IsDigit(e.KeyChar))
+                e.Handled = true;
+        }
+
+        private void textboxNumberic_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar)
+               && !char.IsDigit(e.KeyChar)
+               && e.KeyChar != '.')
+                e.Handled = true;
+
+            // only allow one decimal point
+            if (e.KeyChar == '.'
+                && txtAmount.Text.IndexOf('.') > -1)
+                e.Handled = true;
+        }
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -60,6 +90,8 @@ namespace PayLoPOS.View
             }
             else
             {
+                Global.updateBill(txtRef.Text, double.Parse(txtAmount.Text), txtMobile.Text, txtEmail.Text, txtName.Text);
+
                 if(txtPaymentMode.Text == "CASH")
                 {
                     payByCash();
@@ -85,7 +117,7 @@ namespace PayLoPOS.View
 
         private void payByMPOS()
         {
-            if(txtEmail.Text == "")
+            if(!Utility.IsEmailValid(txtEmail.Text))
             {
                 MessageBox.Show("Please enter a valid email address");
             }
@@ -170,39 +202,16 @@ namespace PayLoPOS.View
             }
         }
 
-        private async void payByUPI()
+        private void payByUPI()
         {
-            if (txtEmail.Text == "")
+            if (!Utility.IsEmailValid(txtEmail.Text))
             {
                 MessageBox.Show("Please enter a valid email address");
             }
             else
             {
-                try
-                {
-                    var response = await new RestClient().UPIPayment("0", txtMobile.Text, Double.Parse(txtAmount.Text), txtRef.Text, txtName.Text, txtEmail.Text, "");
-                    if(response.status == 1)
-                    {
-                        MessageBox.Show(response.data.msg);
-                    }
-                    else
-                    {
-                        if(response.data.errorCode == "VPA_REQUIRED")
-                        {
-                            //-- Open enter VPA
-                            EnterVPA vpa = new EnterVPA(this, 0, txtEmail.Text);
-                            vpa.ShowDialog();
-                        }
-                        else
-                        {
-                            MessageBox.Show(response.data.msg);
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
+                VPAList list = new VPAList(this, txtMobile.Text, "");
+                list.ShowDialog();
             }
         }
 
@@ -221,7 +230,7 @@ namespace PayLoPOS.View
                         vpaDialog.Close();
                         clearTextBox();
                         lblPaidBills_Click(null, null);
-                        PaymentStatus ps = new PaymentStatus(1, response.data.msg, Double.Parse(txtAmount.Text), "UPI", response.data.bill_id.ToString(), txtMobile.Text);
+                        PaymentStatus ps = new PaymentStatus(1, response.data.msg, "UPI");
                         ps.ShowDialog();
                     }
                     else
@@ -263,7 +272,7 @@ namespace PayLoPOS.View
                             vpaDialog.Close();
                             clearTextBox();
                             lblPaidBills_Click(null, null);
-                            PaymentStatus ps = new PaymentStatus(1, response.data.msg, bill.grand_total, "UPI", response.data.bill_id.ToString(), bill.mobile);
+                            PaymentStatus ps = new PaymentStatus(1, response.data.msg, "UPI");
                             ps.ShowDialog();
                         }
                         else
@@ -286,7 +295,7 @@ namespace PayLoPOS.View
 
         private async void payByWallet()
         {
-            if (txtEmail.Text == "")
+            if (!Utility.IsEmailValid(txtEmail.Text))
             {
                 MessageBox.Show("Please enter a valid email address");
             }
@@ -349,6 +358,7 @@ namespace PayLoPOS.View
             listView1.Items.Clear();
             try
             {
+                listViewLoading.Visible = true;
                 DictionaryModel param = new DictionaryModel();
                 param.add("token", Properties.Settings.Default.accessToken);
                 param.add("merchant_id", Global.currentUser.merchant_id.ToString());
@@ -370,28 +380,29 @@ namespace PayLoPOS.View
                 lblTodaySale.Text = "₹ " + pendingBills.today_sale.ToString("0.00");
 
                 listView1.Columns.Clear();
-                listView1.Columns.Add("Amount", 60);
+                listView1.Columns.Add("S/No", 50);
                 listView1.Columns.Add("Ref #", 100);
-                listView1.Columns.Add("Status", 80);
-                listView1.Columns.Add("Staff", 120);
+                listView1.Columns.Add("Customer", 120);
                 listView1.Columns.Add("Mobile", 100);
-                listView1.Columns.Add("Name", 120);
-                listView1.Columns.Add("Email", 200);
-                listView1.Columns.Add("Date & Time", 200);
+                listView1.Columns.Add("Amount", 100);
+                listView1.Columns.Add("Sent At", 200);
+                listView1.Columns.Add("Bill Status", 100);
+                listView1.Columns.Add("Created By", 120);
 
                 string[] arr = new string[8];
                 double totalAmount = 0.0;
                 var index = 0;
                 foreach (Bill bill in pendingBills.data.bills)
                 {
-                    arr[0] = bill.grand_total.ToString("0.00");
+                    arr[0] = (index+1).ToString();
                     arr[1] = bill.bill_no;
-                    arr[2] = "Pending";
-                    arr[3] = bill.created_by;
-                    arr[4] = bill.mobile;
-                    arr[5] = bill.name;
-                    arr[6] = bill.email;
-                    arr[7] = Utility.getDate(bill.sent_at, "dd-MM-yyyy HH:mm:ss", Utility.displayDateFormat); ;
+                    arr[2] = bill.name;
+                    arr[3] = bill.mobile;
+                    arr[4] = "₹ " + bill.grand_total.ToString("0.00");
+                    arr[5] = Utility.getDate(bill.sent_at, "dd-MM-yyyy HH:mm:ss", Utility.displayDateFormat);
+                    arr[6] = "Pending";
+                    arr[7] = bill.created_by;
+                     
                     ListViewItem item = new ListViewItem(arr);
                     item.Tag = index;
                     index++;
@@ -399,10 +410,12 @@ namespace PayLoPOS.View
                     totalAmount += bill.grand_total;
                 }
                 lblTotalAmount.Text = "₹ " + totalAmount.ToString("0.00");
+                listViewLoading.Visible = false;
             }
             catch(Exception e)
             {
                 MessageBox.Show(e.Message);
+                listViewLoading.Visible = false;
             }
         }
 
@@ -412,6 +425,7 @@ namespace PayLoPOS.View
             listView1.Items.Clear();
             try
             {
+                listViewLoading.Visible = true;
                 DictionaryModel param = new DictionaryModel();
                 param.add("token", Properties.Settings.Default.accessToken);
                 param.add("merchant_id", Global.currentUser.merchant_id.ToString());
@@ -436,37 +450,39 @@ namespace PayLoPOS.View
                 var index = 0;
 
                 listView1.Columns.Clear();
-                listView1.Columns.Add("Amount", 60);
-                listView1.Columns.Add("Status", 80);
-                listView1.Columns.Add("Mode", 160);
-                listView1.Columns.Add("Staff", 100);
-                listView1.Columns.Add("Mobile", 90);
-                listView1.Columns.Add("Name", 90);
-                listView1.Columns.Add("Transaction ID", 160);
+
                 listView1.Columns.Add("Ref #", 100);
                 listView1.Columns.Add("Order ID", 100);
-                listView1.Columns.Add("Date & Time", 160);
+                listView1.Columns.Add("Transaction ID", 160);
+                listView1.Columns.Add("Txn Time", 160);
+                listView1.Columns.Add("Customer", 120);
+                listView1.Columns.Add("Mobile", 90);
+                listView1.Columns.Add("Amount", 60);
+                listView1.Columns.Add("Mode", 160);
+                listView1.Columns.Add("Txn Status", 80);
+                listView1.Columns.Add("Created By", 100);
 
                 foreach (PaidBill bill in paidBills.data.txns)
                 {
-                    arr[0] = bill.amount.ToString("0.00");
-                    if(bill.refund_status == "NA" || bill.refund_status == "N/A")
+                    arr[0] = bill.bill_no;
+                    arr[1] = bill.orderid.ToString();
+                    arr[2] = bill.txnid;
+                    arr[3] = Utility.getDate(bill.created_at, "dd-MM-yyyy HH:mm:ss", Utility.displayDateFormat);
+                    arr[4] = bill.name;
+                    arr[5] = bill.mobile;
+                    arr[6] = "₹ " + bill.amount.ToString("0.00");
+                    arr[7] = bill.pay_method;
+                    
+                    if (bill.refund_status == "NA" || bill.refund_status == "N/A")
                     {
-                        arr[1] = bill.txn_status;
+                        arr[8] = bill.txn_status;
                     }
                     else
                     {
-                        arr[1] = bill.refund_status;
+                        arr[8] = bill.refund_status;
                     }
-                    
-                    arr[2] = bill.pay_method;
-                    arr[3] = bill.created_by;
-                    arr[4] = bill.mobile;
-                    arr[5] = bill.name;
-                    arr[6] = bill.txnid;
-                    arr[7] = bill.bill_no;
-                    arr[8] = bill.orderid.ToString();
-                    arr[9] = Utility.getDate(bill.created_at, "dd-MM-yyyy HH:mm:ss", Utility.displayDateFormat);
+
+                    arr[9] = bill.created_by;
 
                     ListViewItem item = new ListViewItem(arr);
                     item.Tag = index;
@@ -475,10 +491,12 @@ namespace PayLoPOS.View
                     totalAmount += bill.amount;
                 }
                 lblTotalAmount.Text = "₹ " + totalAmount.ToString("0.00");
+                listViewLoading.Visible = false;
             }
             catch (Exception e)
             {
                 MessageBox.Show(e.Message);
+                listViewLoading.Visible = false;
             }
         }
 
@@ -589,7 +607,7 @@ namespace PayLoPOS.View
             
         }
 
-        public async void ReSendPayment(ChoosePaymentOption child,  string mode, long orderId, string email)
+        public void ReSendPayment(ChoosePaymentOption child,  string mode, long orderId, string email)
         {
             Bill bill = null;
             foreach(Bill b in pendingBills.data.bills)
@@ -602,6 +620,8 @@ namespace PayLoPOS.View
 
             if (bill != null)
             {
+                Global.updateBill(bill.bill_no, bill.grand_total, bill.mobile, bill.email, bill.name);
+
                 if (mode == "CASH")
                 {
                     ConfirmCash cash = new ConfirmCash("", bill.mobile, bill.grand_total, orderId);
@@ -626,37 +646,9 @@ namespace PayLoPOS.View
                 }
                 else if (mode == "UPI")
                 {
-                    try
-                    {
-                        child.showLoading(true);
-                        var response = await new RestClient().UPIPayment( bill.id.ToString(), bill.mobile, bill.grand_total, bill.bill_no, bill.name, email, "");
-                        if (response.status == 1)
-                        {
-                            MessageBox.Show(response.data.msg);
-                        }
-                        else
-                        {
-                            if (response.data.errorCode == "VPA_REQUIRED")
-                            {
-                                child.showLoading(false);
-                                //-- Open enter VPA
-                                EnterVPA vpa = new EnterVPA(this, bill.id, bill.email);
-                                vpa.ShowDialog();
-                            }
-                            else
-                            {
-                                MessageBox.Show(response.data.msg);
-                            }
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message);
-                    }
-                    finally
-                    {
-                        child.showLoading(false);
-                    }
+                    child.Close();
+                    VPAList list = new VPAList(this, bill.mobile, bill.order_id.ToString());
+                    list.ShowDialog();
                 }
                 else if (mode == "WALLET")
                 {

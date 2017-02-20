@@ -58,7 +58,8 @@ namespace PayLoPOS.View
             showSuccess("Connecting...");
             apiName = APIName.LOGIN;
             usesDetails = appLib.usage("");
-            appLib.login(this, "EztapDemo", "74cfc32d-005b-4158-ad63-8c8418c3da8b", "");
+            appLib.loginWithAppKey(this, "74cfc32d-005b-4158-ad63-8c8418c3da8b", "EztapDemo");
+            //appLib.login(this, "EztapDemo", "74cfc32d-005b-4158-ad63-8c8418c3da8b", "");
         }
 
         public bool init()
@@ -169,7 +170,11 @@ namespace PayLoPOS.View
                 }
                 else if (str.Contains("SERVER_RESULT: code EZETAP_0000084 ("))
                 {
-                    showError("You have attempted a similar payment for the same amount INR 1.00 using the same card within 1 minute");
+                    showError("You have attempted a similar payment for the same amount using the same card within 1 minute");
+                }
+                else if(str.Contains("SERVER_RESULT: code EZETAP_000"))
+                {
+                    showError("You have already made a similar payment for the same amount INR "+Global.currentBill.amount.ToString("0.00")+". Please check the status of the payment made before you proceed.");
                 }
                 else if(str.Contains("SERVER_RESULT: code EZETAP_0000089 ("))
                 {
@@ -245,7 +250,7 @@ namespace PayLoPOS.View
                     showSuccess("Payment Success");
                     parent.lblPaidBills_Click(null, null);
                     parent.showCurrentActivity("MPOS payment success");
-                    PaymentStatus ps = new PaymentStatus(1, model.data.msg, transaction.amount, "MPOS", transaction.orderId, transaction.customerMobile);
+                    PaymentStatus ps = new PaymentStatus(1, model.data.msg, "MPOS");
                     ps.ShowDialog();
                 }
                 else
@@ -254,7 +259,7 @@ namespace PayLoPOS.View
                     parent.lblPendingBills_Click(null, null);
                     parent.showCurrentActivity("MPOS payment failed");
                     MessageBox.Show("MPOS payment failed");
-                    PaymentStatus ps = new PaymentStatus(0, model.data.msg, transaction.amount, "MPOS", transaction.orderId, transaction.customerMobile);
+                    PaymentStatus ps = new PaymentStatus(0, model.data.msg, "MPOS");
                     ps.ShowDialog();
                 }
                 this.Close();

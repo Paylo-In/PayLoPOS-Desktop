@@ -18,6 +18,13 @@ namespace PayLoPOS.View
             InitializeComponent();
         }
 
+        private void textboxMobile_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar)
+               && !char.IsDigit(e.KeyChar))
+                e.Handled = true;
+        }
+
         private async void RecoverPassword_Click(object sender, EventArgs e)
         {
             if(txtEmail.Text.Length != 10)

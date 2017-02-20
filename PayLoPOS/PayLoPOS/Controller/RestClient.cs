@@ -93,6 +93,14 @@ namespace PayLoPOS.Controller
             return new PaidBillResponse(bills);
         }
 
+        public async Task<VPAResponse> GetVPA(string mobile)
+        {
+            var response = await MakeGetRequest("v2/customer/vpa?mobile=" + mobile + "&token=" + Properties.Settings.Default.accessToken);
+            Debug.WriteLine("VPA List: " + response);
+            VPAResponse res = new JavaScriptSerializer().Deserialize<VPAResponse>(response);
+            return res;
+        }
+
         public async Task<TransactionHistory> GetTransactionDetails(long orderId)
         {
             var response = await MakeGetRequest("v2/txn/transaction-history?orderid="+orderId.ToString()+"&token=" + Properties.Settings.Default.accessToken);
@@ -120,6 +128,15 @@ namespace PayLoPOS.Controller
             var json = new JavaScriptSerializer().Serialize(new { order_id = orderId, wallet = walletName, otp = otp, mobile = mobile, email = email });
             Debug.WriteLine("WalletPayment Params:" + json);
             var response = await MakePostRequest("v2/payment/wallet-pay?token=" + Properties.Settings.Default.accessToken, json);
+            ResponseModel model = new JavaScriptSerializer().Deserialize<ResponseModel>(response);
+            return model;
+        }
+
+        public async Task<ResponseModel> ResendUPIPayment(string orderId, string mobile, string vpa)
+        {
+            var json = new JavaScriptSerializer().Serialize(new { order_id = orderId, mobile = mobile, vpa = vpa, upi = 1 });
+            var response = await MakePostRequest("v2/customer/resend-bill?token=" + Properties.Settings.Default.accessToken, json);
+            Debug.WriteLine("Resend UPI Bill:" + response);
             ResponseModel model = new JavaScriptSerializer().Deserialize<ResponseModel>(response);
             return model;
         }

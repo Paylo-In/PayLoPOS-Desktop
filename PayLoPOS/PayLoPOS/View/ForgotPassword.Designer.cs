@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             this.loginPanel = new System.Windows.Forms.Panel();
+            this.imgLoading = new System.Windows.Forms.PictureBox();
             this.RecoverPassword = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.txtEmail = new System.Windows.Forms.TextBox();
-            this.imgLoading = new System.Windows.Forms.PictureBox();
             this.loginPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imgLoading)).BeginInit();
             this.SuspendLayout();
@@ -48,6 +48,17 @@
             this.loginPanel.Name = "loginPanel";
             this.loginPanel.Size = new System.Drawing.Size(260, 153);
             this.loginPanel.TabIndex = 2;
+            // 
+            // imgLoading
+            // 
+            this.imgLoading.Image = global::PayLoPOS.Properties.Resources.loading1;
+            this.imgLoading.Location = new System.Drawing.Point(48, 74);
+            this.imgLoading.Name = "imgLoading";
+            this.imgLoading.Size = new System.Drawing.Size(146, 19);
+            this.imgLoading.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.imgLoading.TabIndex = 6;
+            this.imgLoading.TabStop = false;
+            this.imgLoading.Visible = false;
             // 
             // RecoverPassword
             // 
@@ -82,17 +93,7 @@
             this.txtEmail.Name = "txtEmail";
             this.txtEmail.Size = new System.Drawing.Size(224, 26);
             this.txtEmail.TabIndex = 1;
-            // 
-            // imgLoading
-            // 
-            this.imgLoading.Image = global::PayLoPOS.Properties.Resources.loading1;
-            this.imgLoading.Location = new System.Drawing.Point(48, 74);
-            this.imgLoading.Name = "imgLoading";
-            this.imgLoading.Size = new System.Drawing.Size(146, 19);
-            this.imgLoading.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.imgLoading.TabIndex = 6;
-            this.imgLoading.TabStop = false;
-            this.imgLoading.Visible = false;
+            this.txtEmail.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textboxMobile_KeyPress);
             // 
             // ForgotPassword
             // 

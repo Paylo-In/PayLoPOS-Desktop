@@ -5,6 +5,8 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PayLoPOS", "PayLoPOS\PayLoPOS.csproj", "{BABCBCDD-9B4F-4A5E-B203-9B76C7886897}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "PayLoPOS-Setup", "PayLoPOS-Setup\PayLoPOS-Setup.vdproj", "{FBDC9AEF-E6E7-48EC-9D08-18D75B46028E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{BABCBCDD-9B4F-4A5E-B203-9B76C7886897}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BABCBCDD-9B4F-4A5E-B203-9B76C7886897}.Release|x86.ActiveCfg = Release|x86
 		{BABCBCDD-9B4F-4A5E-B203-9B76C7886897}.Release|x86.Build.0 = Release|x86
+		{FBDC9AEF-E6E7-48EC-9D08-18D75B46028E}.Debug|Any CPU.ActiveCfg = Debug
+		{FBDC9AEF-E6E7-48EC-9D08-18D75B46028E}.Debug|x86.ActiveCfg = Debug
+		{FBDC9AEF-E6E7-48EC-9D08-18D75B46028E}.Release|Any CPU.ActiveCfg = Release
+		{FBDC9AEF-E6E7-48EC-9D08-18D75B46028E}.Release|x86.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

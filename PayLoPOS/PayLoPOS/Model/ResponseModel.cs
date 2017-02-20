@@ -19,6 +19,7 @@ namespace PayLoPOS.Model
 
     class ResponseModel
     {
+
         public int status { get; set; }
         public ResponseModelData data { get; set; }
     }

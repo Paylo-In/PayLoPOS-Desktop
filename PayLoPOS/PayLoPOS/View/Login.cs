@@ -118,5 +118,12 @@ namespace PayLoPOS.View
             loginPanel.Visible = true;
             loadingPanel.Visible = false;
         }
+
+        private void textboxMobile_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar)
+               && !char.IsDigit(e.KeyChar))
+                e.Handled = true;
+        }
     }
 }

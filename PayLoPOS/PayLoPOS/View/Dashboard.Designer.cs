@@ -39,13 +39,9 @@
             this.lblPaidBills = new System.Windows.Forms.Label();
             this.lblPendingBills = new System.Windows.Forms.Label();
             this.listView1 = new System.Windows.Forms.ListView();
-            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.btnCreateBill = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.imgLoading = new System.Windows.Forms.PictureBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.lblTodaySale = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
@@ -65,21 +61,22 @@
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripCurrentActivity = new System.Windows.Forms.ToolStripStatusLabel();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.listViewLoading = new System.Windows.Forms.PictureBox();
             this.btnViewTransaction = new System.Windows.Forms.Button();
             this.btnPayNow = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.statusUserName = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusCurrentActivity = new System.Windows.Forms.ToolStripStatusLabel();
-            this.imgLoading = new System.Windows.Forms.PictureBox();
             this.groupBox1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.imgLoading)).BeginInit();
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.listViewLoading)).BeginInit();
             this.statusStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.imgLoading)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -92,7 +89,7 @@
             this.groupBox1.Controls.Add(this.lblToday);
             this.groupBox1.Location = new System.Drawing.Point(258, -7);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(538, 41);
+            this.groupBox1.Size = new System.Drawing.Size(554, 41);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             // 
@@ -103,7 +100,7 @@
             this.label8.Cursor = System.Windows.Forms.Cursors.Hand;
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label8.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.label8.Location = new System.Drawing.Point(443, 13);
+            this.label8.Location = new System.Drawing.Point(459, 13);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(82, 20);
             this.label8.TabIndex = 15;
@@ -170,7 +167,7 @@
             this.lblTotalAmount.Location = new System.Drawing.Point(265, 6);
             this.lblTotalAmount.Name = "lblTotalAmount";
             this.lblTotalAmount.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.lblTotalAmount.Size = new System.Drawing.Size(255, 27);
+            this.lblTotalAmount.Size = new System.Drawing.Size(271, 27);
             this.lblTotalAmount.TabIndex = 4;
             this.lblTotalAmount.Text = "₹ 0.00";
             this.lblTotalAmount.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -185,7 +182,7 @@
             this.panel2.Controls.Add(this.lblTotalAmount);
             this.panel2.Location = new System.Drawing.Point(261, 33);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(535, 40);
+            this.panel2.Size = new System.Drawing.Size(551, 40);
             this.panel2.TabIndex = 4;
             // 
             // lblPaidBills
@@ -227,12 +224,6 @@
             this.listView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader1,
-            this.columnHeader2,
-            this.columnHeader3,
-            this.columnHeader4,
-            this.columnHeader6});
             this.listView1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.listView1.ForeColor = System.Drawing.SystemColors.WindowText;
             this.listView1.FullRowSelect = true;
@@ -241,36 +232,11 @@
             this.listView1.Location = new System.Drawing.Point(261, 109);
             this.listView1.MultiSelect = false;
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(535, 458);
-            this.listView1.TabIndex = 7;
+            this.listView1.Size = new System.Drawing.Size(551, 584);
+            this.listView1.TabIndex = 10;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
             this.listView1.SelectedIndexChanged += new System.EventHandler(this.listView1_SelectedIndexChanged);
-            // 
-            // columnHeader1
-            // 
-            this.columnHeader1.Text = "Amount";
-            this.columnHeader1.Width = 100;
-            // 
-            // columnHeader2
-            // 
-            this.columnHeader2.Text = "Ref #";
-            this.columnHeader2.Width = 120;
-            // 
-            // columnHeader3
-            // 
-            this.columnHeader3.Text = "Mobile";
-            this.columnHeader3.Width = 100;
-            // 
-            // columnHeader4
-            // 
-            this.columnHeader4.Text = "Name";
-            this.columnHeader4.Width = 100;
-            // 
-            // columnHeader6
-            // 
-            this.columnHeader6.Text = "Time";
-            this.columnHeader6.Width = 160;
             // 
             // btnCreateBill
             // 
@@ -282,7 +248,7 @@
             this.btnCreateBill.Location = new System.Drawing.Point(10, 349);
             this.btnCreateBill.Name = "btnCreateBill";
             this.btnCreateBill.Size = new System.Drawing.Size(210, 40);
-            this.btnCreateBill.TabIndex = 0;
+            this.btnCreateBill.TabIndex = 7;
             this.btnCreateBill.Text = "CREATE BILL";
             this.btnCreateBill.UseVisualStyleBackColor = false;
             this.btnCreateBill.Click += new System.EventHandler(this.button1_Click);
@@ -297,10 +263,21 @@
             this.groupBox2.Controls.Add(this.groupBox3);
             this.groupBox2.Location = new System.Drawing.Point(-1, -7);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(264, 574);
+            this.groupBox2.Size = new System.Drawing.Size(264, 700);
             this.groupBox2.TabIndex = 8;
             this.groupBox2.TabStop = false;
             this.groupBox2.Enter += new System.EventHandler(this.groupBox2_Enter);
+            // 
+            // imgLoading
+            // 
+            this.imgLoading.Image = global::PayLoPOS.Properties.Resources.loading1;
+            this.imgLoading.Location = new System.Drawing.Point(50, 533);
+            this.imgLoading.Name = "imgLoading";
+            this.imgLoading.Size = new System.Drawing.Size(137, 19);
+            this.imgLoading.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.imgLoading.TabIndex = 26;
+            this.imgLoading.TabStop = false;
+            this.imgLoading.Visible = false;
             // 
             // groupBox4
             // 
@@ -369,8 +346,7 @@
             this.txtEmail.MaxLength = 500;
             this.txtEmail.Name = "txtEmail";
             this.txtEmail.Size = new System.Drawing.Size(210, 29);
-            this.txtEmail.TabIndex = 9;
-            this.txtEmail.Text = "monu.rathor@ruplee.com";
+            this.txtEmail.TabIndex = 5;
             // 
             // label6
             // 
@@ -391,8 +367,7 @@
             this.txtName.MaxLength = 100;
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(210, 29);
-            this.txtName.TabIndex = 7;
-            this.txtName.Text = "Monu";
+            this.txtName.TabIndex = 4;
             // 
             // label5
             // 
@@ -410,11 +385,11 @@
             this.txtAmount.Font = new System.Drawing.Font("Arial Unicode MS", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtAmount.ForeColor = System.Drawing.Color.SteelBlue;
             this.txtAmount.Location = new System.Drawing.Point(10, 143);
-            this.txtAmount.MaxLength = 9;
+            this.txtAmount.MaxLength = 12;
             this.txtAmount.Name = "txtAmount";
             this.txtAmount.Size = new System.Drawing.Size(210, 29);
-            this.txtAmount.TabIndex = 5;
-            this.txtAmount.Text = "1.00";
+            this.txtAmount.TabIndex = 3;
+            this.txtAmount.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textboxNumberic_KeyPress);
             // 
             // label4
             // 
@@ -435,8 +410,8 @@
             this.txtMobile.MaxLength = 10;
             this.txtMobile.Name = "txtMobile";
             this.txtMobile.Size = new System.Drawing.Size(210, 29);
-            this.txtMobile.TabIndex = 3;
-            this.txtMobile.Text = "9109322140";
+            this.txtMobile.TabIndex = 2;
+            this.txtMobile.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textboxMobile_KeyPress);
             // 
             // label3
             // 
@@ -458,7 +433,6 @@
             this.txtRef.Name = "txtRef";
             this.txtRef.Size = new System.Drawing.Size(210, 29);
             this.txtRef.TabIndex = 1;
-            this.txtRef.Text = "TestMPOS2";
             // 
             // label1
             // 
@@ -487,7 +461,7 @@
             this.txtPaymentMode.Location = new System.Drawing.Point(10, 303);
             this.txtPaymentMode.Name = "txtPaymentMode";
             this.txtPaymentMode.Size = new System.Drawing.Size(210, 29);
-            this.txtPaymentMode.TabIndex = 12;
+            this.txtPaymentMode.TabIndex = 6;
             // 
             // lblUserName
             // 
@@ -513,16 +487,27 @@
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.White;
+            this.panel1.Controls.Add(this.listViewLoading);
             this.panel1.Controls.Add(this.btnViewTransaction);
             this.panel1.Controls.Add(this.btnPayNow);
             this.panel1.Location = new System.Drawing.Point(261, 74);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(535, 35);
+            this.panel1.Size = new System.Drawing.Size(551, 35);
             this.panel1.TabIndex = 14;
+            // 
+            // listViewLoading
+            // 
+            this.listViewLoading.Image = global::PayLoPOS.Properties.Resources.loading1;
+            this.listViewLoading.Location = new System.Drawing.Point(331, 9);
+            this.listViewLoading.Name = "listViewLoading";
+            this.listViewLoading.Size = new System.Drawing.Size(137, 19);
+            this.listViewLoading.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.listViewLoading.TabIndex = 27;
+            this.listViewLoading.TabStop = false;
+            this.listViewLoading.Visible = false;
             // 
             // btnViewTransaction
             // 
@@ -531,7 +516,7 @@
             this.btnViewTransaction.Location = new System.Drawing.Point(116, 3);
             this.btnViewTransaction.Name = "btnViewTransaction";
             this.btnViewTransaction.Size = new System.Drawing.Size(197, 30);
-            this.btnViewTransaction.TabIndex = 4;
+            this.btnViewTransaction.TabIndex = 9;
             this.btnViewTransaction.Text = "View Transaction Details";
             this.btnViewTransaction.UseVisualStyleBackColor = true;
             this.btnViewTransaction.Click += new System.EventHandler(this.btnViewTransaction_Click);
@@ -543,7 +528,7 @@
             this.btnPayNow.Location = new System.Drawing.Point(15, 3);
             this.btnPayNow.Name = "btnPayNow";
             this.btnPayNow.Size = new System.Drawing.Size(95, 30);
-            this.btnPayNow.TabIndex = 3;
+            this.btnPayNow.TabIndex = 8;
             this.btnPayNow.Text = "Pay Bill";
             this.btnPayNow.UseVisualStyleBackColor = true;
             this.btnPayNow.Click += new System.EventHandler(this.btnPayNow_Click);
@@ -554,9 +539,9 @@
             this.statusUserName,
             this.toolStripStatusLabel2,
             this.statusCurrentActivity});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 567);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 627);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(795, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(811, 22);
             this.statusStrip1.TabIndex = 15;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -582,21 +567,12 @@
             this.statusCurrentActivity.Size = new System.Drawing.Size(96, 17);
             this.statusCurrentActivity.Text = "Current Activity: ";
             // 
-            // imgLoading
-            // 
-            this.imgLoading.Image = global::PayLoPOS.Properties.Resources.loading1;
-            this.imgLoading.Location = new System.Drawing.Point(50, 533);
-            this.imgLoading.Name = "imgLoading";
-            this.imgLoading.Size = new System.Drawing.Size(137, 19);
-            this.imgLoading.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.imgLoading.TabIndex = 26;
-            this.imgLoading.TabStop = false;
-            this.imgLoading.Visible = false;
-            // 
             // Dashboard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScroll = true;
+            this.AutoScrollMinSize = new System.Drawing.Size(811, 627);
             this.BackColor = System.Drawing.Color.SteelBlue;
             this.ClientSize = new System.Drawing.Size(795, 589);
             this.Controls.Add(this.statusStrip1);
@@ -615,13 +591,14 @@
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.groupBox2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.imgLoading)).EndInit();
             this.groupBox4.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.listViewLoading)).EndInit();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.imgLoading)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -654,11 +631,6 @@
         private System.Windows.Forms.TextBox txtRef;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox txtPaymentMode;
-        private System.Windows.Forms.ColumnHeader columnHeader1;
-        private System.Windows.Forms.ColumnHeader columnHeader2;
-        private System.Windows.Forms.ColumnHeader columnHeader3;
-        private System.Windows.Forms.ColumnHeader columnHeader4;
-        private System.Windows.Forms.ColumnHeader columnHeader6;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.ToolStripStatusLabel toolStripCurrentActivity;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
@@ -671,5 +643,6 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
         private System.Windows.Forms.ToolStripStatusLabel statusCurrentActivity;
         private System.Windows.Forms.PictureBox imgLoading;
+        private System.Windows.Forms.PictureBox listViewLoading;
     }
 }

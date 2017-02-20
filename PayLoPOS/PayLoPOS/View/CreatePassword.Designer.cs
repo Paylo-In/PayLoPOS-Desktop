@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.loginPanel = new System.Windows.Forms.Panel();
+            this.imgLoading = new System.Windows.Forms.PictureBox();
             this.ResendOTP = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.txtOTP = new System.Windows.Forms.TextBox();
@@ -36,7 +37,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.txtPassword = new System.Windows.Forms.TextBox();
             this.lblMessage = new System.Windows.Forms.Label();
-            this.imgLoading = new System.Windows.Forms.PictureBox();
             this.loginPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imgLoading)).BeginInit();
             this.SuspendLayout();
@@ -55,6 +55,17 @@
             this.loginPanel.Name = "loginPanel";
             this.loginPanel.Size = new System.Drawing.Size(260, 204);
             this.loginPanel.TabIndex = 3;
+            // 
+            // imgLoading
+            // 
+            this.imgLoading.Image = global::PayLoPOS.Properties.Resources.loading1;
+            this.imgLoading.Location = new System.Drawing.Point(46, 129);
+            this.imgLoading.Name = "imgLoading";
+            this.imgLoading.Size = new System.Drawing.Size(146, 19);
+            this.imgLoading.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.imgLoading.TabIndex = 9;
+            this.imgLoading.TabStop = false;
+            this.imgLoading.Visible = false;
             // 
             // ResendOTP
             // 
@@ -85,10 +96,11 @@
             this.txtOTP.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtOTP.ForeColor = System.Drawing.Color.DimGray;
             this.txtOTP.Location = new System.Drawing.Point(18, 100);
-            this.txtOTP.MaxLength = 10;
+            this.txtOTP.MaxLength = 6;
             this.txtOTP.Name = "txtOTP";
             this.txtOTP.Size = new System.Drawing.Size(224, 26);
             this.txtOTP.TabIndex = 6;
+            this.txtOTP.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textboxMobile_KeyPress);
             // 
             // Submit
             // 
@@ -137,17 +149,6 @@
             this.lblMessage.TabIndex = 4;
             this.lblMessage.Text = "One Time Password sent to mobile number +91-XXXXXXX140";
             this.lblMessage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // imgLoading
-            // 
-            this.imgLoading.Image = global::PayLoPOS.Properties.Resources.loading1;
-            this.imgLoading.Location = new System.Drawing.Point(46, 129);
-            this.imgLoading.Name = "imgLoading";
-            this.imgLoading.Size = new System.Drawing.Size(146, 19);
-            this.imgLoading.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.imgLoading.TabIndex = 9;
-            this.imgLoading.TabStop = false;
-            this.imgLoading.Visible = false;
             // 
             // CreatePassword
             // 

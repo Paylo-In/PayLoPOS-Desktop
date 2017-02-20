@@ -61,7 +61,7 @@ namespace PayLoPOS.View
                             dashboard.lblPaidBills_Click(sender, e);
                             dashboard.showCurrentActivity(model.data.msg);
                             this.Close();
-                            PaymentStatus ps = new PaymentStatus(1, model.data.msg, amount, "Cash", model.data.bill_id.ToString(), mobile);
+                            PaymentStatus ps = new PaymentStatus(1, model.data.msg, "Cash");
                             ps.ShowDialog();
                         }
                         else
@@ -80,7 +80,7 @@ namespace PayLoPOS.View
                             dashboard.lblPaidBills_Click(sender, e);
                             dashboard.showCurrentActivity(model.data.msg);
                             this.Close();
-                            PaymentStatus ps = new PaymentStatus(1, model.data.msg, amount, "Cash", model.data.bill_id.ToString(), mobile);
+                            PaymentStatus ps = new PaymentStatus(1, model.data.msg, "Cash");
                             ps.ShowDialog();
                         }
                         else
@@ -101,13 +101,29 @@ namespace PayLoPOS.View
             }
         }
 
+        private void textboxNumberic_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar)
+               && !char.IsDigit(e.KeyChar)
+               && e.KeyChar != '.')
+                e.Handled = true;
+
+            // only allow one decimal point
+            if (e.KeyChar == '.'
+                && txtCollectedAmount.Text.IndexOf('.') > -1)
+                e.Handled = true;
+        }
+
         private void txtCollectedAmount_TextChanged(object sender, EventArgs e)
         {
-            Debug.WriteLine(txtCollectedAmount.Text);
-            
             if(txtCollectedAmount.Text != "")
             {
-                txtChange.Text = "₹ " + (Convert.ToDouble(txtCollectedAmount.Text) - amount).ToString("0.00");
+                string value = txtCollectedAmount.Text;
+                if (value == ".")
+                {
+                    value = "0.";
+                }
+                txtChange.Text = "₹ " + (Convert.ToDouble(value) - amount).ToString("0.00");
             }
             else
             {

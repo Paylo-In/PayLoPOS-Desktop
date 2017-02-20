@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -37,6 +38,23 @@ namespace PayLoPOS.Model
         {
             DateTime dateTime = DateTime.Now;
             return dateTime.AddDays(previousDay);
+        }
+
+        public static bool IsEmailValid(string emailaddress)
+        {
+            if(emailaddress == "")
+            {
+                return false;
+            }
+            try
+            {
+                MailAddress m = new MailAddress(emailaddress);
+                return true;
+            }
+            catch (FormatException)
+            {
+                return false;
+            }
         }
     }
 }

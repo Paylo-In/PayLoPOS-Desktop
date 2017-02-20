@@ -14,7 +14,7 @@ namespace PayLoPOS.View
 {
     public partial class PaymentStatus : Form
     {
-        public PaymentStatus(int status, string message, double amount, string mode, string billNo, string mobile)
+        public PaymentStatus(int status, string message, string mode)
         {
             InitializeComponent();
 
@@ -32,10 +32,12 @@ namespace PayLoPOS.View
             }
             Text = lblStatus.Text;
             lblMessage.Text = message;
-            lblAmount.Text = amount.ToString("0.00");
             lblMode.Text = mode;
-            lblBillNo.Text = billNo;
-            lblMobile.Text = mobile;
+
+            lblAmount.Text = "₹ " + Global.currentBill.amount.ToString("0.00");
+            lblBillNo.Text = Global.currentBill.reference;
+            lblMobile.Text = Global.currentBill.mobile;
+            lblName.Text = Global.currentBill.name;
         }
     }
 }

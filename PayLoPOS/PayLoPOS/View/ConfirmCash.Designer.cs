@@ -92,6 +92,7 @@
             this.txtCollectedAmount.Size = new System.Drawing.Size(179, 22);
             this.txtCollectedAmount.TabIndex = 21;
             this.txtCollectedAmount.TextChanged += new System.EventHandler(this.txtCollectedAmount_TextChanged);
+            this.txtCollectedAmount.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textboxNumberic_KeyPress);
             // 
             // label3
             // 
