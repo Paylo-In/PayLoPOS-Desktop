@@ -45,11 +45,11 @@ namespace PayLoPOS.Controller
             return model;
         }
 
-        public async Task<ResponseModel> CreatePassword(string mobile, string password, string otp)
+        public async Task<User> CreatePassword(string mobile, string password, string otp)
         {
             var json = new JavaScriptSerializer().Serialize(new { mobile = mobile, passcode = password, otp = otp });
             var response = await MakePostRequest("v2/auth/verify-otp", json);
-            ResponseModel model = new JavaScriptSerializer().Deserialize<ResponseModel>(response);
+            User model = new JavaScriptSerializer().Deserialize<User>(response);
             return model;
         }
 
@@ -91,6 +91,16 @@ namespace PayLoPOS.Controller
             Debug.WriteLine("Paid Bills: " + response);
             var bills = new JavaScriptSerializer().Deserialize<Dictionary<string, object>>(response);
             return new PaidBillResponse(bills);
+        }
+
+        public async Task<User> SwitchOutlet(long outletId, string accessToken)
+        {
+            var json = new JavaScriptSerializer().Serialize(new { outlet_id = outletId });
+            Debug.WriteLine("Switch Outlet: " + json + "    Token:" + accessToken);
+            var response = await MakePostRequest("v2/profile/swtich-outlet?token=" + accessToken, json);
+            Debug.WriteLine("Switch Outlet: " + response);
+            User user = new JavaScriptSerializer().Deserialize<User>(response);
+            return user;
         }
 
         public async Task<VPAResponse> GetVPA(string mobile)
@@ -153,15 +163,16 @@ namespace PayLoPOS.Controller
         public async Task<ResponseModel> PayByCashSync(long orderId)
         {
             var json = new JavaScriptSerializer().Serialize(new { bill_id = orderId, timestamp = Utility.getCurrentDate("yyyy-MM-dd HH:mm:ss"), merchant_id = Global.currentUser.merchant_id });
+            Debug.WriteLine("Cash JSON: " + json);
             var response = await MakePostRequest("v2/payment/pay-by-cash-sync?token=" + Properties.Settings.Default.accessToken, json);
             Debug.WriteLine("PayByCashSync:" + response);
             ResponseModel model = new JavaScriptSerializer().Deserialize<ResponseModel>(response);
             return model;
         }
 
-        public async Task<ResponseModel> ResendLinkPayment(long orderId)
+        public async Task<ResponseModel> ResendLinkPayment(long orderId, string mobile = "")
         {
-            var json = new JavaScriptSerializer().Serialize(new { order_id = orderId, link = 1});
+            var json = new JavaScriptSerializer().Serialize(new { order_id = orderId, link = 1, mobile = mobile});
             var response = await MakePostRequest("v2/customer/resend-bill?token=" + Properties.Settings.Default.accessToken, json);
             Debug.WriteLine("ResendLinkPayment:" + response);
             ResponseModel model = new JavaScriptSerializer().Deserialize<ResponseModel>(response);

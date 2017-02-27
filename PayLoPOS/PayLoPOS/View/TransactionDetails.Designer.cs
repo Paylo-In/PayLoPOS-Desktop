@@ -52,6 +52,7 @@
             this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.lblTransactions = new System.Windows.Forms.Label();
+            this.columnHeader7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -165,7 +166,7 @@
             this.groupBox2.ForeColor = System.Drawing.Color.White;
             this.groupBox2.Location = new System.Drawing.Point(419, 73);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(377, 120);
+            this.groupBox2.Size = new System.Drawing.Size(474, 120);
             this.groupBox2.TabIndex = 6;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = " Reference ";
@@ -178,7 +179,7 @@
             this.lblTransactionId.ForeColor = System.Drawing.Color.Black;
             this.lblTransactionId.Location = new System.Drawing.Point(75, 89);
             this.lblTransactionId.Name = "lblTransactionId";
-            this.lblTransactionId.Size = new System.Drawing.Size(298, 30);
+            this.lblTransactionId.Size = new System.Drawing.Size(395, 30);
             this.lblTransactionId.TabIndex = 5;
             this.lblTransactionId.Text = "rmonu0189@gmail.com";
             this.lblTransactionId.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -191,7 +192,7 @@
             this.label8.ForeColor = System.Drawing.Color.DimGray;
             this.label8.Location = new System.Drawing.Point(0, 89);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(376, 30);
+            this.label8.Size = new System.Drawing.Size(473, 30);
             this.label8.TabIndex = 4;
             this.label8.Text = " Txn ID";
             this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -204,7 +205,7 @@
             this.lblOrderId.ForeColor = System.Drawing.Color.Black;
             this.lblOrderId.Location = new System.Drawing.Point(75, 58);
             this.lblOrderId.Name = "lblOrderId";
-            this.lblOrderId.Size = new System.Drawing.Size(298, 30);
+            this.lblOrderId.Size = new System.Drawing.Size(395, 30);
             this.lblOrderId.TabIndex = 3;
             this.lblOrderId.Text = "9109322140";
             this.lblOrderId.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -217,7 +218,7 @@
             this.label10.ForeColor = System.Drawing.Color.DimGray;
             this.label10.Location = new System.Drawing.Point(0, 58);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(376, 30);
+            this.label10.Size = new System.Drawing.Size(473, 30);
             this.label10.TabIndex = 2;
             this.label10.Text = " Order ID";
             this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -230,7 +231,7 @@
             this.lblRef.ForeColor = System.Drawing.Color.Black;
             this.lblRef.Location = new System.Drawing.Point(76, 27);
             this.lblRef.Name = "lblRef";
-            this.lblRef.Size = new System.Drawing.Size(298, 30);
+            this.lblRef.Size = new System.Drawing.Size(395, 30);
             this.lblRef.TabIndex = 1;
             this.lblRef.Text = "Monu Rathor";
             this.lblRef.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -243,7 +244,7 @@
             this.label12.ForeColor = System.Drawing.Color.DimGray;
             this.label12.Location = new System.Drawing.Point(1, 27);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(376, 30);
+            this.label12.Size = new System.Drawing.Size(473, 30);
             this.label12.TabIndex = 0;
             this.label12.Text = " Ref #";
             this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -257,7 +258,7 @@
             this.lblAmount.ForeColor = System.Drawing.Color.White;
             this.lblAmount.Location = new System.Drawing.Point(12, 14);
             this.lblAmount.Name = "lblAmount";
-            this.lblAmount.Size = new System.Drawing.Size(405, 41);
+            this.lblAmount.Size = new System.Drawing.Size(502, 41);
             this.lblAmount.TabIndex = 2;
             this.lblAmount.Text = "Rs 1.00";
             this.lblAmount.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -268,7 +269,7 @@
             this.lblStatus.BackColor = System.Drawing.Color.SteelBlue;
             this.lblStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblStatus.ForeColor = System.Drawing.Color.Lime;
-            this.lblStatus.Location = new System.Drawing.Point(423, 14);
+            this.lblStatus.Location = new System.Drawing.Point(520, 14);
             this.lblStatus.Name = "lblStatus";
             this.lblStatus.Size = new System.Drawing.Size(369, 41);
             this.lblStatus.TabIndex = 3;
@@ -286,13 +287,14 @@
             this.columnHeader3,
             this.columnHeader4,
             this.columnHeader5,
-            this.columnHeader6});
+            this.columnHeader6,
+            this.columnHeader7});
             this.listView1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.listView1.FullRowSelect = true;
             this.listView1.GridLines = true;
             this.listView1.Location = new System.Drawing.Point(12, 223);
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(785, 243);
+            this.listView1.Size = new System.Drawing.Size(882, 243);
             this.listView1.TabIndex = 7;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
@@ -337,12 +339,17 @@
             this.lblTransactions.TabIndex = 8;
             this.lblTransactions.Text = "Transactions";
             // 
+            // columnHeader7
+            // 
+            this.columnHeader7.Text = "Gateway Message";
+            this.columnHeader7.Width = 150;
+            // 
             // TransactionDetails
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.SteelBlue;
-            this.ClientSize = new System.Drawing.Size(809, 478);
+            this.ClientSize = new System.Drawing.Size(906, 478);
             this.Controls.Add(this.lblTransactions);
             this.Controls.Add(this.listView1);
             this.Controls.Add(this.lblStatus);
@@ -389,5 +396,6 @@
         private System.Windows.Forms.ColumnHeader columnHeader4;
         private System.Windows.Forms.ColumnHeader columnHeader5;
         private System.Windows.Forms.ColumnHeader columnHeader6;
+        private System.Windows.Forms.ColumnHeader columnHeader7;
     }
 }

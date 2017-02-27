@@ -54,7 +54,7 @@ namespace PayLoPOS.View
                 var response = await new RestClient().GetTransactionDetails(orderId);
                 if(response.status == 1)
                 {
-                    string[] arr = new string[6];
+                    string[] arr = new string[7];
                     foreach(TransactionHistoryBill bill in response.data.txns)
                     {
                         arr[0] = Utility.getDate(bill.created_at, "dd-MM-yyyy HH:mm:ss", Utility.displayDateFormat);
@@ -63,6 +63,7 @@ namespace PayLoPOS.View
                         arr[3] = bill.pg_txnid;
                         arr[4] = bill.pay_method;
                         arr[5] = bill.txn_status;
+                        arr[6] = bill.pg_message;
                         listView1.Items.Add(new ListViewItem(arr));
                     }
 

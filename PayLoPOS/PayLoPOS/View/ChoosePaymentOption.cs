@@ -38,7 +38,7 @@ namespace PayLoPOS.View
             {
                 MessageBox.Show("Please choosen payment option");
             }
-            else if((txtPaymentMode.Text == "UPI" || txtPaymentMode.Text == "WALLET" || txtPaymentMode.Text == "MPOS") && txtEmail.Text == "")
+            else if((txtPaymentMode.Text == "UPI" || txtPaymentMode.Text == "WALLET") && txtEmail.Text == "")
             {
                 MessageBox.Show("Please enter a valid email address");
             }
@@ -48,16 +48,16 @@ namespace PayLoPOS.View
                 {
                     lblSubmit.Enabled = false;
                     imgLoading.Visible = true;
-                    var response = await new RestClient().ResendLinkPayment(oid);
+                    var response = await new RestClient().ResendLinkPayment(oid, lblMobile.Text);
                     if(response.status == 1)
                     {
                         this.Close();
+                        parent.showCurrentActivity(response.data.msg);
                     }
                     else
                     {
                         MessageBox.Show(response.data.msg);
                     }
-                    parent.showCurrentActivity(response.data.msg);
                 }
                 catch (Exception ex)
                 {
@@ -69,10 +69,25 @@ namespace PayLoPOS.View
                     imgLoading.Visible = false;
                 }
             }
+            else if(txtPaymentMode.Text == "UPI")
+            {
+                VPAList list = new VPAList(parent, this, lblMobile.Text, orderId.ToString());
+                try
+                {
+                    imgLoading.Visible = true;
+                    var response = await new RestClient().GetVPA(lblMobile.Text);
+                    imgLoading.Visible = false;
+                    list.showVPA(response.data);
+                }
+                catch (Exception ex)
+                {
+                    imgLoading.Visible = false;
+                    MessageBox.Show(ex.Message);
+                }
+            }
             else
             {
-                parent.ReSendPayment(this, txtPaymentMode.Text, orderId, txtEmail.Text);
-                //this.Close();
+                parent.ReSendPayment(this, txtPaymentMode.Text, orderId, txtEmail.Text, lblMobile.Text);
             }
         }
 
@@ -80,6 +95,18 @@ namespace PayLoPOS.View
         {
             imgLoading.Visible = isShow;
             lblSubmit.Enabled = !isShow;
+        }
+
+        private void txtPaymentMode_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(txtPaymentMode.Text == "SEND LINK" || txtPaymentMode.Text == "WALLET")
+            {
+                lblMobile.Enabled = true;
+            }
+            else
+            {
+                lblMobile.Enabled = false;
+            }
         }
     }
 }

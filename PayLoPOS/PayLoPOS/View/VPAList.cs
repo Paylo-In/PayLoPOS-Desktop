@@ -17,15 +17,17 @@ namespace PayLoPOS.View
         private string mobile;
         private string orderId;
         Dashboard parent;
+        ChoosePaymentOption subParent;
 
-        public VPAList(Dashboard parent, string mobile, string orderId)
+        public VPAList(Dashboard parent, ChoosePaymentOption subParent, string mobile, string orderId)
         {
             InitializeComponent();
             this.mobile = mobile;
             this.orderId = orderId;
             this.parent = parent;
+            this.subParent = subParent;
             txtVPA.Focus();
-            fetchVPAList();
+            //fetchVPAList();
         }
 
         private void listView1_SelectedIndexChanged(object sender, EventArgs e)
@@ -38,7 +40,25 @@ namespace PayLoPOS.View
             ListView.SelectedListViewItemCollection items = listView1.SelectedItems;
             if (txtVPA.Text != "")
             {
-                UPIPayment(txtVPA.Text);
+                var index = 0;
+                foreach (char c in txtVPA.Text)
+                {
+                    if(c == '@')
+                    {
+                        index++;
+                    }
+                }
+
+                if(index == 1)
+                {
+                    UPIPayment(txtVPA.Text);
+                }
+                else
+                {
+                    MessageBox.Show("Please enter a valid VPA");
+                    txtVPA.Focus();
+                }
+                
             }
             else if(items.Count > 0)
             {
@@ -46,7 +66,8 @@ namespace PayLoPOS.View
             }
             else
             {
-                MessageBox.Show("Please enter a valid VPA or select VPA from list");
+                MessageBox.Show("Please enter a valid VPA");
+                txtVPA.Focus();
             }
         }
 
@@ -73,10 +94,17 @@ namespace PayLoPOS.View
                 if (response.status == 1 || response.data.bill == 1)
                 {
                     Close();
-                    parent.lblPendingBills_Click(null, null);
+                    if(subParent != null)
+                    {
+                        subParent.Close();
+                    }
+                    else
+                    {
+                        parent.lblPendingBills_Click(null, null);
+                    }
+                    parent.showCurrentActivity(response.data.msg);
                 }
                 MessageBox.Show(response.data.msg);
-                parent.showCurrentActivity(response.data.msg);
             }
             catch (Exception ex)
             {
@@ -86,23 +114,36 @@ namespace PayLoPOS.View
             }
         }
 
-        private async void fetchVPAList()
+        public async void fetchVPAList()
         {
-            try
+            var response = await new RestClient().GetVPA(mobile);
+            if (response.status == 1)
             {
-                var response = await new RestClient().GetVPA(mobile);
-                if(response.status == 1)
+                foreach (string vpa in response.data)
                 {
-                    foreach(string vpa in response.data)
-                    {
-                        listView1.Items.Add(new ListViewItem(vpa));
-                    }
+                    listView1.Items.Add(new ListViewItem(vpa));
                 }
             }
-            catch (Exception ex)
+        }
+
+        public void showVPA(List<string> vpaList)
+        {
+            foreach (string vpa in vpaList)
             {
-                MessageBox.Show(ex.Message);
+                listView1.Items.Add(new ListViewItem(vpa));
             }
+
+            if (listView1.Items.Count > 0)
+            {
+                Size = new Size(310, 400);
+                listView1.Visible = true;
+            }
+            else
+            {
+                Size = new Size(310, 150);
+                listView1.Visible = false;
+            }
+            ShowDialog();
         }
     }
 }

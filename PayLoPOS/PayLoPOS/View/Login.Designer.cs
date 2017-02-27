@@ -133,6 +133,7 @@
             this.txtPassword.Size = new System.Drawing.Size(260, 26);
             this.txtPassword.TabIndex = 2;
             this.txtPassword.UseSystemPasswordChar = true;
+            this.txtPassword.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtEmail_KeyPress);
             // 
             // txtEmail
             // 

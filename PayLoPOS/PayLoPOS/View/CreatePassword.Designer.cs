@@ -99,7 +99,7 @@
             this.txtOTP.MaxLength = 6;
             this.txtOTP.Name = "txtOTP";
             this.txtOTP.Size = new System.Drawing.Size(224, 26);
-            this.txtOTP.TabIndex = 6;
+            this.txtOTP.TabIndex = 2;
             this.txtOTP.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textboxMobile_KeyPress);
             // 
             // Submit
@@ -110,7 +110,7 @@
             this.Submit.Location = new System.Drawing.Point(18, 148);
             this.Submit.Name = "Submit";
             this.Submit.Size = new System.Drawing.Size(224, 42);
-            this.Submit.TabIndex = 5;
+            this.Submit.TabIndex = 3;
             this.Submit.Text = "SUBMIT";
             this.Submit.UseVisualStyleBackColor = false;
             this.Submit.Click += new System.EventHandler(this.Submit_Click);
@@ -131,11 +131,12 @@
             this.txtPassword.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtPassword.ForeColor = System.Drawing.Color.DimGray;
             this.txtPassword.Location = new System.Drawing.Point(18, 45);
-            this.txtPassword.MaxLength = 10;
+            this.txtPassword.MaxLength = 50;
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.Size = new System.Drawing.Size(224, 26);
             this.txtPassword.TabIndex = 1;
             this.txtPassword.UseSystemPasswordChar = true;
+            this.txtPassword.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textboxPassword_KeyPress);
             // 
             // lblMessage
             // 

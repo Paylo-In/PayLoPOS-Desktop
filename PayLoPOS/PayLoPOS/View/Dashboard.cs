@@ -4,6 +4,7 @@ using PayLoPOS.Model;
 using PayLoPOS.Controller;
 using System.Web.Script.Serialization;
 using EzetapApi.models;
+using System.Diagnostics;
 
 namespace PayLoPOS.View
 {
@@ -76,17 +77,17 @@ namespace PayLoPOS.View
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if(txtPaymentMode.Text == "CHOOSE OPTION")
+            if (txtMobile.Text.Length != 10)
             {
-                MessageBox.Show("Please choose payment option");
+                MessageBox.Show("Please enter a valid mobile number");
             }
-            else if(txtAmount.Text == "")
+            else if (txtAmount.Text == "")
             {
                 MessageBox.Show("Please enter a valid amount");
             }
-            else if (txtMobile.Text.Length != 10)
+            else if (txtPaymentMode.Text == "CHOOSE OPTION")
             {
-                MessageBox.Show("Please enter a valid mobile number");
+                MessageBox.Show("Please choose payment option");
             }
             else
             {
@@ -117,33 +118,26 @@ namespace PayLoPOS.View
 
         private void payByMPOS()
         {
-            if(!Utility.IsEmailValid(txtEmail.Text))
-            {
-                MessageBox.Show("Please enter a valid email address");
-            }
-            else
-            {
-                //-- Create bill
-                DictionaryModel param = new DictionaryModel();
-                param.add("mobile", txtMobile.Text);
-                param.add("merchant_id", Global.currentUser.merchant_id.ToString());
-                param.add("grand_total", String.Format("{0:0.00}", Convert.ToDouble(txtAmount.Text)));
-                param.add("bill_no", txtRef.Text);
-                param.add("name", txtName.Text);
-                param.add("email", txtEmail.Text);
+            //-- Create bill
+            DictionaryModel param = new DictionaryModel();
+            param.add("mobile", txtMobile.Text);
+            param.add("merchant_id", Global.currentUser.merchant_id.ToString());
+            param.add("grand_total", String.Format("{0:0.00}", Convert.ToDouble(txtAmount.Text)));
+            param.add("bill_no", txtRef.Text);
+            param.add("name", txtName.Text);
+            param.add("email", txtEmail.Text);
 
-                Transaction transaction = new Transaction();
-                transaction.amount = Double.Parse(txtAmount.Text);
-                transaction.emailAddress = txtEmail.Text;
-                transaction.customerMobile = txtMobile.Text;
-                transaction.externalReference2 = "";
+            Transaction transaction = new Transaction();
+            transaction.amount = Double.Parse(txtAmount.Text);
+            transaction.emailAddress = txtEmail.Text;
+            transaction.customerMobile = txtMobile.Text;
+            transaction.externalReference2 = "";
 
-                //-- Initialize
-                EzetapPaymentSync ezetap = new EzetapPaymentSync(this, transaction, param.getJSON());
-                if (ezetap.init() == true)
-                {
-                    ezetap.ShowDialog();
-                }
+            //-- Initialize
+            EzetapPaymentSync ezetap = new EzetapPaymentSync(this, null, transaction, param.getJSON());
+            if (ezetap.init() == true)
+            {
+                ezetap.ShowDialog();
             }
         }
 
@@ -158,7 +152,7 @@ namespace PayLoPOS.View
             param.add("name", txtName.Text);
             param.add("email", txtEmail.Text);
 
-            ConfirmCash cash = new ConfirmCash(param.getJSON(), txtMobile.Text, Convert.ToDouble(txtAmount.Text), 0);
+            ConfirmCash cash = new ConfirmCash(null, param.getJSON(), txtMobile.Text, Convert.ToDouble(txtAmount.Text), 0);
             cash.dashboard = this;
             cash.ShowDialog();
         }
@@ -184,12 +178,12 @@ namespace PayLoPOS.View
                 {
                     clearTextBox();
                     lblPendingBills_Click(null, null);
+                    showCurrentActivity(model.data.msg);
                 }
                 else
                 {
                     MessageBox.Show(model.data.msg);
                 }
-                showCurrentActivity(model.data.msg);
             }
             catch(Exception ex)
             {
@@ -202,7 +196,7 @@ namespace PayLoPOS.View
             }
         }
 
-        private void payByUPI()
+        private async void payByUPI()
         {
             if (!Utility.IsEmailValid(txtEmail.Text))
             {
@@ -210,8 +204,19 @@ namespace PayLoPOS.View
             }
             else
             {
-                VPAList list = new VPAList(this, txtMobile.Text, "");
-                list.ShowDialog();
+                VPAList list = new VPAList(this, null, txtMobile.Text, "");
+                try
+                {
+                    imgLoading.Visible = true;
+                    var response = await new RestClient().GetVPA(txtMobile.Text);
+                    imgLoading.Visible = false;
+                    list.showVPA(response.data);                    
+                }
+                catch(Exception ex)
+                {
+                    imgLoading.Visible = false;
+                    MessageBox.Show(ex.Message);
+                }
             }
         }
 
@@ -236,7 +241,6 @@ namespace PayLoPOS.View
                     else
                     {
                         MessageBox.Show(response.data.msg);
-                        showCurrentActivity(response.data.msg);
                     }
                 }
                 catch (Exception ex)
@@ -278,7 +282,6 @@ namespace PayLoPOS.View
                         else
                         {
                             MessageBox.Show(response.data.msg);
-                            showCurrentActivity(response.data.msg);
                         }
                     }
                     catch(Exception ex)
@@ -321,7 +324,7 @@ namespace PayLoPOS.View
                     if (model.status == 1)
                     {
                         //-- Show wallet list with order  id.
-                        WalletList list = new WalletList(this, Double.Parse(txtAmount.Text), model.data.order_id, txtMobile.Text, txtEmail.Text);
+                        WalletList list = new WalletList(this, null, Double.Parse(txtAmount.Text), model.data.order_id, txtMobile.Text, txtEmail.Text);
                         list.ShowDialog();
                     }
                     else
@@ -414,7 +417,10 @@ namespace PayLoPOS.View
             }
             catch(Exception e)
             {
-                MessageBox.Show(e.Message);
+                if(!e.Message.Contains("An error occurred while sending the request"))
+                {
+                    MessageBox.Show(e.Message);
+                }
                 listViewLoading.Visible = false;
             }
         }
@@ -445,12 +451,12 @@ namespace PayLoPOS.View
                 this.paidBills = await new RestClient().GetPaidBills(param);
                 lblTodaySale.Text = "₹ " + paidBills.data.today_sale.ToString("0.00");
 
-                string[] arr = new string[10];
+                string[] arr = new string[13];
                 double totalAmount = 0.0;
                 var index = 0;
 
                 listView1.Columns.Clear();
-
+                listView1.Columns.Add("S/No", 50);
                 listView1.Columns.Add("Ref #", 100);
                 listView1.Columns.Add("Order ID", 100);
                 listView1.Columns.Add("Transaction ID", 160);
@@ -458,31 +464,25 @@ namespace PayLoPOS.View
                 listView1.Columns.Add("Customer", 120);
                 listView1.Columns.Add("Mobile", 90);
                 listView1.Columns.Add("Amount", 60);
-                listView1.Columns.Add("Mode", 160);
+                listView1.Columns.Add("Mode", 150);
                 listView1.Columns.Add("Txn Status", 80);
+                listView1.Columns.Add("Refund Amount", 110);
                 listView1.Columns.Add("Created By", 100);
 
                 foreach (PaidBill bill in paidBills.data.txns)
                 {
-                    arr[0] = bill.bill_no;
-                    arr[1] = bill.orderid.ToString();
-                    arr[2] = bill.txnid;
-                    arr[3] = Utility.getDate(bill.created_at, "dd-MM-yyyy HH:mm:ss", Utility.displayDateFormat);
-                    arr[4] = bill.name;
-                    arr[5] = bill.mobile;
-                    arr[6] = "₹ " + bill.amount.ToString("0.00");
-                    arr[7] = bill.pay_method;
-                    
-                    if (bill.refund_status == "NA" || bill.refund_status == "N/A")
-                    {
-                        arr[8] = bill.txn_status;
-                    }
-                    else
-                    {
-                        arr[8] = bill.refund_status;
-                    }
-
-                    arr[9] = bill.created_by;
+                    arr[0] = (index + 1).ToString();
+                    arr[1] = bill.bill_no;
+                    arr[2] = bill.orderid.ToString();
+                    arr[3] = bill.txnid;
+                    arr[4] = Utility.getDate(bill.created_at, "dd-MM-yyyy HH:mm:ss", Utility.displayDateFormat);
+                    arr[5] = bill.name;
+                    arr[6] = bill.mobile;
+                    arr[7] = "₹ " + bill.amount.ToString("0.00");
+                    arr[8] = bill.pay_method;
+                    arr[9] = bill.refund_status;
+                    arr[10] = "₹ " + bill.refunded_amount;
+                    arr[11] = bill.created_by;
 
                     ListViewItem item = new ListViewItem(arr);
                     item.Tag = index;
@@ -495,7 +495,10 @@ namespace PayLoPOS.View
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.Message);
+                if (!e.Message.Contains("An error occurred while sending the request"))
+                {
+                    MessageBox.Show(e.Message);
+                }
                 listViewLoading.Visible = false;
             }
         }
@@ -607,7 +610,7 @@ namespace PayLoPOS.View
             
         }
 
-        public void ReSendPayment(ChoosePaymentOption child,  string mode, long orderId, string email)
+        public async void ReSendPayment(ChoosePaymentOption child,  string mode, long orderId, string email, string mobile="")
         {
             Bill bill = null;
             foreach(Bill b in pendingBills.data.bills)
@@ -624,7 +627,7 @@ namespace PayLoPOS.View
 
                 if (mode == "CASH")
                 {
-                    ConfirmCash cash = new ConfirmCash("", bill.mobile, bill.grand_total, orderId);
+                    ConfirmCash cash = new ConfirmCash(child, "", bill.mobile, bill.grand_total, orderId);
                     cash.dashboard = this;
                     cash.ShowDialog();
                 }
@@ -638,7 +641,7 @@ namespace PayLoPOS.View
                     transaction.externalReference2 = bill.order_id.ToString();
 
                     //-- Initialize
-                    EzetapPaymentSync ezetap = new EzetapPaymentSync(this, transaction, "");
+                    EzetapPaymentSync ezetap = new EzetapPaymentSync(this, child, transaction, "");
                     if (ezetap.init() == true)
                     {
                         ezetap.ShowDialog();
@@ -646,17 +649,28 @@ namespace PayLoPOS.View
                 }
                 else if (mode == "UPI")
                 {
-                    child.Close();
-                    VPAList list = new VPAList(this, bill.mobile, bill.order_id.ToString());
-                    list.ShowDialog();
+                    //child.Close();
+                    VPAList list = new VPAList(this, null, bill.mobile, bill.order_id.ToString());
+                    try
+                    {
+                        imgLoading.Visible = true;
+                        var response = await new RestClient().GetVPA(bill.mobile);
+                        imgLoading.Visible = false;
+                        list.showVPA(response.data);
+                    }
+                    catch (Exception ex)
+                    {
+                        imgLoading.Visible = false;
+                        MessageBox.Show(ex.Message);
+                    }
                 }
                 else if (mode == "WALLET")
                 {
                     //-- Show wallet list with order  id.
-                    WalletList list = new WalletList(this, bill.grand_total, bill.order_id, bill.mobile, email);
+                    WalletList list = new WalletList(this, child, bill.grand_total, bill.order_id, mobile, email);
                     list.ShowDialog();
                 }
-                child.Close();
+                //child.Close();
             }            
         }
 
@@ -722,16 +736,7 @@ namespace PayLoPOS.View
                         PaidBill bill = paidBills.data.txns[Int16.Parse(item.Tag.ToString())];
                         if (bill != null)
                         {
-                            string status = "";
-                            if(bill.refund_status == "NA" || bill.refund_status == "N/A")
-                            {
-                                status = bill.txn_status;
-                            }
-                            else
-                            {
-                                status = bill.refund_status;
-                            }
-                            TransactionDetails td = new TransactionDetails(bill.orderid, bill.amount, bill.name, bill.mobile, "", bill.bill_no, bill.txnid, status);
+                            TransactionDetails td = new TransactionDetails(bill.orderid, bill.amount, bill.name, bill.mobile, "", bill.bill_no, bill.txnid, bill.refund_status);
                             td.ShowDialog();
                         }
                     }                    
@@ -742,6 +747,18 @@ namespace PayLoPOS.View
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void listView1_DoubleClick(object sender, EventArgs e)
+        {
+            if(isSelectPending == true)
+            {
+                btnPayNow_Click(null, null);
+            }
+            else
+            {
+                btnViewTransaction_Click(null, null);
             }
         }
     }

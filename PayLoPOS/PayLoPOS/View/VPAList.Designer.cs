@@ -45,9 +45,9 @@
             this.btnContinue.BackColor = System.Drawing.Color.SeaGreen;
             this.btnContinue.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnContinue.ForeColor = System.Drawing.Color.White;
-            this.btnContinue.Location = new System.Drawing.Point(-1, 327);
+            this.btnContinue.Location = new System.Drawing.Point(-1, 323);
             this.btnContinue.Name = "btnContinue";
-            this.btnContinue.Size = new System.Drawing.Size(318, 40);
+            this.btnContinue.Size = new System.Drawing.Size(316, 40);
             this.btnContinue.TabIndex = 0;
             this.btnContinue.Text = "SUBMIT";
             this.btnContinue.UseVisualStyleBackColor = false;
@@ -68,7 +68,7 @@
             this.listView1.Location = new System.Drawing.Point(0, 68);
             this.listView1.MultiSelect = false;
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(316, 253);
+            this.listView1.Size = new System.Drawing.Size(314, 249);
             this.listView1.TabIndex = 1;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
@@ -77,7 +77,7 @@
             // columnHeader1
             // 
             this.columnHeader1.Text = "Select VPA from list";
-            this.columnHeader1.Width = 310;
+            this.columnHeader1.Width = 300;
             // 
             // label1
             // 
@@ -92,28 +92,34 @@
             // 
             // label2
             // 
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.BackColor = System.Drawing.Color.White;
             this.label2.Location = new System.Drawing.Point(1, 31);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(316, 30);
+            this.label2.Size = new System.Drawing.Size(314, 30);
             this.label2.TabIndex = 5;
             // 
             // txtVPA
             // 
+            this.txtVPA.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtVPA.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtVPA.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtVPA.ForeColor = System.Drawing.Color.SteelBlue;
             this.txtVPA.Location = new System.Drawing.Point(11, 36);
             this.txtVPA.Name = "txtVPA";
-            this.txtVPA.Size = new System.Drawing.Size(297, 19);
+            this.txtVPA.Size = new System.Drawing.Size(295, 19);
             this.txtVPA.TabIndex = 6;
             // 
             // imgLoading
             // 
+            this.imgLoading.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.imgLoading.Image = global::PayLoPOS.Properties.Resources.loading1;
-            this.imgLoading.Location = new System.Drawing.Point(93, 339);
+            this.imgLoading.Location = new System.Drawing.Point(93, 335);
             this.imgLoading.Name = "imgLoading";
-            this.imgLoading.Size = new System.Drawing.Size(137, 19);
+            this.imgLoading.Size = new System.Drawing.Size(135, 19);
             this.imgLoading.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.imgLoading.TabIndex = 27;
             this.imgLoading.TabStop = false;
@@ -124,7 +130,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.SteelBlue;
-            this.ClientSize = new System.Drawing.Size(316, 366);
+            this.ClientSize = new System.Drawing.Size(314, 362);
             this.Controls.Add(this.imgLoading);
             this.Controls.Add(this.txtVPA);
             this.Controls.Add(this.label1);

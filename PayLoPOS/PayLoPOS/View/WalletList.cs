@@ -10,18 +10,20 @@ namespace PayLoPOS.View
     public partial class WalletList : Form
     {
         Dashboard parent;
+        ChoosePaymentOption subParent;
         long orderId;
         string mobile;
         string email;
         double amount;
 
-        public WalletList(Dashboard p, double amount, long orderId, string mobile, string email)
+        public WalletList(Dashboard p, ChoosePaymentOption subParent, double amount, long orderId, string mobile, string email)
         {
             parent = p;
             this.mobile = mobile;
             this.orderId = orderId;
             this.email = email;
             this.amount = amount;
+            this.subParent = subParent;
             InitializeComponent();
             this.populateImages();
         }
@@ -89,13 +91,13 @@ namespace PayLoPOS.View
                 DictionaryModel param = new DictionaryModel();
                 param.add("order_id", orderId.ToString());
                 param.add("wallet", wallet.name);
+                param.add("mobile", mobile);
                 var response = await new RestClient().GenerateWalletOTP(param.getJSON());
                 if(response.status == 1)
                 {
                     imgLoading.Visible = false;
-                    EnterOTP otp = new EnterOTP(this.parent, amount ,mobile, orderId, wallet.display_name, wallet.name, email);
+                    EnterOTP otp = new EnterOTP(this.parent, subParent, this, amount ,mobile, orderId, wallet.display_name, wallet.name, email);
                     otp.ShowDialog();
-                    this.Close();
                 }
                 else
                 {

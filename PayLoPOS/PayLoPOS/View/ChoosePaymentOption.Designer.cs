@@ -31,11 +31,11 @@
             this.txtPaymentMode = new System.Windows.Forms.ComboBox();
             this.lblSubmit = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.lblMobile = new System.Windows.Forms.Label();
             this.txtEmail = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.imgLoading = new System.Windows.Forms.PictureBox();
+            this.lblMobile = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imgLoading)).BeginInit();
             this.SuspendLayout();
@@ -59,6 +59,7 @@
             this.txtPaymentMode.Name = "txtPaymentMode";
             this.txtPaymentMode.Size = new System.Drawing.Size(320, 29);
             this.txtPaymentMode.TabIndex = 13;
+            this.txtPaymentMode.SelectedIndexChanged += new System.EventHandler(this.txtPaymentMode_SelectedIndexChanged);
             // 
             // lblSubmit
             // 
@@ -90,18 +91,6 @@
             this.groupBox1.TabIndex = 15;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = " VERIFY USER DETAILS ";
-            // 
-            // lblMobile
-            // 
-            this.lblMobile.BackColor = System.Drawing.Color.White;
-            this.lblMobile.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblMobile.ForeColor = System.Drawing.Color.Black;
-            this.lblMobile.Location = new System.Drawing.Point(69, 24);
-            this.lblMobile.Name = "lblMobile";
-            this.lblMobile.Size = new System.Drawing.Size(245, 23);
-            this.lblMobile.TabIndex = 4;
-            this.lblMobile.Text = "9109322140";
-            this.lblMobile.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // txtEmail
             // 
@@ -148,6 +137,18 @@
             this.imgLoading.TabStop = false;
             this.imgLoading.Visible = false;
             // 
+            // lblMobile
+            // 
+            this.lblMobile.BackColor = System.Drawing.Color.White;
+            this.lblMobile.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.lblMobile.Enabled = false;
+            this.lblMobile.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblMobile.Location = new System.Drawing.Point(69, 28);
+            this.lblMobile.Name = "lblMobile";
+            this.lblMobile.Size = new System.Drawing.Size(245, 15);
+            this.lblMobile.TabIndex = 5;
+            this.lblMobile.Text = "9109322140";
+            // 
             // ChoosePaymentOption
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -180,7 +181,7 @@
         private System.Windows.Forms.TextBox txtEmail;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label lblMobile;
         private System.Windows.Forms.PictureBox imgLoading;
+        private System.Windows.Forms.TextBox lblMobile;
     }
 }

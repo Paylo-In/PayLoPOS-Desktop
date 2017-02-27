@@ -33,6 +33,7 @@ namespace PayLoPOS.Model
         public int status_code { get; set; }
         public string txnid { get; set; }
         public string txn_status { get; set; }
+        public string refunded_amount { get; set; }
 
     }
 

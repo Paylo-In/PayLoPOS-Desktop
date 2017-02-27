@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using PayLoPOS.Controller;
 using PayLoPOS.Model;
+using System.Diagnostics;
 
 namespace PayLoPOS.View
 {
@@ -27,15 +28,7 @@ namespace PayLoPOS.View
 
         private async void SignIn_Click(object sender, EventArgs e)
         {
-            if(txtEmail.Text == "")
-            {
-                MessageBox.Show("Please enter a valid email address");
-            }
-            else if(txtPassword.Text == "")
-            {
-                MessageBox.Show("Please enter a valid password");
-            }
-            else
+            if(validate())
             {
                 SignIn.Enabled = false;
                 try
@@ -54,11 +47,13 @@ namespace PayLoPOS.View
                     else
                     {
                         MessageBox.Show(user.data.msg);
+                        txtEmail.Focus();
                     }
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message);
+                    txtEmail.Focus();
                 }
                 finally
                 {
@@ -70,7 +65,7 @@ namespace PayLoPOS.View
 
         private void ForgotPassword_Click(object sender, EventArgs e)
         {
-            ForgotPassword forgot = new ForgotPassword();
+            ForgotPassword forgot = new ForgotPassword(this);
             forgot.ShowDialog();
         }
 
@@ -82,9 +77,25 @@ namespace PayLoPOS.View
             this.Hide();
         }
 
-        private async void Login_Load(object sender, EventArgs e)
+        private void Login_Load(object sender, EventArgs e)
         {
-            if(Properties.Settings.Default.accessToken != "") {
+            checkUserLoggedIn();
+        }
+
+        public async void checkUserLoggedIn()
+        {
+            if (Properties.Settings.Default.accessToken != "")
+            {
+                loginPanel.Visible = false;
+                loadingPanel.Visible = true;
+            }
+            else
+            {
+                loginPanel.Visible = true;
+                loadingPanel.Visible = false;
+            }
+            if (Properties.Settings.Default.accessToken != "")
+            {
                 try
                 {
                     User user = await new RestClient().GetProfile();
@@ -102,13 +113,13 @@ namespace PayLoPOS.View
                         loadingPanel.Visible = false;
                     }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message);
-                    /*Properties.Settings.Default.accessToken = "";
+                    Properties.Settings.Default.accessToken = "";
                     Properties.Settings.Default.Save();
                     loginPanel.Visible = true;
-                    loadingPanel.Visible = false;*/
+                    loadingPanel.Visible = false;
                 }
             }
         }
@@ -121,9 +132,45 @@ namespace PayLoPOS.View
 
         private void textboxMobile_KeyPress(object sender, KeyPressEventArgs e)
         {
+            if (e.KeyChar == Convert.ToChar(Keys.Enter))
+            {
+                if (validate())
+                {
+                    SignIn_Click(null, null);
+                }
+            }
+
             if (!char.IsControl(e.KeyChar)
                && !char.IsDigit(e.KeyChar))
                 e.Handled = true;
+        }
+
+        private void txtEmail_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == Convert.ToChar(Keys.Enter))
+            {
+                if (validate())
+                {
+                    SignIn_Click(null, null);
+                }
+            }
+        }
+
+        private bool validate()
+        {
+            if(txtEmail.Text.Length != 10)
+            {
+                MessageBox.Show("Please enter a valid mobile number");
+                txtEmail.Focus();
+                return false;
+            }
+            else if(txtPassword.Text == "")
+            {
+                MessageBox.Show("Please enter a valid password.");
+                txtPassword.Focus();
+                return false;
+            }
+            return true;
         }
     }
 }

@@ -13,13 +13,21 @@ namespace PayLoPOS.View
 {
     public partial class ForgotPassword : Form
     {
-        public ForgotPassword()
+        Login baseView;
+
+        public ForgotPassword(Login baseView)
         {
             InitializeComponent();
+            this.baseView = baseView;
         }
 
         private void textboxMobile_KeyPress(object sender, KeyPressEventArgs e)
         {
+            if (e.KeyChar == Convert.ToChar(Keys.Enter))
+            {
+                RecoverPassword_Click(null, null);
+            }
+
             if (!char.IsControl(e.KeyChar)
                && !char.IsDigit(e.KeyChar))
                 e.Handled = true;
@@ -30,6 +38,7 @@ namespace PayLoPOS.View
             if(txtEmail.Text.Length != 10)
             {
                 MessageBox.Show("Please enter a valid mobile number");
+                txtEmail.Focus();
             }
             else
             {
@@ -40,17 +49,19 @@ namespace PayLoPOS.View
                     var response = await new RestClient().GenerateOTP(txtEmail.Text);
                     if(response.status == 1)
                     {
-                        CreatePassword cp = new CreatePassword(this, txtEmail.Text);
+                        CreatePassword cp = new CreatePassword(baseView,this, txtEmail.Text);
                         cp.ShowDialog();
                     }
                     else
                     {
                         MessageBox.Show(response.data.msg);
+                        txtEmail.Focus();
                     }
                 }
                 catch(Exception ex)
                 {
                     MessageBox.Show(ex.Message);
+                    txtEmail.Focus();
                 }
                 finally
                 {

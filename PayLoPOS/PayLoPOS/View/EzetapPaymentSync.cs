@@ -31,13 +31,14 @@ namespace PayLoPOS.View
 
     public partial class EzetapPaymentSync : Form, StatusCallback
     {
-        EzeConfig config = new EzeConfig("EzetapWindowsSdkDemo", "1.0.0.0");
+        EzeConfig config = new EzeConfig("PayLo POS", "1.0", true);
 
         EzeApi appLib;
 
         private Transaction transaction;
 
         Dashboard parent;
+        ChoosePaymentOption subParent;
 
         string usesDetails;
 
@@ -45,9 +46,10 @@ namespace PayLoPOS.View
 
         APIName apiName;
 
-        public EzetapPaymentSync(Dashboard p, Transaction txn, string param)
+        public EzetapPaymentSync(Dashboard p, ChoosePaymentOption subParent, Transaction txn, string param)
         {
             parent = p;
+            this.subParent = subParent;
             this.transaction = txn;
             this.jsonParams = param;
             InitializeComponent();
@@ -59,7 +61,6 @@ namespace PayLoPOS.View
             apiName = APIName.LOGIN;
             usesDetails = appLib.usage("");
             appLib.loginWithAppKey(this, "74cfc32d-005b-4158-ad63-8c8418c3da8b", "EztapDemo");
-            //appLib.login(this, "EztapDemo", "74cfc32d-005b-4158-ad63-8c8418c3da8b", "");
         }
 
         public bool init()
@@ -87,7 +88,12 @@ namespace PayLoPOS.View
         void SetCallbackText(string str)
         {
             Debug.WriteLine(str);
-            if(apiName == APIName.LOGIN)
+            if (str.Contains("Device is disconnected"))
+            {
+                showError("Failed: Device is disconnected");
+                button1.Visible = true;
+            }
+            else if (apiName == APIName.LOGIN)
             {
                 if(str.Contains("SERVER_RESULT: Login message: "))
                 {
@@ -102,11 +108,13 @@ namespace PayLoPOS.View
                     else
                     {
                         showError("Device failed to Prepare. Please reconnect the device and try again.");
+                        button1.Visible = true;
                     }
                 }
-                else if(str.Contains("API Result: -2147418109 ("))
+                else if(str.Contains("API Result: -2147418109 (") || str.Contains("(Invalid library state"))
                 {
                     showError("Device failed to connect. Please reconnect the device and try again.");
+                    button1.Visible = true;
                 }
             }
             else if(apiName == APIName.PREPARE)
@@ -115,9 +123,10 @@ namespace PayLoPOS.View
                 {
                     showSuccess("Validating device session with server");
                 }
-                else if(str.Contains("EPIC_PREPARE_RESULT: code -2147418093 "))
+                else if(str.Contains("Could not communicate with Ezetap device"))
                 {
-                    showError("Could not communicate with Ezetap device. Please reconnect the device and try again.");
+                    showError("Failed: Could not communicate with Ezetap device. Please reconnect the device and try again.");
+                    button1.Visible = true;
                 }
                 else if (str.Contains("EPIC_PREPARE_RESULT: code 0 ("))
                 {
@@ -168,29 +177,27 @@ namespace PayLoPOS.View
                 {
                     showSuccess("Please Swipe or Insert card again");
                 }
-                else if (str.Contains("SERVER_RESULT: code EZETAP_0000084 ("))
+                else if (str.Contains("SERVER_RESULT: code EZETAP_0000084 (") || str.Contains("You have attempted a similar"))
                 {
-                    showError("You have attempted a similar payment for the same amount using the same card within 1 minute");
+                    showError("Failed: You have attempted a similar payment for the same amount using the same card within 1 minute");
+                    button1.Visible = true;
                 }
                 else if(str.Contains("SERVER_RESULT: code EZETAP_000"))
                 {
-                    showError("You have already made a similar payment for the same amount INR "+Global.currentBill.amount.ToString("0.00")+". Please check the status of the payment made before you proceed.");
+                    showError("Failed: You have already made a similar payment for the same amount INR "+Global.currentBill.amount.ToString("0.00")+". Please check the status of the payment made before you proceed.");
+                    button1.Visible = true;
                 }
-                else if(str.Contains("SERVER_RESULT: code EZETAP_0000089 ("))
+                else if(str.Contains("SERVER_RESULT: code EZETAP_0000089 (") || str.Contains("We were unable to get information from card"))
                 {
-                    showError("Processing Failed. We were unable to get information from card. Please try again. If the problem persists, try a different card or call Ezetap Support.");
+                    showError("Failed: Processing Failed. We were unable to get information from card. Please try again. If the problem persists, try a different card or call Ezetap Support.");
+                    button1.Visible = true;
                     parent.lblPendingBills_Click(null, null);
-                    parent.showCurrentActivity("Processing Failed. We were unable to get information from card. Please try again. If the problem persists, try a different card or call Ezetap Support.");
                 }
                 else if (str.Contains("SERVER_RESULT: Txn ID:"))
                 {
                     string json = getJSONString(str);
                     updatePayment(json);
                 }
-            }
-            else if(str.Contains("EPIC_TRANSACTION_RESULT: code -2147418043 ("))
-            {
-                showError("Device is disconnected");
             }
         }
 
@@ -250,6 +257,7 @@ namespace PayLoPOS.View
                     showSuccess("Payment Success");
                     parent.lblPaidBills_Click(null, null);
                     parent.showCurrentActivity("MPOS payment success");
+                    parent.clearTextBox();
                     PaymentStatus ps = new PaymentStatus(1, model.data.msg, "MPOS");
                     ps.ShowDialog();
                 }
@@ -257,20 +265,21 @@ namespace PayLoPOS.View
                 {
                     showError("Payment Failed");
                     parent.lblPendingBills_Click(null, null);
-                    parent.showCurrentActivity("MPOS payment failed");
                     MessageBox.Show("MPOS payment failed");
                     PaymentStatus ps = new PaymentStatus(0, model.data.msg, "MPOS");
                     ps.ShowDialog();
                 }
                 this.Close();
+                if(subParent != null)
+                {
+                    subParent.Close();
+                }
             }
             catch(Exception ex)
             {
                 MessageBox.Show(ex.Message);
-                parent.showCurrentActivity(ex.Message);
                 this.Close();
             }
-            
         }
 
         private string getJSONString(string str)
@@ -322,5 +331,13 @@ namespace PayLoPOS.View
             lblMessage.Text = msg;
         }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+            button1.Visible = false;
+            showSuccess("Connecting...");
+            apiName = APIName.LOGIN;
+            usesDetails = appLib.usage("");
+            appLib.loginWithAppKey(this, "74cfc32d-005b-4158-ad63-8c8418c3da8b", "EztapDemo");
+        }
     }
 }

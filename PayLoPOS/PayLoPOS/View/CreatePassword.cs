@@ -15,20 +15,35 @@ namespace PayLoPOS.View
     {
         private string mobile;
         private ForgotPassword parent;
+        private Login baseView;
 
-        public CreatePassword(ForgotPassword parent,string mobile)
+        public CreatePassword(Login baseView, ForgotPassword parent,string mobile)
         {
             InitializeComponent();
             this.mobile = mobile;
             this.parent = parent;
+            this.baseView = baseView;
             lblMessage.Text = "One Time Password sent to mobile number +91-XXXXXXX" + mobile.Substring(mobile.Length - 3);
         }
 
         private void textboxMobile_KeyPress(object sender, KeyPressEventArgs e)
         {
+            if (e.KeyChar == Convert.ToChar(Keys.Enter))
+            {
+                Submit_Click(null, null);
+            }
+
             if (!char.IsControl(e.KeyChar)
                && !char.IsDigit(e.KeyChar))
                 e.Handled = true;
+        }
+
+        private void textboxPassword_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == Convert.ToChar(Keys.Enter))
+            {
+                Submit_Click(null, null);
+            }
         }
 
         private async void ResendOTP_Click(object sender, EventArgs e)
@@ -55,14 +70,17 @@ namespace PayLoPOS.View
             if(txtPassword.Text == "")
             {
                 MessageBox.Show("Please enter a valid password");
+                txtPassword.Focus();
             }
             else if(txtPassword.Text.Length < 6)
             {
                 MessageBox.Show("Password should be greater then or equal to six characters");
+                txtPassword.Focus();
             }
             else if(txtOTP.Text.Length != 6)
             {
                 MessageBox.Show("Please enter a valid OTP");
+                txtOTP.Focus();
             }
             else
             {
@@ -73,18 +91,22 @@ namespace PayLoPOS.View
                     var response = await new RestClient().CreatePassword(mobile, txtPassword.Text, txtOTP.Text);
                     if(response.status == 1)
                     {
-                        MessageBox.Show(response.data.msg);
+                        Properties.Settings.Default.accessToken = response.data.token;
+                        Properties.Settings.Default.Save();
                         Close();
                         parent.Close();
+                        baseView.checkUserLoggedIn();
                     }
                     else
                     {
                         MessageBox.Show(response.data.msg);
+                        txtOTP.Focus();
                     }
                 }
                 catch(Exception ex)
                 {
                     MessageBox.Show(ex.Message);
+                    txtOTP.Focus();
                 }
                 finally
                 {

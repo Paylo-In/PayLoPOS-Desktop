@@ -17,19 +17,21 @@ namespace PayLoPOS.View
     public partial class ConfirmCash : Form
     {
         public Dashboard dashboard;
+        private ChoosePaymentOption subParent;
 
         private string jsonParam { get; set; } = "";
         public string mobile { get; set; }
         public double amount { get; set; }
         public long orderId { get; set; } = 0;
 
-        public ConfirmCash(string json, string mobile, double amount, long orderId)
+        public ConfirmCash(ChoosePaymentOption subParent, string json, string mobile, double amount, long orderId)
         {
             InitializeComponent();
             jsonParam = json;
             this.mobile = mobile;
             this.amount = amount;
             this.orderId = orderId;
+            this.subParent = subParent;
             lblTotalAmount.Text = "₹ " + amount.ToString("0.00");
             txtChange.Text = "₹ -" + amount.ToString("0.00");
             txtMobile.Text = mobile;
@@ -61,6 +63,10 @@ namespace PayLoPOS.View
                             dashboard.lblPaidBills_Click(sender, e);
                             dashboard.showCurrentActivity(model.data.msg);
                             this.Close();
+                            if(subParent != null)
+                            {
+                                subParent.Close();
+                            }
                             PaymentStatus ps = new PaymentStatus(1, model.data.msg, "Cash");
                             ps.ShowDialog();
                         }
@@ -80,6 +86,10 @@ namespace PayLoPOS.View
                             dashboard.lblPaidBills_Click(sender, e);
                             dashboard.showCurrentActivity(model.data.msg);
                             this.Close();
+                            if (subParent != null)
+                            {
+                                subParent.Close();
+                            }
                             PaymentStatus ps = new PaymentStatus(1, model.data.msg, "Cash");
                             ps.ShowDialog();
                         }

@@ -13,6 +13,8 @@ namespace PayLoPOS.View
         private string email;
         double amount;
         Dashboard parent;
+        ChoosePaymentOption subParent;
+        WalletList walletList;
 
         public EnterOTP()
         {
@@ -26,7 +28,7 @@ namespace PayLoPOS.View
                 e.Handled = true;
         }
 
-        public EnterOTP(Dashboard p, double amount, string mobile, long orderId, string displayName , string walletName, string email)
+        public EnterOTP(Dashboard p, ChoosePaymentOption subParent, WalletList walletList, double amount, string mobile, long orderId, string displayName , string walletName, string email)
         {
             InitializeComponent();
             this.orderId = orderId;
@@ -36,6 +38,8 @@ namespace PayLoPOS.View
             this.email = email;
             this.amount = amount;
             this.parent = p;
+            this.subParent = subParent;
+            this.walletList = walletList;
             if(this.mobile.Length > 3)
             {
                 lblMessage.Text = "Please enter the One Time Password sent to customer mobile number +91-XXXXXXX" + mobile.Substring(mobile.Length - 3);
@@ -63,6 +67,14 @@ namespace PayLoPOS.View
                         parent.showCurrentActivity(response.data.msg);
                         parent.clearTextBox();
                         Close();
+                        if(walletList != null)
+                        {
+                            walletList.Close();
+                        }
+                        if(subParent != null)
+                        {
+                            subParent.Close();
+                        }
                         PaymentStatus ps = new PaymentStatus(1, response.data.msg, Text);
                         ps.ShowDialog();
                     }
@@ -70,7 +82,6 @@ namespace PayLoPOS.View
                     {
                         txtOTP.Text = "";
                         MessageBox.Show(response.data.msg);
-                        parent.showCurrentActivity(response.data.msg);
                     }
                 }
                 catch(Exception ex)
