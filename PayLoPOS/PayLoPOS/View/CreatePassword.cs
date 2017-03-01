@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using PayLoPOS.Controller;
+using PayLoPOS.Model;
 
 namespace PayLoPOS.View
 {
@@ -91,11 +92,21 @@ namespace PayLoPOS.View
                     var response = await new RestClient().CreatePassword(mobile, txtPassword.Text, txtOTP.Text);
                     if(response.status == 1)
                     {
-                        Properties.Settings.Default.accessToken = response.data.token;
-                        Properties.Settings.Default.Save();
                         Close();
                         parent.Close();
-                        baseView.checkUserLoggedIn();
+                        Global.currentUser = response.data;
+                        
+                        if(response.data.outlet.Count > 1)
+                        {
+                            ChooseOutlet outlet = new ChooseOutlet(baseView, this);
+                            outlet.ShowDialog();
+                        }
+                        else
+                        {
+                            Properties.Settings.Default.accessToken = response.data.token;
+                            Properties.Settings.Default.Save();
+                            baseView.checkUserLoggedIn();
+                        }
                     }
                     else
                     {

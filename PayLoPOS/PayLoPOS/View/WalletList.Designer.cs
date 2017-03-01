@@ -60,9 +60,9 @@
             this.label1.BackColor = System.Drawing.Color.SeaGreen;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(0, 1);
+            this.label1.Location = new System.Drawing.Point(0, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(395, 46);
+            this.label1.Size = new System.Drawing.Size(396, 46);
             this.label1.TabIndex = 1;
             this.label1.Text = "Double click to select wallet for payment and receive OTP on customer mobile";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;

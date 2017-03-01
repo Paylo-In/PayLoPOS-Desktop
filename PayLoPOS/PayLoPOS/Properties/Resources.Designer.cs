@@ -73,6 +73,16 @@ namespace PayLoPOS.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap citrus_cube_offers {
+            get {
+                object obj = ResourceManager.GetObject("citrus-cube-offers", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap ezetap_device {
             get {
                 object obj = ResourceManager.GetObject("ezetap-device", resourceCulture);
@@ -103,6 +113,16 @@ namespace PayLoPOS.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap FREECHARGELOGO {
+            get {
+                object obj = ResourceManager.GetObject("FREECHARGELOGO", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap loading1 {
             get {
                 object obj = ResourceManager.GetObject("loading1", resourceCulture);
@@ -116,6 +136,26 @@ namespace PayLoPOS.Properties {
         internal static System.Drawing.Bitmap loadingImage {
             get {
                 object obj = ResourceManager.GetObject("loadingImage", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap logo_freecharge {
+            get {
+                object obj = ResourceManager.GetObject("logo-freecharge", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Logo_PayUMoney {
+            get {
+                object obj = ResourceManager.GetObject("Logo-PayUMoney", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

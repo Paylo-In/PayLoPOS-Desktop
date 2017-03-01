@@ -38,15 +38,15 @@ namespace PayLoPOS.View
             {
                 if(wallet.name.ToLower() == "citrus")
                 {
-                    imgList.Images.Add(Properties.Resources.Citrus);
+                    imgList.Images.Add(Properties.Resources.citrus_cube_offers);
                 }
                 else if (wallet.name.ToLower() == "freecharge")
                 {
-                    imgList.Images.Add(Properties.Resources.freecharge);
+                    imgList.Images.Add(Properties.Resources.FREECHARGELOGO);
                 }
                 else if (wallet.name.ToLower() == "payumoney")
                 {
-                    imgList.Images.Add(Properties.Resources.payumoney);
+                    imgList.Images.Add(Properties.Resources.Logo_PayUMoney);
                 }
                 else
                 {

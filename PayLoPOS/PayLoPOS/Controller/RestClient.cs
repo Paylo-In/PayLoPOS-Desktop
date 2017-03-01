@@ -93,7 +93,7 @@ namespace PayLoPOS.Controller
             return new PaidBillResponse(bills);
         }
 
-        public async Task<User> SwitchOutlet(long outletId, string accessToken)
+        public async Task<User> SwitchOutlet(string outletId, string accessToken)
         {
             var json = new JavaScriptSerializer().Serialize(new { outlet_id = outletId });
             Debug.WriteLine("Switch Outlet: " + json + "    Token:" + accessToken);

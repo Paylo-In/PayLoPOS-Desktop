@@ -39,10 +39,19 @@ namespace PayLoPOS.View
                     {
                         txtEmail.Text = "";
                         txtPassword.Text = "";
-                        Properties.Settings.Default.accessToken = user.data.token;
-                        Properties.Settings.Default.Save();
                         Global.currentUser = user.data;
-                        openDashboard();
+
+                        if (Global.currentUser.outlet.Count > 1)
+                        {
+                            ChooseOutlet outlet = new ChooseOutlet(this, null);
+                            outlet.ShowDialog();
+                        }
+                        else
+                        {
+                            Properties.Settings.Default.accessToken = user.data.token;
+                            Properties.Settings.Default.Save();
+                            openDashboard();
+                        }
                     }
                     else
                     {
@@ -69,7 +78,7 @@ namespace PayLoPOS.View
             forgot.ShowDialog();
         }
 
-        private void openDashboard()
+        public void openDashboard()
         {
             Dashboard dashboard = new Dashboard();
             dashboard.login = this;
