@@ -26,6 +26,20 @@ namespace PayLoPOS.Model
         public long merchant_id { get; set; }
         public List<Outlet> outlet { get; set; }
         public List<Wallet> wallets { get; set; }
+
+        public string getSelectedOutletName()
+        {
+            foreach(Outlet o in outlet)
+            {
+                if(o.id == Properties.Settings.Default.outletId)
+                {
+                    return o.outlet_name;
+                }
+            }
+
+            return outlet[0].outlet_name;
+        }
+
     }
 
     class User

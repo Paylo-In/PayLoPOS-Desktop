@@ -95,18 +95,15 @@ namespace PayLoPOS.View
                         Close();
                         parent.Close();
                         Global.currentUser = response.data;
-                        
-                        if(response.data.outlet.Count > 1)
+                        Properties.Settings.Default.outletId = response.data.outlet[0].id;
+
+                        if (response.data.outlet.Count > 1)
                         {
-                            ChooseOutlet outlet = new ChooseOutlet(baseView, this);
-                            outlet.ShowDialog();
+                            Global.isLogin = true;
                         }
-                        else
-                        {
-                            Properties.Settings.Default.accessToken = response.data.token;
-                            Properties.Settings.Default.Save();
-                            baseView.checkUserLoggedIn();
-                        }
+                        Properties.Settings.Default.accessToken = response.data.token;
+                        Properties.Settings.Default.Save();
+                        baseView.checkUserLoggedIn();
                     }
                     else
                     {

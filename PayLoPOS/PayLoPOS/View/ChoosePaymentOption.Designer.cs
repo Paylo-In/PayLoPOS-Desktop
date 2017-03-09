@@ -31,11 +31,11 @@
             this.txtPaymentMode = new System.Windows.Forms.ComboBox();
             this.lblSubmit = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.lblMobile = new System.Windows.Forms.TextBox();
             this.txtEmail = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.imgLoading = new System.Windows.Forms.PictureBox();
-            this.lblMobile = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imgLoading)).BeginInit();
             this.SuspendLayout();
@@ -92,6 +92,20 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = " VERIFY USER DETAILS ";
             // 
+            // lblMobile
+            // 
+            this.lblMobile.BackColor = System.Drawing.Color.White;
+            this.lblMobile.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.lblMobile.Enabled = false;
+            this.lblMobile.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblMobile.Location = new System.Drawing.Point(69, 28);
+            this.lblMobile.MaxLength = 10;
+            this.lblMobile.Name = "lblMobile";
+            this.lblMobile.Size = new System.Drawing.Size(245, 15);
+            this.lblMobile.TabIndex = 5;
+            this.lblMobile.Text = "9109322140";
+            this.lblMobile.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textboxMobile_KeyPress);
+            // 
             // txtEmail
             // 
             this.txtEmail.BorderStyle = System.Windows.Forms.BorderStyle.None;
@@ -136,18 +150,6 @@
             this.imgLoading.TabIndex = 27;
             this.imgLoading.TabStop = false;
             this.imgLoading.Visible = false;
-            // 
-            // lblMobile
-            // 
-            this.lblMobile.BackColor = System.Drawing.Color.White;
-            this.lblMobile.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.lblMobile.Enabled = false;
-            this.lblMobile.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblMobile.Location = new System.Drawing.Point(69, 28);
-            this.lblMobile.Name = "lblMobile";
-            this.lblMobile.Size = new System.Drawing.Size(245, 15);
-            this.lblMobile.TabIndex = 5;
-            this.lblMobile.Text = "9109322140";
             // 
             // ChoosePaymentOption
             // 

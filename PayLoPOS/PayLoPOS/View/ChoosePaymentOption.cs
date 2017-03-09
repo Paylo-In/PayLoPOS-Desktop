@@ -1,12 +1,5 @@
 ﻿using PayLoPOS.Controller;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace PayLoPOS.View
@@ -32,6 +25,13 @@ namespace PayLoPOS.View
             txtPaymentMode.SelectedIndex = 0;
         }
 
+        private void textboxMobile_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar)
+               && !char.IsDigit(e.KeyChar))
+                e.Handled = true;
+        }
+
         private async void lblSubmit_Click(object sender, EventArgs e)
         {
             if(txtPaymentMode.Text == "CHOOSE PAYMENT OPTION")
@@ -53,6 +53,7 @@ namespace PayLoPOS.View
                     {
                         this.Close();
                         parent.showCurrentActivity(response.data.msg);
+                        parent.clearTextBox();
                     }
                     else
                     {
@@ -71,7 +72,7 @@ namespace PayLoPOS.View
             }
             else if(txtPaymentMode.Text == "UPI")
             {
-                VPAList list = new VPAList(parent, this, lblMobile.Text, orderId.ToString());
+                VPAList list = new VPAList(parent, this, lblMobile.Text, oid.ToString());
                 try
                 {
                     imgLoading.Visible = true;

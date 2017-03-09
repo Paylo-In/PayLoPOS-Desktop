@@ -1,8 +1,6 @@
 E:\Projects\PayLo\PayLoPOS\PayLoPOS\bin\x86\Debug\PayLoPOS.exe.config
 E:\Projects\PayLo\PayLoPOS\PayLoPOS\bin\x86\Debug\PayLoPOS.exe
 E:\Projects\PayLo\PayLoPOS\PayLoPOS\bin\x86\Debug\PayLoPOS.pdb
-E:\Projects\PayLo\PayLoPOS\PayLoPOS\bin\x86\Debug\EzetapWindowsSDK.dll
-E:\Projects\PayLo\PayLoPOS\PayLoPOS\bin\x86\Debug\EzetapATL.interop.dll
 E:\Projects\PayLo\PayLoPOS\PayLoPOS\obj\x86\Debug\PayLoPOS.Properties.Resources.resources
 E:\Projects\PayLo\PayLoPOS\PayLoPOS\obj\x86\Debug\PayLoPOS.View.ChooseOutlet.resources
 E:\Projects\PayLo\PayLoPOS\PayLoPOS\obj\x86\Debug\PayLoPOS.View.ChoosePaymentOption.resources
@@ -21,3 +19,7 @@ E:\Projects\PayLo\PayLoPOS\PayLoPOS\obj\x86\Debug\PayLoPOS.View.WalletList.resou
 E:\Projects\PayLo\PayLoPOS\PayLoPOS\obj\x86\Debug\PayLoPOS.csproj.GenerateResource.Cache
 E:\Projects\PayLo\PayLoPOS\PayLoPOS\obj\x86\Debug\PayLoPOS.exe
 E:\Projects\PayLo\PayLoPOS\PayLoPOS\obj\x86\Debug\PayLoPOS.pdb
+E:\Projects\PayLo\PayLoPOS\PayLoPOS\bin\x86\Debug\EzetapWindowsSDK.dll
+E:\Projects\PayLo\PayLoPOS\PayLoPOS\bin\x86\Debug\EzetapEpic.dll
+E:\Projects\PayLo\PayLoPOS\PayLoPOS\bin\x86\Debug\Newtonsoft.Json.dll
+E:\Projects\PayLo\PayLoPOS\PayLoPOS\bin\x86\Debug\Newtonsoft.Json.xml

@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using PayLoPOS.Model;
 using PayLoPOS.Controller;
@@ -14,14 +7,12 @@ namespace PayLoPOS.View
 {
     public partial class ChooseOutlet : Form
     {
-        Login parent;
-        CreatePassword createPassword;
+        Dashboard parent;
 
-        public ChooseOutlet(Login parent, CreatePassword createPassword)
+        public ChooseOutlet(Dashboard parent)
         {
             InitializeComponent();
             this.parent = parent;
-            this.createPassword = createPassword;
         }
 
         private void ChooseOutlet_Load(object sender, EventArgs e)
@@ -42,15 +33,16 @@ namespace PayLoPOS.View
                 imgLoading.Visible = true;
                 try
                 {
-                    var response = await new RestClient().SwitchOutlet(items[0].Tag.ToString(), Global.currentUser.token);
+                    var response = await new RestClient().SwitchOutlet(items[0].Tag.ToString(), Properties.Settings.Default.accessToken);
                     imgLoading.Visible = false;
                     if (response.status == 1)
                     {
+                        Properties.Settings.Default.outletId = Convert.ToInt64(items[0].Tag.ToString());
                         Properties.Settings.Default.accessToken = response.data.token;
                         Properties.Settings.Default.Save();
                         Global.currentUser = response.data;
+                        parent.refreshOutlet();
                         Close();
-                        parent.openDashboard();
                     }
                     else
                     {

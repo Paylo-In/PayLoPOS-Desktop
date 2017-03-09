@@ -34,5 +34,17 @@ namespace PayLoPOS.Properties {
                 this["accessToken"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public long outletId {
+            get {
+                return ((long)(this["outletId"]));
+            }
+            set {
+                this["outletId"] = value;
+            }
+        }
     }
 }

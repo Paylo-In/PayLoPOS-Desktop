@@ -5,6 +5,7 @@ namespace PayLoPOS.Model
     {
         public static UserData currentUser { get; set; }
         public static NewBill currentBill { get; set; } = new NewBill();
+        public static bool isLogin { get; set; } = false;
 
         public static void updateBill(string reference, double amount, string mobile, string email, string name)
         {
@@ -14,6 +15,7 @@ namespace PayLoPOS.Model
             currentBill.reference = reference;
             currentBill.name = name;
         }
+
 
     }
 }

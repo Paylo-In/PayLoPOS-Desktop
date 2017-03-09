@@ -13,6 +13,7 @@ namespace PayLoPOS.View
         public Login()
         {
             InitializeComponent();
+            Global.isLogin = false;
             imgLoading.Visible = false;
             if(Properties.Settings.Default.accessToken != "")
             {
@@ -43,15 +44,14 @@ namespace PayLoPOS.View
 
                         if (Global.currentUser.outlet.Count > 1)
                         {
-                            ChooseOutlet outlet = new ChooseOutlet(this, null);
-                            outlet.ShowDialog();
+                            /*ChooseOutlet outlet = new ChooseOutlet(this, null);
+                            outlet.ShowDialog();*/
+                            Global.isLogin = true;
+                            Properties.Settings.Default.outletId = user.data.outlet[0].id;
                         }
-                        else
-                        {
-                            Properties.Settings.Default.accessToken = user.data.token;
-                            Properties.Settings.Default.Save();
-                            openDashboard();
-                        }
+                        Properties.Settings.Default.accessToken = user.data.token;
+                        Properties.Settings.Default.Save();
+                        openDashboard();
                     }
                     else
                     {

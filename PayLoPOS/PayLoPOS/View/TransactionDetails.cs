@@ -40,6 +40,7 @@ namespace PayLoPOS.View
             lblRef.Text = reference;
             lblOrderId.Text = orderId.ToString();
             lblTransactionId.Text = transactionId;
+
         }
 
         private void TransactionDetails_Load(object sender, EventArgs e)

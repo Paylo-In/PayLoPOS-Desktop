@@ -33,7 +33,16 @@ namespace PayLoPOS.View
         {
             InitializeComponent();
             statusUserName.Text = "Welcome: "+Global.currentUser.name;
-            this.Text = Global.currentUser.outlet[0].outlet_name;
+            this.Text = Global.currentUser.getSelectedOutletName();
+
+            if(Global.currentUser.outlet.Count > 1)
+            {
+                switchOutlet.Visible = true;
+            }
+            else
+            {
+                switchOutlet.Visible = false;
+            }
 
             //-- Adding list view columns
             listView1.Columns.Add("S/No", 50);
@@ -53,6 +62,25 @@ namespace PayLoPOS.View
             isSelectPending = true;
             lblToday_Click(sender, e);
             disableResentOption();
+
+            if(Global.currentUser.outlet.Count > 1 && Global.isLogin == true)
+            {
+                ChooseOutlet outlet = new ChooseOutlet(this);
+                outlet.ShowDialog();
+            }
+        }
+
+        public void refreshOutlet()
+        {
+            this.Text = Global.currentUser.getSelectedOutletName();
+            if(isSelectPending == true)
+            {
+                lblPendingBills_Click(null, null);
+            }
+            else
+            {
+                lblPaidBills_Click(null, null);
+            }
         }
 
         private void textboxMobile_KeyPress(object sender, KeyPressEventArgs e)
@@ -135,10 +163,11 @@ namespace PayLoPOS.View
 
             //-- Initialize
             EzetapPaymentSync ezetap = new EzetapPaymentSync(this, null, transaction, param.getJSON());
-            if (ezetap.init() == true)
+            ezetap.ShowDialog();
+            /*if (ezetap.init() == true)
             {
                 ezetap.ShowDialog();
-            }
+            }*/
         }
 
         private void payByCash()
@@ -325,6 +354,9 @@ namespace PayLoPOS.View
                     {
                         //-- Show wallet list with order  id.
                         WalletList list = new WalletList(this, null, Double.Parse(txtAmount.Text), model.data.order_id, txtMobile.Text, txtEmail.Text);
+                        clearTextBox();
+                        lblPendingBills_Click(null, null);
+                        showCurrentActivity(model.data.msg);
                         list.ShowDialog();
                     }
                     else
@@ -568,9 +600,21 @@ namespace PayLoPOS.View
             txtPaymentMode.SelectedIndex = 0;
         }
 
+        public void reloadList()
+        {
+            if(isSelectPending == true)
+            {
+                lblPendingBills_Click(null, null);
+            }
+            else
+            {
+                lblPaidBills_Click(null, null);
+            }
+        }
+
         private void label8_Click(object sender, EventArgs e)
         {
-            DialogResult dr = MessageBox.Show("Do you want to logout from \""+Global.currentUser.outlet[0].outlet_name+"\"", "PayLo POS", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            DialogResult dr = MessageBox.Show("Do you want to logout from \""+Global.currentUser.getSelectedOutletName() + "\"", "PayLo POS", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (dr == DialogResult.Yes)
             {
                 new RestClient().Logout();
@@ -642,10 +686,12 @@ namespace PayLoPOS.View
 
                     //-- Initialize
                     EzetapPaymentSync ezetap = new EzetapPaymentSync(this, child, transaction, "");
+                    ezetap.ShowDialog();
+                    /*
                     if (ezetap.init() == true)
                     {
                         ezetap.ShowDialog();
-                    }
+                    }*/
                 }
                 else if (mode == "UPI")
                 {
@@ -736,7 +782,7 @@ namespace PayLoPOS.View
                         PaidBill bill = paidBills.data.txns[Int16.Parse(item.Tag.ToString())];
                         if (bill != null)
                         {
-                            TransactionDetails td = new TransactionDetails(bill.orderid, bill.amount, bill.name, bill.mobile, "", bill.bill_no, bill.txnid, bill.refund_status);
+                            TransactionDetails td = new TransactionDetails(bill.orderid, bill.amount, bill.name, bill.mobile, bill.email, bill.bill_no, bill.txnid, bill.refund_status);
                             td.ShowDialog();
                         }
                     }                    
@@ -760,6 +806,12 @@ namespace PayLoPOS.View
             {
                 btnViewTransaction_Click(null, null);
             }
+        }
+
+        private void switchOutlet_Click(object sender, EventArgs e)
+        {
+            ChooseOutlet outlet = new ChooseOutlet(this);
+            outlet.ShowDialog();
         }
     }
 }

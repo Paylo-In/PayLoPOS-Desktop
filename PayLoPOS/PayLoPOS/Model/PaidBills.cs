@@ -23,6 +23,7 @@ namespace PayLoPOS.Model
         public string created_at { get; set; }
         public string created_by { get; set; }
         public string mobile { get; set; }
+        public string email { get; set; }
         public string name { get; set; }
         public long orderid { get; set; }
         public string payment_mode { get; set; }

@@ -12,7 +12,8 @@ namespace PayLoPOS.Controller
     class RestClient
     {
 
-        static string baseURL = "http://merchant.sumit.ts.paylo.in";
+        //static string baseURL = "http://merchant.sumit.ts.paylo.in";
+        static string baseURL = "http://merchant.paylo.in";
 
         /*||***********************************************************
          *||  Login user
@@ -121,7 +122,7 @@ namespace PayLoPOS.Controller
 
         public async Task<ResponseModel> UpdateEzetapPayment(string json)
         {
-            var response = await MakePostRequest("v2/payment/ezytap-payment-info?token=" + Properties.Settings.Default.accessToken, json);
+            var response = await MakePostRequest("v2/payment/ezytap-desktop-payment-info?token=" + Properties.Settings.Default.accessToken, json);
             ResponseModel model = new JavaScriptSerializer().Deserialize<ResponseModel>(response);
             return model;
         }
@@ -146,7 +147,7 @@ namespace PayLoPOS.Controller
         {
             var json = new JavaScriptSerializer().Serialize(new { order_id = orderId, mobile = mobile, vpa = vpa, upi = 1 });
             var response = await MakePostRequest("v2/customer/resend-bill?token=" + Properties.Settings.Default.accessToken, json);
-            Debug.WriteLine("Resend UPI Bill:" + response);
+            Debug.WriteLine("Params:" + json + " Resend UPI Bill:" + response);
             ResponseModel model = new JavaScriptSerializer().Deserialize<ResponseModel>(response);
             return model;
         }
@@ -174,7 +175,7 @@ namespace PayLoPOS.Controller
         {
             var json = new JavaScriptSerializer().Serialize(new { order_id = orderId, link = 1, mobile = mobile});
             var response = await MakePostRequest("v2/customer/resend-bill?token=" + Properties.Settings.Default.accessToken, json);
-            Debug.WriteLine("ResendLinkPayment:" + response);
+            Debug.WriteLine("Params:" + json + "ResendLinkPayment:" + response);
             ResponseModel model = new JavaScriptSerializer().Deserialize<ResponseModel>(response);
             return model;
         }

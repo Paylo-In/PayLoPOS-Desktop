@@ -40,9 +40,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblMessage.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblMessage.ForeColor = System.Drawing.Color.SeaGreen;
-            this.lblMessage.Location = new System.Drawing.Point(26, 242);
+            this.lblMessage.Location = new System.Drawing.Point(26, 216);
             this.lblMessage.Name = "lblMessage";
-            this.lblMessage.Size = new System.Drawing.Size(379, 130);
+            this.lblMessage.Size = new System.Drawing.Size(379, 167);
             this.lblMessage.TabIndex = 15;
             this.lblMessage.Text = "Processing Failed. We were unable to get information from card. Please try again." +
     " If the problem persists, try a different card or call Ezetap Support.";
@@ -51,7 +51,7 @@
             // pictureBox1
             // 
             this.pictureBox1.Image = global::PayLoPOS.Properties.Resources.ezetap_device;
-            this.pictureBox1.Location = new System.Drawing.Point(105, 29);
+            this.pictureBox1.Location = new System.Drawing.Point(105, 28);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(223, 181);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -63,7 +63,7 @@
             this.button1.BackColor = System.Drawing.Color.Red;
             this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button1.ForeColor = System.Drawing.Color.White;
-            this.button1.Location = new System.Drawing.Point(133, 382);
+            this.button1.Location = new System.Drawing.Point(133, 396);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(167, 30);
             this.button1.TabIndex = 16;
@@ -76,7 +76,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(430, 419);
+            this.ClientSize = new System.Drawing.Size(430, 439);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.lblMessage);
             this.Controls.Add(this.pictureBox1);

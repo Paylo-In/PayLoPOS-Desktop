@@ -15,19 +15,25 @@
     {
         "Entry"
         {
+        "MsmKey" = "8:_279113B3C0D11979B2C6F1D5EE41CD6F"
+        "OwnerKey" = "8:_9D7B4B4D2D4B45E8ADA83AB4413B1BD8"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_47CC87E7AF43D348D256AD24F78BEB6E"
         "OwnerKey" = "8:_9D7B4B4D2D4B45E8ADA83AB4413B1BD8"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_9D7B4B4D2D4B45E8ADA83AB4413B1BD8"
+        "MsmKey" = "8:_7DD43FC52BAA438CA03F36990D866373"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_ADE46B9714DF48829ACD31B6DD154A2F"
+        "MsmKey" = "8:_9D7B4B4D2D4B45E8ADA83AB4413B1BD8"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -41,12 +47,6 @@
         {
         "MsmKey" = "8:_BCDE939A223718160173FB0E7B79230A"
         "OwnerKey" = "8:_47CC87E7AF43D348D256AD24F78BEB6E"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_C774944B419E270647C1311CB62E0165"
-        "OwnerKey" = "8:_9D7B4B4D2D4B45E8ADA83AB4413B1BD8"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -70,7 +70,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_C774944B419E270647C1311CB62E0165"
+        "OwnerKey" = "8:_279113B3C0D11979B2C6F1D5EE41CD6F"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -130,6 +130,14 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.5"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.5 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.5"
+                    }
+                }
             }
         }
     }
@@ -160,6 +168,37 @@
         }
         "File"
         {
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_279113B3C0D11979B2C6F1D5EE41CD6F"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:System.Net.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
+                "ScatterAssemblies"
+                {
+                    "_279113B3C0D11979B2C6F1D5EE41CD6F"
+                    {
+                    "Name" = "8:System.Net.Http.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:System.Net.Http.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_7AEC8D249ECD4B93BD9FD85FA589D7D2"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_47CC87E7AF43D348D256AD24F78BEB6E"
             {
             "AssemblyRegister" = "3:1"
@@ -191,10 +230,10 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_ADE46B9714DF48829ACD31B6DD154A2F"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_7DD43FC52BAA438CA03F36990D866373"
             {
-            "SourcePath" = "8:C:\\Users\\Rathor\\Downloads\\payloPOS.ico"
-            "TargetName" = "8:payloPOS.ico"
+            "SourcePath" = "8:C:\\Users\\Rathor\\Downloads\\icon180.ico"
+            "TargetName" = "8:icon180.ico"
             "Tag" = "8:"
             "Folder" = "8:_20A78BF6CCE8451CA8AED9F9B155D669"
             "Condition" = "8:"
@@ -225,37 +264,6 @@
                     }
                 }
             "SourcePath" = "8:EzetapATL.interop.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_7AEC8D249ECD4B93BD9FD85FA589D7D2"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_C774944B419E270647C1311CB62E0165"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:System.Net.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
-                "ScatterAssemblies"
-                {
-                    "_C774944B419E270647C1311CB62E0165"
-                    {
-                    "Name" = "8:System.Net.Http.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:System.Net.Http.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_7AEC8D249ECD4B93BD9FD85FA589D7D2"
@@ -341,7 +349,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:PayLoPOS"
         "ProductCode" = "8:{AC6F9840-A567-4EE4-AD7D-FE3CA03E5BEA}"
-        "PackageCode" = "8:{6F987590-2A5D-4FD7-BB3B-887E72DC4FBA}"
+        "PackageCode" = "8:{4DB3A577-0D54-4E1F-9433-0BD897E4A7CC}"
         "UpgradeCode" = "8:{89C2B3A2-BB02-4886-9635-C47F8787CD7D}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -472,7 +480,7 @@
             "Target" = "8:_9D7B4B4D2D4B45E8ADA83AB4413B1BD8"
             "Folder" = "8:_40874F12E3624598B5C7FB2FF059F6A2"
             "WorkingFolder" = "8:_7AEC8D249ECD4B93BD9FD85FA589D7D2"
-            "Icon" = "8:_ADE46B9714DF48829ACD31B6DD154A2F"
+            "Icon" = "8:_7DD43FC52BAA438CA03F36990D866373"
             "Feature" = "8:"
             }
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_BDC0BBFCCD034DEBA896A681F86531EB"
@@ -486,7 +494,7 @@
             "Target" = "8:_9D7B4B4D2D4B45E8ADA83AB4413B1BD8"
             "Folder" = "8:_20A78BF6CCE8451CA8AED9F9B155D669"
             "WorkingFolder" = "8:_7AEC8D249ECD4B93BD9FD85FA589D7D2"
-            "Icon" = "8:_ADE46B9714DF48829ACD31B6DD154A2F"
+            "Icon" = "8:_7DD43FC52BAA438CA03F36990D866373"
             "Feature" = "8:"
             }
         }

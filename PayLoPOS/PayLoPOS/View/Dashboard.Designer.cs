@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Dashboard));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.switchOutlet = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.lblOneMonth = new System.Windows.Forms.Label();
             this.lblOneWeek = new System.Windows.Forms.Label();
@@ -83,15 +84,30 @@
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.switchOutlet);
             this.groupBox1.Controls.Add(this.label8);
             this.groupBox1.Controls.Add(this.lblOneMonth);
             this.groupBox1.Controls.Add(this.lblOneWeek);
             this.groupBox1.Controls.Add(this.lblToday);
             this.groupBox1.Location = new System.Drawing.Point(258, -7);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(554, 41);
+            this.groupBox1.Size = new System.Drawing.Size(570, 41);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
+            // 
+            // switchOutlet
+            // 
+            this.switchOutlet.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.switchOutlet.AutoSize = true;
+            this.switchOutlet.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.switchOutlet.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.switchOutlet.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.switchOutlet.Location = new System.Drawing.Point(318, 13);
+            this.switchOutlet.Name = "switchOutlet";
+            this.switchOutlet.Size = new System.Drawing.Size(151, 20);
+            this.switchOutlet.TabIndex = 16;
+            this.switchOutlet.Text = "SWITCH OUTLET";
+            this.switchOutlet.Click += new System.EventHandler(this.switchOutlet_Click);
             // 
             // label8
             // 
@@ -100,7 +116,7 @@
             this.label8.Cursor = System.Windows.Forms.Cursors.Hand;
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label8.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.label8.Location = new System.Drawing.Point(459, 13);
+            this.label8.Location = new System.Drawing.Point(475, 13);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(82, 20);
             this.label8.TabIndex = 15;
@@ -167,7 +183,7 @@
             this.lblTotalAmount.Location = new System.Drawing.Point(265, 6);
             this.lblTotalAmount.Name = "lblTotalAmount";
             this.lblTotalAmount.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.lblTotalAmount.Size = new System.Drawing.Size(271, 27);
+            this.lblTotalAmount.Size = new System.Drawing.Size(287, 27);
             this.lblTotalAmount.TabIndex = 4;
             this.lblTotalAmount.Text = "₹ 0.00";
             this.lblTotalAmount.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -182,7 +198,7 @@
             this.panel2.Controls.Add(this.lblTotalAmount);
             this.panel2.Location = new System.Drawing.Point(261, 33);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(551, 40);
+            this.panel2.Size = new System.Drawing.Size(567, 40);
             this.panel2.TabIndex = 4;
             // 
             // lblPaidBills
@@ -232,7 +248,7 @@
             this.listView1.Location = new System.Drawing.Point(261, 109);
             this.listView1.MultiSelect = false;
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(549, 520);
+            this.listView1.Size = new System.Drawing.Size(566, 538);
             this.listView1.TabIndex = 10;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
@@ -264,7 +280,7 @@
             this.groupBox2.Controls.Add(this.groupBox3);
             this.groupBox2.Location = new System.Drawing.Point(-1, -7);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(264, 744);
+            this.groupBox2.Size = new System.Drawing.Size(264, 874);
             this.groupBox2.TabIndex = 8;
             this.groupBox2.TabStop = false;
             this.groupBox2.Enter += new System.EventHandler(this.groupBox2_Enter);
@@ -496,7 +512,7 @@
             this.panel1.Controls.Add(this.btnPayNow);
             this.panel1.Location = new System.Drawing.Point(261, 74);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(551, 35);
+            this.panel1.Size = new System.Drawing.Size(567, 35);
             this.panel1.TabIndex = 14;
             // 
             // listViewLoading
@@ -540,9 +556,9 @@
             this.statusUserName,
             this.toolStripStatusLabel2,
             this.statusCurrentActivity});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 627);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 647);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(811, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(827, 22);
             this.statusStrip1.TabIndex = 15;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -575,7 +591,7 @@
             this.AutoScroll = true;
             this.AutoScrollMinSize = new System.Drawing.Size(811, 627);
             this.BackColor = System.Drawing.Color.SteelBlue;
-            this.ClientSize = new System.Drawing.Size(795, 589);
+            this.ClientSize = new System.Drawing.Size(827, 669);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.listView1);
@@ -645,5 +661,6 @@
         private System.Windows.Forms.ToolStripStatusLabel statusCurrentActivity;
         private System.Windows.Forms.PictureBox imgLoading;
         private System.Windows.Forms.PictureBox listViewLoading;
+        private System.Windows.Forms.Label switchOutlet;
     }
 }

@@ -1,262 +1,213 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
-using EzetapApi.models;
-using EzetapApi;
 using PayLoPOS.Model;
 using PayLoPOS.Controller;
+
+using EzetapApi.helper;
+using EzetapApi;
+using EzetapApi.models;
 
 namespace PayLoPOS.View
 {
     ////////////////Type defs///////////
-    using EPIC_STATUS = System.Int32;
-    using EPIC_BOOL = System.Int32;
 
     using System.Diagnostics;
+    using System.Reflection;
     using System.Web.Script.Serialization;
 
-    enum APIName
+    public partial class EzetapPaymentSync : Form
     {
-        LOGIN = 1,
-        PREPARE,
-        TRANSACTION
-    }
+        //-- Application Required Keys
+        //-- Live
+        string apiKey = "6d4c3717-9845-4caf-abc0-611018b37af7";
+        string userName = "PAYLO";
+        bool isDemo = false;
 
-    public partial class EzetapPaymentSync : Form, StatusCallback
-    {
-        EzeConfig config = new EzeConfig("PayLo POS", "1.0", true);
+        //-- Dummy
+        //string apiKey = "74cfc32d-005b-4158-ad63-8c8418c3da8b";
+        //string userName = "PAYLO";
+        //bool isDemo = true;
+        //-----------------------------------------------
 
-        EzeApi appLib;
+
+        bool hasInitialized = false;
+        bool hasLoggedIn = false;
+        EzeApi api;
 
         private Transaction transaction;
-
         Dashboard parent;
         ChoosePaymentOption subParent;
-
-        string usesDetails;
-
         string jsonParams;
-
-        APIName apiName;
 
         public EzetapPaymentSync(Dashboard p, ChoosePaymentOption subParent, Transaction txn, string param)
         {
             parent = p;
             this.subParent = subParent;
-            this.transaction = txn;
-            this.jsonParams = param;
+            transaction = txn;
+            jsonParams = param;
             InitializeComponent();
         }
 
         private void EzetapPaymentSync_Load(object sender, EventArgs e)
         {
             showSuccess("Connecting...");
-            apiName = APIName.LOGIN;
-            usesDetails = appLib.usage("");
-            appLib.loginWithAppKey(this, "74cfc32d-005b-4158-ad63-8c8418c3da8b", "EztapDemo");
+            initializeEzetap();
         }
 
-        public bool init()
+        private void button1_Click(object sender, EventArgs e)
         {
-            //-- Initialize
-            appLib = new EzeApi(config);
-            if (appLib.initialize(true) == 0)
-            {
-                return true;
-            }
-            else
-            {
-                MessageBox.Show("Initilization Failed");
-                return false;
-            }
+            button1.Visible = false;
+            showSuccess("Connecting...");
+            initializeEzetap();
         }
 
-        List<string> strAppendText = new List<string>();
-        public void AppendText(string text)
+        public void initializeEzetap()
         {
-            string s1 = string.Format("{0}", text);
-            Action<string> d1 = SetCallbackText;
-            parent.Invoke(d1, s1);
+            if (!hasInitialized)
+            {
+                hasInitialized = true;
+                AssemblyName name = Assembly.GetExecutingAssembly().GetName();
+                EzeConfig cfg = new EzeConfig(name.Name.ToString(), name.Version.ToString(), isDemo, true);
+                api = new EzeApi(cfg);
+                if (api.initialize(true) != 0)
+                {
+                    showError("Ezetap Initialization Failed");
+                }
+            }
+            EzetapLogin();
         }
-        void SetCallbackText(string str)
+
+        public async void EzetapLogin()
         {
-            Debug.WriteLine(str);
-            if (str.Contains("Device is disconnected"))
+            if (!hasLoggedIn)
             {
-                showError("Failed: Device is disconnected");
-                button1.Visible = true;
-            }
-            else if (apiName == APIName.LOGIN)
-            {
-                if(str.Contains("SERVER_RESULT: Login message: "))
+                showSuccess("Authenticating User...");
+                var loginResult = await api.loginWithAppKeyAsync(apiKey, userName, new Progress<EzetapProgressMsg>(txt =>
                 {
-                    EzetapResponse response = new JavaScriptSerializer().Deserialize<EzetapResponse>(str.Replace("SERVER_RESULT: Login message: ", ""));
-                    if(response.success == true)
-                    {
-                        showSuccess("Prepare Device ...");
-                        apiName = APIName.PREPARE;
-                        usesDetails = appLib.usage("preparedevice");
-                        appLib.prepareDevice(this);
-                    }
-                    else
-                    {
-                        showError("Device failed to Prepare. Please reconnect the device and try again.");
-                        button1.Visible = true;
-                    }
+                    showSuccess(string.Format("IprogressLogin: {0}", txt));
+                }));
+
+                if (!loginResult.success)
+                {
+                    showError("Login Failed. " + loginResult.msg.Text);
                 }
-                else if(str.Contains("API Result: -2147418109 (") || str.Contains("(Invalid library state"))
+                else
                 {
-                    showError("Device failed to connect. Please reconnect the device and try again.");
-                    button1.Visible = true;
+                    hasLoggedIn = true;
                 }
             }
-            else if(apiName == APIName.PREPARE)
+
+            if (hasLoggedIn)
             {
-                if (str.Contains("NOTIFICATION: code 2 ("))
+                if (transaction.externalReference2 == "")
                 {
-                    showSuccess("Validating device session with server");
+                    createBill();
                 }
-                else if(str.Contains("Could not communicate with Ezetap device"))
+                else
                 {
-                    showError("Failed: Could not communicate with Ezetap device. Please reconnect the device and try again.");
-                    button1.Visible = true;
-                }
-                else if (str.Contains("EPIC_PREPARE_RESULT: code 0 ("))
-                {
-                    showSuccess("Device connected ... ");
-                    createBill();                    
-                }
-            }
-            else if (apiName == APIName.TRANSACTION)
-            {
-                Debug.WriteLine(str);
-                if (str.Contains("NOTIFICATION: code 1 ("))
-                {
-                    showSuccess("Identifying device");
-                }
-                else if (str.Contains("NOTIFICATION: code 4 ("))
-                {
-                    showSuccess("Preparing device for transaction");
-                }
-                else if (str.Contains("NOTIFICATION: code 5 ("))
-                {
-                    showSuccess("Please Swipe or Insert Card");
-                }
-                else if (str.Contains("NOTIFICATION: code 23 ("))
-                {
-                    showSuccess("Bad swipe detected. Please Swipe card again");
-                }
-                else if (str.Contains("NOTIFICATION: code 8 ("))
-                {
-                    showSuccess("Please enter PIN on device pinpad within 30 seconds");
-                }
-                else if (str.Contains("NOTIFICATION: code 9 ("))
-                {
-                    showSuccess("PIN is entered");
-                }
-                else if (str.Contains("NOTIFICATION: code 6 ("))
-                {
-                    showSuccess("Reading data from device");
-                }
-                else if (str.Contains("NOTIFICATION: code 10 ("))
-                {
-                    showSuccess("Authorization by server is in progress");
-                }
-                else if (str.Contains("EPIC_TRANSACTION_RESULT: code 0 ("))
-                {
-                    showSuccess("Authorization by server is in progress");
-                }
-                else if (str.Contains("NOTIFICATION: code 12 ("))
-                {
-                    showSuccess("Please Swipe or Insert card again");
-                }
-                else if (str.Contains("SERVER_RESULT: code EZETAP_0000084 (") || str.Contains("You have attempted a similar"))
-                {
-                    showError("Failed: You have attempted a similar payment for the same amount using the same card within 1 minute");
-                    button1.Visible = true;
-                }
-                else if(str.Contains("SERVER_RESULT: code EZETAP_000"))
-                {
-                    showError("Failed: You have already made a similar payment for the same amount INR "+Global.currentBill.amount.ToString("0.00")+". Please check the status of the payment made before you proceed.");
-                    button1.Visible = true;
-                }
-                else if(str.Contains("SERVER_RESULT: code EZETAP_0000089 (") || str.Contains("We were unable to get information from card"))
-                {
-                    showError("Failed: Processing Failed. We were unable to get information from card. Please try again. If the problem persists, try a different card or call Ezetap Support.");
-                    button1.Visible = true;
-                    parent.lblPendingBills_Click(null, null);
-                }
-                else if (str.Contains("SERVER_RESULT: Txn ID:"))
-                {
-                    string json = getJSONString(str);
-                    updatePayment(json);
+                    EzetapMakePayment();
                 }
             }
         }
 
-        private async void createBill()
+        public async void EzetapMakePayment()
         {
-            if(transaction.externalReference2 == "")
+            if (hasLoggedIn)
             {
-                try
+                showSuccess("Preparing Device...");
+                var paymentResult = await api.cardTransactionAsync(transaction, new Progress<EzetapProgressMsg>(txt =>
                 {
-                    var response = await new RestClient().MakePostRequest("v2/customer/create-bill?token=" + Properties.Settings.Default.accessToken, jsonParams);
-                    Debug.WriteLine(response);
-                    ResponseModel model = new JavaScriptSerializer().Deserialize<ResponseModel>(response);
-                    if (model.status == 1)
-                    {
-                        if (model.data.order_code != null)
-                        {
-                            transaction.orderId = model.data.order_code;
-                            transaction.externalReference2 = model.data.order_id.ToString();
-                            apiName = APIName.TRANSACTION;
-                            usesDetails = appLib.usage("transaction <orderId> <amount> [amountOther] [Reference2] [Reference3] [customerMobile] [customerEmail]");
-                            appLib.cardTransaction(this, transaction);
-                        }
-                        else
-                        {
-                            MessageBox.Show("Order code not found");
-                        }
-                    }
-                    else
-                    {
-                        MessageBox.Show(model.data.msg);
-                    }
-                }
-                catch (Exception ex)
+                    showSuccess(txt.Text);
+                }));
+
+                if (paymentResult.success)
                 {
-                    MessageBox.Show(ex.Message);
-                    this.Close();
+                    updatePayment(((TransactionResponse)paymentResult.responseObj));
                 }
-            }
-            else
-            {
-                apiName = APIName.TRANSACTION;
-                usesDetails = appLib.usage("transaction <orderId> <amount> [amountOther] [Reference2] [Reference3] [customerMobile] [customerEmail]");
-                appLib.cardTransaction(this, transaction);
+                else
+                {
+                    showError(paymentResult.msg.Text);
+                }
             }
         }
 
-        private async void updatePayment(string json)
+        public async void createBill()
         {
             try
             {
+                var response = await new RestClient().MakePostRequest("v2/customer/create-bill?token=" + Properties.Settings.Default.accessToken, jsonParams);
+                Debug.WriteLine(response);
+                ResponseModel model = new JavaScriptSerializer().Deserialize<ResponseModel>(response);
+                if (model.status == 1)
+                {
+                    if (model.data.order_code != null)
+                    {
+                        parent.clearTextBox();
+                        transaction.orderId = model.data.order_code;
+                        transaction.externalReference2 = model.data.order_id.ToString();
+                        EzetapMakePayment();
+                    }
+                    else
+                    {
+                        showError("Order code not found");
+                    }
+                }
+                else
+                {
+                    showError(model.data.msg);
+                }
+            }
+            catch(Exception ex)
+            {
+                showError(ex.Message);
+            }
+        }
+
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            if (api != null)
+            {
+                api.Exit();
+            }
+        }
+
+        private void parseMessage(string message)
+        {
+            if(message.Contains("SERVER_RESULT: code "))
+            {
+                message = message.Replace("SERVER_RESULT: code ", "");
+                string[] temp = message.Split(' ');
+                message = message.Replace(temp[0] + " (", "");
+                message = message.Substring(0, message.Length - 1);
+                showError(message);
+                button1.Visible = true;
+            }
+            else if(message.Contains("EPIC_TRANSACTION_RESULT: code "))
+            {
+                message = message.Replace("EPIC_TRANSACTION_RESULT: code ", "");
+                string[] temp = message.Split(' ');
+                message = message.Replace(temp[0] + " (", "");
+                message = message.Substring(0, message.Length - 1);
+                showError(message);
+                button1.Visible = true;
+            }
+        }
+        
+        private async void updatePayment(TransactionResponse txnResponse)
+        {
+            try
+            {
+                var json = new JavaScriptSerializer().Serialize(txnResponse);
                 showSuccess("Validating payment ...");
-                EzetapResponse response = new JavaScriptSerializer().Deserialize<EzetapResponse>(json);
-                Debug.WriteLine("Convert Payment Format JSON: " + response.getPayLoJSON());
-                ResponseModel model = await new RestClient().UpdateEzetapPayment(response.getPayLoJSON());
-                if (response.success == true && model.status == 1)
+                ResponseModel model = await new RestClient().UpdateEzetapPayment(json);
+                if (model.status == 1)
                 {
                     showSuccess("Payment Success");
                     parent.lblPaidBills_Click(null, null);
-                    parent.showCurrentActivity("MPOS payment success");
+                    parent.showCurrentActivity(model.data.msg);
                     parent.clearTextBox();
                     PaymentStatus ps = new PaymentStatus(1, model.data.msg, "MPOS");
                     ps.ShowDialog();
@@ -265,7 +216,6 @@ namespace PayLoPOS.View
                 {
                     showError("Payment Failed");
                     parent.lblPendingBills_Click(null, null);
-                    MessageBox.Show("MPOS payment failed");
                     PaymentStatus ps = new PaymentStatus(0, model.data.msg, "MPOS");
                     ps.ShowDialog();
                 }
@@ -282,62 +232,50 @@ namespace PayLoPOS.View
             }
         }
 
-        private string getJSONString(string str)
-        {
-            string json = "";
-            string[] temp = str.Split('{');
-            bool isFirst = false;
-            foreach (var s in temp)
-            {
-                if (isFirst)
-                {
-                    json += "{" + s;
-                }
-                isFirst = true;
-            }
-            return json;
-        }
-
         private void showError(string message)
         {
+            button1.Visible = true;
             lblMessage.ForeColor = Color.Red;
             finalMessage(message);
         }
 
         private void showSuccess(string message)
         {
-            if (message != "API Result: Operation result pending")
-            {
-                lblMessage.ForeColor = Color.SeaGreen;
-                finalMessage(message);
-            }
+            button1.Visible = false;
+            lblMessage.ForeColor = Color.SeaGreen;
+            finalMessage(message);
         }
 
         private void finalMessage(string message)
         {
             Debug.WriteLine(message);
-            string msg = message.Replace("NOTIFICATION: code ", "");
-            msg = msg.Replace("EPIC_LOGIN_RESULT: code 0 (", "");
-            msg = msg.Replace("EPIC_TRANSACTION_RESULT: code 0 (", "");
-            msg = msg.Replace(")", "");
-            for (int i = 1; i < 30; i++)
-            {
-                msg = msg.Replace(i.ToString() + " (", "");
-            }
-            for (int i = 1; i < 9; i++)
-            {
-                msg = msg.Replace(i.ToString() + "B", "B");
-            }
-            lblMessage.Text = msg;
-        }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            button1.Visible = false;
-            showSuccess("Connecting...");
-            apiName = APIName.LOGIN;
-            usesDetails = appLib.usage("");
-            appLib.loginWithAppKey(this, "74cfc32d-005b-4158-ad63-8c8418c3da8b", "EztapDemo");
+            if(message.Contains("NOTIFICATION: "))
+            {
+                message = message.Replace("NOTIFICATION: ", "");
+                string[] temp = message.Split(' ');
+                message = message.Replace(temp[0] + " ", "");
+            }
+            else if (message.Contains("EPIC_TRANSACTION_RESULT: "))
+            {
+                message = message.Replace("EPIC_TRANSACTION_RESULT: ", "");
+                string[] temp = message.Split(' ');
+
+                if (temp[1].Contains("EZETAP_"))
+                {
+                    message = message.Replace(temp[0] + " " + temp[1], "");
+                }
+                else
+                {
+                    message = message.Replace(temp[0] + " ", "");
+                }                
+            }
+            else if(message.Contains("API_Result: "))
+            {
+                message = lblMessage.Text;
+            }
+
+            lblMessage.Text = message;
         }
     }
 }
