@@ -27,7 +27,8 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <TargetFrameworkProfile />
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -80,16 +81,9 @@
     <NoWin32Manifest>true</NoWin32Manifest>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EzetapEpic">
-      <HintPath>..\..\..\Ezetap\Binaries\EzeTapServiceRelease (2)\EzeTapServiceRelease\Binaries\install-Release-v4.5-x86\EzetapEpic.dll</HintPath>
-    </Reference>
-    <Reference Include="EzetapWindowsSDK, Version=2.7.1.1, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="EzetapWindowsSDK, Version=3.0.1.2, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Ezetap\Binaries\EzeTapServiceRelease (2)\EzeTapServiceRelease\Binaries\install-Release-v4.5-x86\EzetapWindowsSDK.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Ezetap\Binaries\EzeTapServiceRelease (2)\EzeTapServiceRelease\Binaries\install-Release-v4.5-x86\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\..\..\..\EzetapGoldenRelease\install-Release-v4.5-x86\EzetapWindowsSDK.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

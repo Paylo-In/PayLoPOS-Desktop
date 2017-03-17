@@ -21,13 +21,43 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_47CC87E7AF43D348D256AD24F78BEB6E"
+        "MsmKey" = "8:_449944343C17AB5E8D54D28D459EB37A"
         "OwnerKey" = "8:_9D7B4B4D2D4B45E8ADA83AB4413B1BD8"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_7DD43FC52BAA438CA03F36990D866373"
+        "MsmKey" = "8:_4978BE3EDD04472895EE1561C9C7EC26"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_5166FE8B992FF298830690EC20F7C876"
+        "OwnerKey" = "8:_449944343C17AB5E8D54D28D459EB37A"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_5166FE8B992FF298830690EC20F7C876"
+        "OwnerKey" = "8:_9D7B4B4D2D4B45E8ADA83AB4413B1BD8"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_5918852ADA0043D094A2BA0D2D06F787"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_6061A5F4817D46648428C440448C9221"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_88BDDA06A6DE45BCBE52F44E4D65FFC5"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -39,14 +69,20 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_BCDE939A223718160173FB0E7B79230A"
+        "MsmKey" = "8:_A096E158FBA04DE0BAE4AF54C3537C0E"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_F75386DFB10C1462267CF905E52496F7"
         "OwnerKey" = "8:_9D7B4B4D2D4B45E8ADA83AB4413B1BD8"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_BCDE939A223718160173FB0E7B79230A"
-        "OwnerKey" = "8:_47CC87E7AF43D348D256AD24F78BEB6E"
+        "MsmKey" = "8:_F75386DFB10C1462267CF905E52496F7"
+        "OwnerKey" = "8:_449944343C17AB5E8D54D28D459EB37A"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -58,13 +94,25 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_47CC87E7AF43D348D256AD24F78BEB6E"
+        "OwnerKey" = "8:_449944343C17AB5E8D54D28D459EB37A"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_BCDE939A223718160173FB0E7B79230A"
+        "OwnerKey" = "8:_F75386DFB10C1462267CF905E52496F7"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_5918852ADA0043D094A2BA0D2D06F787"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_5166FE8B992FF298830690EC20F7C876"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -199,14 +247,14 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_47CC87E7AF43D348D256AD24F78BEB6E"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_449944343C17AB5E8D54D28D459EB37A"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:EzetapWindowsSDK, Version=2.7.1.1, Culture=neutral, processorArchitecture=x86"
+            "AssemblyAsmDisplayName" = "8:EzetapWindowsSDK, Version=3.0.1.2, Culture=neutral, processorArchitecture=x86"
                 "ScatterAssemblies"
                 {
-                    "_47CC87E7AF43D348D256AD24F78BEB6E"
+                    "_449944343C17AB5E8D54D28D459EB37A"
                     {
                     "Name" = "8:EzetapWindowsSDK.dll"
                     "Attributes" = "3:512"
@@ -230,12 +278,12 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_7DD43FC52BAA438CA03F36990D866373"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_4978BE3EDD04472895EE1561C9C7EC26"
             {
-            "SourcePath" = "8:C:\\Users\\Rathor\\Downloads\\icon180.ico"
-            "TargetName" = "8:icon180.ico"
+            "SourcePath" = "8:E:\\EzetapGoldenRelease\\install-Release-v4.5-x86\\msvcp120.dll"
+            "TargetName" = "8:msvcp120.dll"
             "Tag" = "8:"
-            "Folder" = "8:_20A78BF6CCE8451CA8AED9F9B155D669"
+            "Folder" = "8:_7AEC8D249ECD4B93BD9FD85FA589D7D2"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -250,20 +298,142 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_BCDE939A223718160173FB0E7B79230A"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_5166FE8B992FF298830690EC20F7C876"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:EzetapATL.interop, Version=2.7.1.1, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_BCDE939A223718160173FB0E7B79230A"
+                    "_5166FE8B992FF298830690EC20F7C876"
                     {
-                    "Name" = "8:EzetapATL.interop.dll"
+                    "Name" = "8:Newtonsoft.Json.dll"
                     "Attributes" = "3:512"
                     }
                 }
-            "SourcePath" = "8:EzetapATL.interop.dll"
+            "SourcePath" = "8:Newtonsoft.Json.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_7AEC8D249ECD4B93BD9FD85FA589D7D2"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_5918852ADA0043D094A2BA0D2D06F787"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_5918852ADA0043D094A2BA0D2D06F787"
+                    {
+                    "Name" = "8:Newtonsoft.Json.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:E:\\EzetapGoldenRelease\\install-Release-v4.5-x86\\Newtonsoft.Json.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_7AEC8D249ECD4B93BD9FD85FA589D7D2"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_6061A5F4817D46648428C440448C9221"
+            {
+            "SourcePath" = "8:C:\\Users\\Rathor\\Downloads\\icon.ico"
+            "TargetName" = "8:icon.ico"
+            "Tag" = "8:"
+            "Folder" = "8:_7AEC8D249ECD4B93BD9FD85FA589D7D2"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_88BDDA06A6DE45BCBE52F44E4D65FFC5"
+            {
+            "SourcePath" = "8:E:\\EzetapGoldenRelease\\install-Release-v4.5-x86\\msvcr120.dll"
+            "TargetName" = "8:msvcr120.dll"
+            "Tag" = "8:"
+            "Folder" = "8:_7AEC8D249ECD4B93BD9FD85FA589D7D2"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_A096E158FBA04DE0BAE4AF54C3537C0E"
+            {
+            "SourcePath" = "8:E:\\EzetapGoldenRelease\\install-Release-v4.5-x86\\Newtonsoft.Json.xml"
+            "TargetName" = "8:Newtonsoft.Json.xml"
+            "Tag" = "8:"
+            "Folder" = "8:_7AEC8D249ECD4B93BD9FD85FA589D7D2"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_F75386DFB10C1462267CF905E52496F7"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:EzetapEpic, Version=1.0.6274.23844, Culture=neutral, processorArchitecture=x86"
+                "ScatterAssemblies"
+                {
+                    "_F75386DFB10C1462267CF905E52496F7"
+                    {
+                    "Name" = "8:EzetapEpic.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:EzetapEpic.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_7AEC8D249ECD4B93BD9FD85FA589D7D2"
@@ -296,17 +466,6 @@
             "Property" = "8:ProgramMenuFolder"
                 "Folders"
                 {
-                    "{9EF0B969-E518-4E46-987F-47570745A589}:_20A78BF6CCE8451CA8AED9F9B155D669"
-                    {
-                    "Name" = "8:PayLoPOS"
-                    "AlwaysCreate" = "11:FALSE"
-                    "Condition" = "8:"
-                    "Transitive" = "11:FALSE"
-                    "Property" = "8:_1D9D325EF17348AC89694812FC601277"
-                        "Folders"
-                        {
-                        }
-                    }
                 }
             }
             "{1525181F-901A-416C-8A58-119130FE478E}:_40874F12E3624598B5C7FB2FF059F6A2"
@@ -349,20 +508,20 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:PayLoPOS"
         "ProductCode" = "8:{AC6F9840-A567-4EE4-AD7D-FE3CA03E5BEA}"
-        "PackageCode" = "8:{4DB3A577-0D54-4E1F-9433-0BD897E4A7CC}"
+        "PackageCode" = "8:{12BBD90D-D2CC-49FC-AB62-EA13C494D353}"
         "UpgradeCode" = "8:{89C2B3A2-BB02-4886-9635-C47F8787CD7D}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
-        "RemovePreviousVersions" = "11:FALSE"
+        "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
-        "InstallAllUsers" = "11:FALSE"
+        "InstallAllUsers" = "11:TRUE"
         "ProductVersion" = "8:1.0.0"
-        "Manufacturer" = "8:PayLo"
+        "Manufacturer" = "8:PayLoPOS"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
         "Title" = "8:PayLoPOS"
         "Subject" = "8:"
-        "ARPCONTACT" = "8:PayLo"
+        "ARPCONTACT" = "8:PayLoPOS"
         "Keywords" = "8:"
         "ARPCOMMENTS" = "8:"
         "ARPURLINFOABOUT" = "8:"
@@ -469,6 +628,20 @@
         }
         "Shortcut"
         {
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_12875833DBCA4970816B6A352A0D04C7"
+            {
+            "Name" = "8:PayLoPOS"
+            "Arguments" = "8:"
+            "Description" = "8:"
+            "ShowCmd" = "3:1"
+            "IconIndex" = "3:0"
+            "Transitive" = "11:FALSE"
+            "Target" = "8:_9D7B4B4D2D4B45E8ADA83AB4413B1BD8"
+            "Folder" = "8:_21EE527642DF43A2B6644602AB350249"
+            "WorkingFolder" = "8:_7AEC8D249ECD4B93BD9FD85FA589D7D2"
+            "Icon" = "8:_6061A5F4817D46648428C440448C9221"
+            "Feature" = "8:"
+            }
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_528FF004BA3F43AA95E26B37B9ACD6A4"
             {
             "Name" = "8:PayLoPOS"
@@ -480,21 +653,7 @@
             "Target" = "8:_9D7B4B4D2D4B45E8ADA83AB4413B1BD8"
             "Folder" = "8:_40874F12E3624598B5C7FB2FF059F6A2"
             "WorkingFolder" = "8:_7AEC8D249ECD4B93BD9FD85FA589D7D2"
-            "Icon" = "8:_7DD43FC52BAA438CA03F36990D866373"
-            "Feature" = "8:"
-            }
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_BDC0BBFCCD034DEBA896A681F86531EB"
-            {
-            "Name" = "8:PayLoPOS"
-            "Arguments" = "8:"
-            "Description" = "8:"
-            "ShowCmd" = "3:1"
-            "IconIndex" = "3:0"
-            "Transitive" = "11:FALSE"
-            "Target" = "8:_9D7B4B4D2D4B45E8ADA83AB4413B1BD8"
-            "Folder" = "8:_20A78BF6CCE8451CA8AED9F9B155D669"
-            "WorkingFolder" = "8:_7AEC8D249ECD4B93BD9FD85FA589D7D2"
-            "Icon" = "8:_7DD43FC52BAA438CA03F36990D866373"
+            "Icon" = "8:_6061A5F4817D46648428C440448C9221"
             "Feature" = "8:"
             }
         }

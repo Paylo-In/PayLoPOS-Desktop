@@ -22,16 +22,12 @@ namespace PayLoPOS.View
     {
         //-- Application Required Keys
         //-- Live
-        string apiKey = "6d4c3717-9845-4caf-abc0-611018b37af7";
+        string apiKey_LIVE = "6d4c3717-9845-4caf-abc0-611018b37af7";
         string userName = "PAYLO";
-        bool isDemo = false;
 
         //-- Dummy
-        //string apiKey = "74cfc32d-005b-4158-ad63-8c8418c3da8b";
-        //string userName = "PAYLO";
-        //bool isDemo = true;
+        string apiKey_TEST = "e73abbf5-f851-4a31-9d3c-44eb986346d0";
         //-----------------------------------------------
-
 
         bool hasInitialized = false;
         bool hasLoggedIn = false;
@@ -42,12 +38,24 @@ namespace PayLoPOS.View
         ChoosePaymentOption subParent;
         string jsonParams;
 
+        string apiKey;
+
         public EzetapPaymentSync(Dashboard p, ChoosePaymentOption subParent, Transaction txn, string param)
         {
             parent = p;
             this.subParent = subParent;
             transaction = txn;
             jsonParams = param;
+
+            if(Global.isApplicationLive == true)
+            {
+                apiKey = apiKey_LIVE;
+            }
+            else
+            {
+                apiKey = apiKey_TEST;
+            }
+
             InitializeComponent();
         }
 
@@ -70,7 +78,7 @@ namespace PayLoPOS.View
             {
                 hasInitialized = true;
                 AssemblyName name = Assembly.GetExecutingAssembly().GetName();
-                EzeConfig cfg = new EzeConfig(name.Name.ToString(), name.Version.ToString(), isDemo, true);
+                EzeConfig cfg = new EzeConfig(name.Name.ToString(), name.Version.ToString(), !(Global.isApplicationLive), true);
                 api = new EzeApi(cfg);
                 if (api.initialize(true) != 0)
                 {
@@ -84,10 +92,10 @@ namespace PayLoPOS.View
         {
             if (!hasLoggedIn)
             {
-                showSuccess("Authenticating User...");
+                showSuccess("Connecting...");
                 var loginResult = await api.loginWithAppKeyAsync(apiKey, userName, new Progress<EzetapProgressMsg>(txt =>
                 {
-                    showSuccess(string.Format("IprogressLogin: {0}", txt));
+                    showSuccess(string.Format("{0}", txt));
                 }));
 
                 if (!loginResult.success)
@@ -249,6 +257,11 @@ namespace PayLoPOS.View
         private void finalMessage(string message)
         {
             Debug.WriteLine(message);
+
+            if (message.Contains("EPIC_PREPARE_PROGRESS:"))
+            {
+                return;
+            }
 
             if(message.Contains("NOTIFICATION: "))
             {

@@ -12,8 +12,8 @@ namespace PayLoPOS.Controller
     class RestClient
     {
 
-        //static string baseURL = "http://merchant.sumit.ts.paylo.in";
-        static string baseURL = "http://merchant.paylo.in";
+        static string baseURL_TEST = "http://merchant.sumit.ts.paylo.in";
+        static string baseURL_LIVE = "http://merchant.paylo.in";
 
         /*||***********************************************************
          *||  Login user
@@ -195,8 +195,21 @@ namespace PayLoPOS.Controller
          */
         public async Task<string> MakePostRequest(string method, string json)
         {
+            if(Global.isInternetConnected() == false)
+            {
+                throw new Exception("No internet connection...");
+            }
+
             HttpClient httpClient = new HttpClient();
-            httpClient.BaseAddress = new Uri(baseURL);
+            if(Global.isApplicationLive == true)
+            {
+                httpClient.BaseAddress = new Uri(baseURL_LIVE);
+            }
+            else
+            {
+                httpClient.BaseAddress = new Uri(baseURL_TEST);
+            }
+            
             httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
             var response = await httpClient.PostAsync(method, new StringContent(json.ToString(), Encoding.UTF8, "application/json"));
             response.EnsureSuccessStatusCode();
@@ -212,8 +225,21 @@ namespace PayLoPOS.Controller
          */
         private async Task<string> MakeGetRequest(string method)
         {
+            if (Global.isInternetConnected() == false)
+            {
+                throw new Exception("No internet connection...");
+            }
+
             HttpClient httpClient = new HttpClient();
-            httpClient.BaseAddress = new Uri(baseURL);
+            if (Global.isApplicationLive == true)
+            {
+                httpClient.BaseAddress = new Uri(baseURL_LIVE);
+            }
+            else
+            {
+                httpClient.BaseAddress = new Uri(baseURL_TEST);
+            }
+
             var response = await httpClient.GetAsync(method);
             response.EnsureSuccessStatusCode();
             httpClient = null;
