@@ -1,4 +1,6 @@
 ﻿
+using EzetapApi;
+
 namespace PayLoPOS.Model
 {
     class Global
@@ -8,8 +10,10 @@ namespace PayLoPOS.Model
         public static bool isLogin { get; set; } = false;
         public static int networkError { get; set; }
 
+        public static EzeApi api;
+
         //-- Set application mode Live for true or Test for false
-        public static bool isApplicationLive { get; set; } = true;
+        public static bool isApplicationLive { get; set; } = false;
 
         public static void updateBill(string reference, double amount, string mobile, string email, string name)
         {

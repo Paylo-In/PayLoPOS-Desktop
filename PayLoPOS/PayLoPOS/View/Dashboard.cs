@@ -35,7 +35,7 @@ namespace PayLoPOS.View
             statusUserName.Text = "Welcome: "+Global.currentUser.name;
             this.Text = Global.currentUser.getSelectedOutletName();
 
-            if(Global.currentUser.outlet.Count > 1)
+            if(Global.currentUser.outlet.Count > 1 && Global.currentUser.role.ToLower() == "admin")
             {
                 switchOutlet.Visible = true;
             }
@@ -53,6 +53,8 @@ namespace PayLoPOS.View
             listView1.Columns.Add("Sent At", 200);
             listView1.Columns.Add("Bill Status", 100);
             listView1.Columns.Add("Created By", 120);
+
+            btnRefund.Visible = false;
         }
 
         private void Dashboard_Load(object sender, EventArgs e)
@@ -63,7 +65,7 @@ namespace PayLoPOS.View
             lblToday_Click(sender, e);
             disableResentOption();
 
-            if(Global.currentUser.outlet.Count > 1 && Global.isLogin == true)
+            if(Global.currentUser.outlet.Count > 1 && Global.isLogin == true && Global.currentUser.role.ToLower() == "admin")
             {
                 ChooseOutlet outlet = new ChooseOutlet(this);
                 outlet.ShowDialog();
@@ -382,6 +384,11 @@ namespace PayLoPOS.View
             base.OnFormClosing(e);
             if(Properties.Settings.Default.accessToken != "")
             {
+                if (Global.api != null)
+                {
+                    Global.api.Exit();
+                    Debug.WriteLine("Close Ezetap API");
+                }
                 Application.Exit();
             }
         }
@@ -390,6 +397,7 @@ namespace PayLoPOS.View
         private async void getPendingBills()
         {
             isSelectPending = true;
+            btnRefund.Visible = false;
             listView1.Items.Clear();
             try
             {
@@ -460,6 +468,7 @@ namespace PayLoPOS.View
         private async void getPaidBills()
         {
             isSelectPending = false;
+            btnRefund.Visible = false;
             listView1.Items.Clear();
             try
             {
@@ -642,10 +651,34 @@ namespace PayLoPOS.View
             if(items.Count > 0)
             {
                 enableReSentOption();
+                if (isSelectPending == false && Global.currentUser.role.ToLower() == "admin")
+                {
+                    foreach (ListViewItem item in items)
+                    {
+                        PaidBill bill = paidBills.data.txns[Int16.Parse(item.Tag.ToString())];
+                        if (bill != null)
+                        {
+                            if(bill.is_refund_allowed == 1 && bill.pay_method.ToLower() != "cash")
+                            {
+                                btnRefund.Visible = true;
+                            }
+                            else
+                            {
+                                btnRefund.Visible = false;
+                            }                          
+                        }
+                        break;
+                    }
+                }
+                else
+                {
+                    btnRefund.Visible = false;
+                }
             }
             else
             {
                 disableResentOption();
+                btnRefund.Visible = false;
             }
         }
 
@@ -812,6 +845,30 @@ namespace PayLoPOS.View
         {
             ChooseOutlet outlet = new ChooseOutlet(this);
             outlet.ShowDialog();
+        }
+
+        private void btnRefund_Click(object sender, EventArgs e)
+        {
+ 
+            if (isSelectPending == false && Global.currentUser.role.ToLower() == "admin")
+            {
+                ListView.SelectedListViewItemCollection items = listView1.SelectedItems;
+                foreach (ListViewItem item in items)
+                {
+                    PaidBill bill = paidBills.data.txns[Int16.Parse(item.Tag.ToString())];
+                    if (bill != null)
+                    {
+                        if (bill.is_refund_allowed == 1 && bill.pay_method.ToLower() != "cash")
+                        {
+                            Debug.WriteLine("Gateway:" + bill.gateway);
+                            //-- Open Refund Screen
+                            RefundTransaction refund = new RefundTransaction(this, bill.txnid, bill.amount, bill.refunded_amount, bill.refundable_amount, bill.gateway, bill.pg_txnid);
+                            refund.ShowDialog();
+                        }
+                    }
+                    break;
+                }
+            }
         }
     }
 }

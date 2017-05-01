@@ -23,3 +23,5 @@ E:\Projects\PayLo\PayLoPOS\PayLoPOS\bin\x86\Debug\EzetapWindowsSDK.dll
 E:\Projects\PayLo\PayLoPOS\PayLoPOS\bin\x86\Debug\EzetapEpic.dll
 E:\Projects\PayLo\PayLoPOS\PayLoPOS\bin\x86\Debug\Newtonsoft.Json.dll
 E:\Projects\PayLo\PayLoPOS\PayLoPOS\bin\x86\Debug\Newtonsoft.Json.xml
+E:\Projects\PayLo\PayLoPOS\PayLoPOS\obj\x86\Debug\PayLoPOS.csprojResolveAssemblyReference.cache
+E:\Projects\PayLo\PayLoPOS\PayLoPOS\obj\x86\Debug\PayLoPOS.View.RefundTransaction.resources

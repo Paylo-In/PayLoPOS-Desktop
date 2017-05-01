@@ -181,5 +181,14 @@ namespace PayLoPOS.View
             }
             return true;
         }
+
+        private void Login_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            if (Global.api != null)
+            {
+                Global.api.Exit();
+                Debug.WriteLine("Ezetap Exit");
+            }
+        }
     }
 }

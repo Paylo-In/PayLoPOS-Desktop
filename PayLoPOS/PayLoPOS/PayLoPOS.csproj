@@ -188,6 +188,12 @@
     <Compile Include="View\PaymentStatus.Designer.cs">
       <DependentUpon>PaymentStatus.cs</DependentUpon>
     </Compile>
+    <Compile Include="View\RefundTransaction.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\RefundTransaction.Designer.cs">
+      <DependentUpon>RefundTransaction.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\TransactionDetails.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -243,6 +249,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="View\PaymentStatus.resx">
       <DependentUpon>PaymentStatus.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\RefundTransaction.resx">
+      <DependentUpon>RefundTransaction.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\TransactionDetails.resx">
       <DependentUpon>TransactionDetails.cs</DependentUpon>

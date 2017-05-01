@@ -1,24 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
 using PayLoPOS.Model;
 using PayLoPOS.Controller;
-
-using EzetapApi.helper;
 using EzetapApi;
 using EzetapApi.models;
 
 namespace PayLoPOS.View
 {
+    using EzetapApi.helper;
     ////////////////Type defs///////////
 
     using System.Diagnostics;
     using System.Reflection;
     using System.Web.Script.Serialization;
 
-    public partial class EzetapPaymentSync : Form
+    public partial class EzetapPaymentSync : Form, StatusCallback
     {
         //-- Application Required Keys
         //-- Live
@@ -31,11 +29,13 @@ namespace PayLoPOS.View
 
         bool hasInitialized = false;
         bool hasLoggedIn = false;
-        EzeApi api;
+        bool isVoidTxn = false;
+        //static EzeApi api;
 
         private Transaction transaction;
         Dashboard parent;
         ChoosePaymentOption subParent;
+        RefundTransaction refundParent;
         string jsonParams;
 
         string apiKey;
@@ -46,8 +46,27 @@ namespace PayLoPOS.View
             this.subParent = subParent;
             transaction = txn;
             jsonParams = param;
-
+            refundParent = null;
             if(Global.isApplicationLive == true)
+            {
+                apiKey = apiKey_LIVE;
+            }
+            else
+            {
+                apiKey = apiKey_TEST;
+            }
+
+            InitializeComponent();
+        }
+
+        public EzetapPaymentSync(RefundTransaction parent, Dashboard dashboard, Transaction txn)
+        {
+            this.parent = dashboard;
+            subParent = null;
+            refundParent = parent;
+            transaction = txn;
+
+            if (Global.isApplicationLive == true)
             {
                 apiKey = apiKey_LIVE;
             }
@@ -74,17 +93,20 @@ namespace PayLoPOS.View
 
         public void initializeEzetap()
         {
-            if (!hasInitialized)
+            if (!hasInitialized && Global.api == null)
             {
                 hasInitialized = true;
                 AssemblyName name = Assembly.GetExecutingAssembly().GetName();
                 EzeConfig cfg = new EzeConfig(name.Name.ToString(), name.Version.ToString(), !(Global.isApplicationLive), true);
-                api = new EzeApi(cfg);
-                if (api.initialize(true) != 0)
+                Debug.WriteLine("Initialized api");
+                Global.api = new EzeApi(cfg);
+                if (Global.api.initialize(true) != 0)
                 {
-                    showError("Ezetap Initialization Failed");
+                    showError("Ezetap connection failed");
                 }
             }
+
+            showSuccess("Ezetap device is connected");
             EzetapLogin();
         }
 
@@ -93,14 +115,14 @@ namespace PayLoPOS.View
             if (!hasLoggedIn)
             {
                 showSuccess("Connecting...");
-                var loginResult = await api.loginWithAppKeyAsync(apiKey, userName, new Progress<EzetapProgressMsg>(txt =>
+                var loginResult = await Global.api.loginWithAppKeyAsync(apiKey, userName, new Progress<EzetapProgressMsg>(txt =>
                 {
-                    showSuccess(string.Format("{0}", txt));
+                    showSuccess(txt.msg);
                 }));
 
                 if (!loginResult.success)
                 {
-                    showError("Login Failed. " + loginResult.msg.Text);
+                    showError("Login Failed. " + loginResult.msg.msg);
                 }
                 else
                 {
@@ -108,7 +130,17 @@ namespace PayLoPOS.View
                 }
             }
 
-            if (hasLoggedIn)
+            prepareDevice();
+        }
+
+        public async void prepareDevice()
+        {
+            var prepareResult = await Global.api.prepareDeviceAsync(new Progress<EzetapProgressMsg>(txt =>
+            {
+                Debug.Write(txt.msg);
+            }));
+
+            if (prepareResult.success)
             {
                 if (transaction.externalReference2 == "")
                 {
@@ -119,27 +151,94 @@ namespace PayLoPOS.View
                     EzetapMakePayment();
                 }
             }
+            else
+            {
+                showError(prepareResult.msg.msg);
+            }
+        }
+
+        DelegatedCallback callbackTester = new DelegatedCallback(null);
+        public void AppendText(EzetapProgressMsg text)
+        {
+            if(isVoidTxn == true)
+            {
+                callbackTester.AppendText(text);
+                Action<EzetapProgressMsg> d1 = SetCallbackText;
+                this.Invoke(d1, text);
+            }
+        }
+
+        void SetCallbackText(EzetapProgressMsg text)
+        {
+            if(isVoidTxn == true)
+            {
+                if (text.ret == 0)
+                {
+                    if(refundParent != null)
+                    {
+                        refundParent.Close();
+                    }
+                    logout(true);
+                    parent.lblPaidBills_Click(null, null);
+                    parent.showCurrentActivity("Ezytap - Refund initiated successfully");
+                    showSuccess(text.msg);
+                }
+                else if (text.ret != 1)
+                {
+                    showError(text.msg);
+                }
+
+                string s1;
+                s1 = string.Format("{0} {1} {2} => {3}", DelegatedCallback.isComplete() ? "Complete" : "In Progress", text.ret, text.codeMsg, text.Text);
+                Debug.WriteLine(s1);
+            }
+        }
+
+        public void EzytapVoidTransaction()
+        {
+            showSuccess("Start refund processing...");
+            isVoidTxn = true;
+            Global.api.voidTransaction(this, transaction.orderId);
         }
 
         public async void EzetapMakePayment()
         {
             if (hasLoggedIn)
             {
-                showSuccess("Preparing Device...");
-                var paymentResult = await api.cardTransactionAsync(transaction, new Progress<EzetapProgressMsg>(txt =>
-                {
-                    showSuccess(txt.Text);
-                }));
 
-                if (paymentResult.success)
+                if (transaction.externalReference2 == "VoidTxn")
                 {
-                    updatePayment(((TransactionResponse)paymentResult.responseObj));
+                    EzytapVoidTransaction();
                 }
                 else
                 {
-                    showError(paymentResult.msg.Text);
+                    showSuccess("Start payment processing...");
+                    var paymentResult = await Global.api.cardTransactionAsync(transaction, new Progress<EzetapProgressMsg>(txt =>
+                    {
+                        showSuccess(txt.msg);
+                    }));
+
+                    if (paymentResult.success)
+                    {
+                        logout(paymentResult.success);
+                        updatePayment((paymentResult.responseObj as TransactionResponse));
+                    }
+                    else
+                    {
+                        logout(false);
+                        showError(paymentResult.msg.msg);
+                    }
                 }
             }
+        }
+
+        private async void logout(bool updateAmount)
+        {
+            hasLoggedIn = false;
+            var logoutResult = await Global.api.logoutAsync(new Progress<EzetapProgressMsg>(txt =>
+            {
+                Debug.WriteLine(string.Format("IprogressLogout: {0}", txt));
+            }));
         }
 
         public async void createBill()
@@ -176,32 +275,11 @@ namespace PayLoPOS.View
 
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
-            if (api != null)
+            /*if (Global.api != null)
             {
-                api.Exit();
-            }
-        }
-
-        private void parseMessage(string message)
-        {
-            if(message.Contains("SERVER_RESULT: code "))
-            {
-                message = message.Replace("SERVER_RESULT: code ", "");
-                string[] temp = message.Split(' ');
-                message = message.Replace(temp[0] + " (", "");
-                message = message.Substring(0, message.Length - 1);
-                showError(message);
-                button1.Visible = true;
-            }
-            else if(message.Contains("EPIC_TRANSACTION_RESULT: code "))
-            {
-                message = message.Replace("EPIC_TRANSACTION_RESULT: code ", "");
-                string[] temp = message.Split(' ');
-                message = message.Replace(temp[0] + " (", "");
-                message = message.Substring(0, message.Length - 1);
-                showError(message);
-                button1.Visible = true;
-            }
+                Global.api.Exit();
+                Debug.WriteLine("Close Ezetap API");
+            }*/
         }
         
         private async void updatePayment(TransactionResponse txnResponse)
@@ -210,6 +288,7 @@ namespace PayLoPOS.View
             {
                 var json = new JavaScriptSerializer().Serialize(txnResponse);
                 showSuccess("Validating payment ...");
+                Debug.WriteLine("Ezetap Response:" + json);
                 ResponseModel model = await new RestClient().UpdateEzetapPayment(json);
                 if (model.status == 1)
                 {
@@ -242,6 +321,10 @@ namespace PayLoPOS.View
 
         private void showError(string message)
         {
+            if (message.Contains("Operation result pending"))
+            {
+                return;
+            }
             button1.Visible = true;
             lblMessage.ForeColor = Color.Red;
             finalMessage(message);
@@ -249,6 +332,13 @@ namespace PayLoPOS.View
 
         private void showSuccess(string message)
         {
+            if (message.Contains("Operation result pending")){
+                return;
+            }
+            else if (message.Contains("Operation completed successfully"))
+            {
+                message = "Refund initiated successfully";
+            }
             button1.Visible = false;
             lblMessage.ForeColor = Color.SeaGreen;
             finalMessage(message);
@@ -257,37 +347,6 @@ namespace PayLoPOS.View
         private void finalMessage(string message)
         {
             Debug.WriteLine(message);
-
-            if (message.Contains("EPIC_PREPARE_PROGRESS:"))
-            {
-                return;
-            }
-
-            if(message.Contains("NOTIFICATION: "))
-            {
-                message = message.Replace("NOTIFICATION: ", "");
-                string[] temp = message.Split(' ');
-                message = message.Replace(temp[0] + " ", "");
-            }
-            else if (message.Contains("EPIC_TRANSACTION_RESULT: "))
-            {
-                message = message.Replace("EPIC_TRANSACTION_RESULT: ", "");
-                string[] temp = message.Split(' ');
-
-                if (temp[1].Contains("EZETAP_"))
-                {
-                    message = message.Replace(temp[0] + " " + temp[1], "");
-                }
-                else
-                {
-                    message = message.Replace(temp[0] + " ", "");
-                }                
-            }
-            else if(message.Contains("API_Result: "))
-            {
-                message = lblMessage.Text;
-            }
-
             lblMessage.Text = message;
         }
     }

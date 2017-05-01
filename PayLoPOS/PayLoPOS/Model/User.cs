@@ -24,6 +24,7 @@ namespace PayLoPOS.Model
         public string mobile { get; set; }
         public string key { get; set; }
         public long merchant_id { get; set; }
+        public string role { get; set; }
         public List<Outlet> outlet { get; set; }
         public List<Wallet> wallets { get; set; }
 

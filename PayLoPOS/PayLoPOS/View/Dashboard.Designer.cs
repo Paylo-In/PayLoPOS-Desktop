@@ -69,6 +69,7 @@
             this.statusUserName = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusCurrentActivity = new System.Windows.Forms.ToolStripStatusLabel();
+            this.btnRefund = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -507,6 +508,7 @@
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.White;
+            this.panel1.Controls.Add(this.btnRefund);
             this.panel1.Controls.Add(this.listViewLoading);
             this.panel1.Controls.Add(this.btnViewTransaction);
             this.panel1.Controls.Add(this.btnPayNow);
@@ -518,7 +520,7 @@
             // listViewLoading
             // 
             this.listViewLoading.Image = global::PayLoPOS.Properties.Resources.loading1;
-            this.listViewLoading.Location = new System.Drawing.Point(331, 9);
+            this.listViewLoading.Location = new System.Drawing.Point(424, 9);
             this.listViewLoading.Name = "listViewLoading";
             this.listViewLoading.Size = new System.Drawing.Size(137, 19);
             this.listViewLoading.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -583,6 +585,19 @@
             this.statusCurrentActivity.Name = "statusCurrentActivity";
             this.statusCurrentActivity.Size = new System.Drawing.Size(96, 17);
             this.statusCurrentActivity.Text = "Current Activity: ";
+            // 
+            // btnRefund
+            // 
+            this.btnRefund.BackColor = System.Drawing.Color.SteelBlue;
+            this.btnRefund.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRefund.ForeColor = System.Drawing.Color.White;
+            this.btnRefund.Location = new System.Drawing.Point(319, 3);
+            this.btnRefund.Name = "btnRefund";
+            this.btnRefund.Size = new System.Drawing.Size(99, 30);
+            this.btnRefund.TabIndex = 28;
+            this.btnRefund.Text = "Refund";
+            this.btnRefund.UseVisualStyleBackColor = false;
+            this.btnRefund.Click += new System.EventHandler(this.btnRefund_Click);
             // 
             // Dashboard
             // 
@@ -662,5 +677,6 @@
         private System.Windows.Forms.PictureBox imgLoading;
         private System.Windows.Forms.PictureBox listViewLoading;
         private System.Windows.Forms.Label switchOutlet;
+        private System.Windows.Forms.Button btnRefund;
     }
 }

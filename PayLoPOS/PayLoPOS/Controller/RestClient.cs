@@ -12,7 +12,7 @@ namespace PayLoPOS.Controller
     class RestClient
     {
 
-        static string baseURL_TEST = "http://merchant.sumit.ts.paylo.in";
+        static string baseURL_TEST = "http://merchant.neelam.ts.paylo.in";
         static string baseURL_LIVE = "http://merchant.paylo.in";
 
         /*||***********************************************************
@@ -159,6 +159,35 @@ namespace PayLoPOS.Controller
             Debug.WriteLine("Create UPI Bill:" + response);
             ResponseModel model = new JavaScriptSerializer().Deserialize<ResponseModel>(response);
             return model;
+        }
+
+        public async Task<ResponseModel> authenticateUser(double amount, string txnId, string password)
+        {
+            var json = new JavaScriptSerializer().Serialize(new { mobile = Global.currentUser.mobile, passcode = password, txnid = txnId, amount = amount });
+            var response = await MakePostRequest("v2/auth/auth-user?token=" + Properties.Settings.Default.accessToken, json);
+            Debug.WriteLine("Check User:" + response);
+            ResponseModel model = new JavaScriptSerializer().Deserialize<ResponseModel>(response);
+            return model;
+        }
+
+        public async Task<ResponseModel> refundTransaction(double amount, string txnId, string password)
+        {
+            var json = new JavaScriptSerializer().Serialize(new { mobile = Global.currentUser.mobile, passcode = password, txnid = txnId, amount = amount});
+            var response = await MakePostRequest("v2/auth/auth-user?token=" + Properties.Settings.Default.accessToken, json);
+            Debug.WriteLine("Check User:" + response);
+            ResponseModel model = new JavaScriptSerializer().Deserialize<ResponseModel>(response);
+            if(model.status == 1)
+            {
+                var jsonRefund = new JavaScriptSerializer().Serialize(new { txnid = txnId, amount = amount, merchant_id = Global.currentUser.merchant_id });
+                var refundResponse = await MakePostRequest("v2/payment/refund-transaction?token=" + Properties.Settings.Default.accessToken, json);
+                Debug.WriteLine("Refund:" + refundResponse);
+                ResponseModel refundModel = new JavaScriptSerializer().Deserialize<ResponseModel>(refundResponse);
+                return refundModel;
+            }
+            else
+            {
+                return model;
+            }
         }
 
         public async Task<ResponseModel> PayByCashSync(long orderId)
