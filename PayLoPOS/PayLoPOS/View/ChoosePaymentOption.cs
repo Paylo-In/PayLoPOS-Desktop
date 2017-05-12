@@ -1,6 +1,7 @@
 ﻿using PayLoPOS.Controller;
 using System;
 using System.Windows.Forms;
+using PayLoPOS.Model;
 
 namespace PayLoPOS.View
 {
@@ -22,6 +23,29 @@ namespace PayLoPOS.View
 
         private void ChoosePaymentOption_Load(object sender, EventArgs e)
         {
+            txtPaymentMode.Items.Clear();
+            txtPaymentMode.Items.Add("CHOOSE OPTION");
+            if (Global.currentUser.payment_options.cash == 1)
+            {
+                txtPaymentMode.Items.Add("CASH");
+            }
+            if (Global.currentUser.payment_options.mpos == 1)
+            {
+                txtPaymentMode.Items.Add("MPOS");
+            }
+            if (Global.currentUser.payment_options.link == 1)
+            {
+                txtPaymentMode.Items.Add("SEND LINK");
+            }
+            if (Global.currentUser.payment_options.upi == 1)
+            {
+                txtPaymentMode.Items.Add("UPI");
+            }
+            if (Global.currentUser.payment_options.wallet == 1)
+            {
+                txtPaymentMode.Items.Add("WALLET");
+            }
+
             txtPaymentMode.SelectedIndex = 0;
         }
 

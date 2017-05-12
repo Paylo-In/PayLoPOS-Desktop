@@ -12,7 +12,7 @@ namespace PayLoPOS.Controller
     class RestClient
     {
 
-        static string baseURL_TEST = "http://merchant.neelam.ts.paylo.in";
+        static string baseURL_TEST = "http://merchant.ros.ts.paylo.in";
         static string baseURL_LIVE = "http://merchant.paylo.in";
 
         /*||***********************************************************

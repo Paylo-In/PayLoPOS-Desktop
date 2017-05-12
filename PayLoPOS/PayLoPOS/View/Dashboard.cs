@@ -70,6 +70,30 @@ namespace PayLoPOS.View
                 ChooseOutlet outlet = new ChooseOutlet(this);
                 outlet.ShowDialog();
             }
+
+            txtPaymentMode.Items.Clear();
+            txtPaymentMode.Items.Add("CHOOSE OPTION");
+            if(Global.currentUser.payment_options.cash == 1)
+            {
+                txtPaymentMode.Items.Add("CASH");
+            }
+            if (Global.currentUser.payment_options.mpos == 1)
+            {
+                txtPaymentMode.Items.Add("MPOS");
+            }
+            if (Global.currentUser.payment_options.link == 1)
+            {
+                txtPaymentMode.Items.Add("SEND LINK");
+            }
+            if (Global.currentUser.payment_options.upi == 1)
+            {
+                txtPaymentMode.Items.Add("UPI");
+            }
+            if (Global.currentUser.payment_options.wallet == 1)
+            {
+                txtPaymentMode.Items.Add("WALLET");
+            }
+            txtPaymentMode.SelectedIndex = 0;
         }
 
         public void refreshOutlet()

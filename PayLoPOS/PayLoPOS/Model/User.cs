@@ -27,6 +27,7 @@ namespace PayLoPOS.Model
         public string role { get; set; }
         public List<Outlet> outlet { get; set; }
         public List<Wallet> wallets { get; set; }
+       public PaymentOptions payment_options { get; set;}
 
         public string getSelectedOutletName()
         {
@@ -41,6 +42,15 @@ namespace PayLoPOS.Model
             return outlet[0].outlet_name;
         }
 
+    }
+
+    class PaymentOptions
+    {
+        public int cash { get; set; }
+        public int mpos { get; set; }
+        public int wallet { get; set; }
+        public int upi { get; set; }
+        public int link { get; set; }
     }
 
     class User
